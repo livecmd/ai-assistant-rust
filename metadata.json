@@ -1,0 +1,5 @@
+{
+  "name": "CMF AI",
+  "description": "Utilize Gemini to transfer patterns and textures from reference images to target products while maintaining shape.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,42 @@
+{
+  "name": "ai-assistant",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri-dev": "npx tauri dev",
+    "tauri-build": "npx tauri build"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@google/genai": "^1.30.0",
+    "@google/generative-ai": "^0.24.1",
+    "@google/model-viewer": "^4.2.0",
+    "@tauri-apps/plugin-http": "^2.5.7",
+    "@types/three": "^0.184.0",
+    "antd": "^6.1.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.408.0",
+    "openai": "^6.16.0",
+    "otpauth": "^9.4.1",
+    "otplib": "^13.2.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^6.30.2",
+    "tailwind-merge": "^3.4.0",
+    "three": "^0.184.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.6",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "less": "^4.5.1",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

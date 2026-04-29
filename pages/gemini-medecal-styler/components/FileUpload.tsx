@@ -1,0 +1,75 @@
+import React, { useCallback } from 'react';
+
+interface FileUploadProps {
+  label: string;
+  image: string | null;
+  onUpload: (file: File) => void;
+  accept?: string;
+  subLabel?: string;
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ label, image, onUpload, accept = "image/*", subLabel }) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      onUpload(e.target.files[0]);
+    }
+  };
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      onUpload(e.dataTransfer.files[0]);
+    }
+  }, [onUpload]);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  return (
+    <div className="flex flex-1 flex-col gap-2 h-full">
+      <div className="flex justify-center items-end">
+        <label className="text-sm font-semibold text-gray-300 tracking-wider">{label}</label>
+        {subLabel && <span className="text-xs text-gray-500">{subLabel}</span>}
+      </div>
+
+      <div
+        className={`
+          relative flex-1 min-h-[180px] rounded-xl border hover:border-indigo-400 transition-all duration-300 overflow-hidden group
+          ${image ? 'border-indigo-500/50 bg-slate-800' : 'border-slate-600 hover:border-indigo-400'}
+        `}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
+        <input
+          type="file"
+          accept={accept}
+          onChange={handleFileChange}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        />
+
+        {image ? (
+          <div className="relative w-full h-full">
+            <img
+              src={image}
+              alt="Uploaded"
+              className="w-full h-full object-contain p-2"
+            />
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+              <span className="text-white text-sm font-medium bg-black/60 px-3 py-1 rounded-full">Change Image</span>
+            </div>
+          </div>
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4 text-center pointer-events-none">
+            <svg className="w-10 h-10 mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p className="text-sm">点击上传图片(Click or drag to upload)</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FileUpload;

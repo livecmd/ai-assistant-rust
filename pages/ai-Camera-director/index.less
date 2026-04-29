@@ -1,0 +1,187 @@
+// 响应式断点变量
+@screen-xs: 480px;
+@screen-sm: 640px;
+@screen-md: 768px;
+@screen-lg: 1024px;
+@screen-xl: 1280px;
+@screen-2xl: 1536px;
+
+.cameraDirector {
+    display: flex;
+    height: 100%;
+    padding: 30px;
+    background: #060606FF;
+    overflow: hidden;
+
+    @media (max-width: @screen-lg) {
+        padding: 20px;
+    }
+
+    @media (max-width: @screen-md) {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    >.right {
+        width: 360px;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: @screen-xl) {
+            width: 320px;
+        }
+
+        @media (max-width: @screen-lg) {
+            width: 280px;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+        }
+        
+        .control-panel-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding-right: 5px;
+            display: flex;
+            flex-direction: column;
+
+            .camera-control {
+                display: flex;
+                flex-direction: column;
+                height: calc(100vh - 300px);
+                .action-box {
+                  flex: 1;
+                  overflow-y: auto;
+                }
+            }
+
+            @media (max-width: @screen-md) {
+                margin-top: 15px;
+                max-height: none;
+                overflow-y: visible;
+            }
+
+             /* Custom Scrollbar */
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 3px;
+            }
+        }
+        
+         .cube-container {
+            height: 200px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            @media (max-width: @screen-md) {
+                height: 150px;
+            }
+        }
+
+        >p {
+            font-size: 20px;
+            color: #fff;
+            margin-top: 10px;
+
+            @media (max-width: @screen-md) {
+                font-size: 18px;
+            }
+
+            @media (max-width: @screen-sm) {
+                font-size: 16px;
+            }
+        }
+
+        >p:nth-child(1) {
+            margin-top: 0;
+        }
+    }
+
+    >.left {
+        width: calc(100% - 360px - 50px);  // 固定宽度
+        flex-shrink: 0;
+        margin-right: 50px;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: @screen-xl) {
+            width: calc(100% - 320px - 50px);
+        }
+
+        @media (max-width: @screen-lg) {
+            width: calc(100% - 280px - 30px);
+            margin-right: 30px;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+        // .dialogBox 和 .bot 样式继承自 shared.less
+    }
+
+    /* Interactive Cube Styles Preserved */
+    .perspective-container {
+        perspective: 1000px;
+    }
+    .cube-3d {
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease-out;
+    }
+    .cube-face {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 1px solid rgba(6, 182, 212, 0.5);
+        background: #020617;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: rgba(6, 182, 212, 0.9);
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.15) inset;
+        backface-visibility: hidden;
+
+        @media (max-width: @screen-md) {
+            width: 70px;
+            height: 70px;
+            font-size: 10px;
+        }
+    }
+    .face-front { transform: translateZ(50px); 
+        @media (max-width: @screen-md) { transform: translateZ(35px); }
+    }
+    .face-back { transform: rotateY(180deg) translateZ(50px); 
+        @media (max-width: @screen-md) { transform: rotateY(180deg) translateZ(35px); }
+    }
+    .face-right { transform: rotateY(90deg) translateZ(50px); 
+        @media (max-width: @screen-md) { transform: rotateY(90deg) translateZ(35px); }
+    }
+    .face-left { transform: rotateY(-90deg) translateZ(50px); 
+        @media (max-width: @screen-md) { transform: rotateY(-90deg) translateZ(35px); }
+    }
+    .face-top { transform: rotateX(90deg) translateZ(50px); 
+        @media (max-width: @screen-md) { transform: rotateX(90deg) translateZ(35px); }
+    }
+    .face-bottom { transform: rotateX(-90deg) translateZ(50px); 
+        @media (max-width: @screen-md) { transform: rotateX(-90deg) translateZ(35px); }
+    }
+}

@@ -1,0 +1,797 @@
+/**
+ * 统一的预览和历史记录组件样式
+ * 所有页面共用这些尺寸定义
+ */
+
+// ============================================
+// 全局动画关键帧
+// ============================================
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(99, 102, 241, 0.3), 0 0 10px rgba(99, 102, 241, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.5), 0 0 25px rgba(99, 102, 241, 0.3);
+    }
+}
+
+// 动画类
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 0.4s ease-out forwards;
+}
+
+.animate-scaleIn {
+    animation: scaleIn 0.3s ease-out forwards;
+}
+
+.animate-slideInLeft {
+    animation: slideInLeft 0.4s ease-out forwards;
+}
+
+.animate-slideInRight {
+    animation: slideInRight 0.4s ease-out forwards;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+// ============================================
+// 响应式断点变量
+// ============================================
+@screen-xs: 480px;   // 手机竖屏
+@screen-sm: 640px;   // 手机横屏
+@screen-md: 768px;   // 平板竖屏
+@screen-lg: 1024px;  // 平板横屏/小笔记本
+@screen-xl: 1280px;  // 桌面
+@screen-2xl: 1536px; // 大屏幕
+
+// ============================================
+// 固定布局尺寸变量
+// ============================================
+@right-panel-width: 360px;        // 右侧控制面板宽度
+@right-panel-width-xl: 320px;     // xl 断点
+@right-panel-width-lg: 280px;     // lg 断点
+@left-right-gap: 50px;            // 左右区域间距
+@left-right-gap-lg: 30px;         // lg 断点间距
+@page-padding: 30px;              // 页面内边距
+@page-padding-lg: 20px;           // lg 断点内边距
+@page-padding-md: 15px;           // md 断点内边距
+
+// 左侧区域固定宽度计算
+@left-panel-width: calc(100% - @right-panel-width - @left-right-gap);
+@left-panel-width-xl: calc(100% - @right-panel-width-xl - @left-right-gap);
+@left-panel-width-lg: calc(100% - @right-panel-width-lg - @left-right-gap-lg);
+
+// ============================================
+// 预览区域统一尺寸
+// ============================================
+.dialogBox {
+    width: 100%;      // 填满左侧容器
+    height: 500px;  // 统一预览区域高度
+    min-height: 400px;
+    max-height: 600px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, rgba(242, 241, 236, 0.05), rgba(242, 241, 236, 0.02));
+    padding: 20px;   // 减小内边距，让内容有更多空间
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+
+    // 悬停效果
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: linear-gradient(145deg, rgba(242, 241, 236, 0.07), rgba(242, 241, 236, 0.03));
+    }
+
+    // 平板适配
+    @media (max-width: @screen-lg) {
+        height: 400px;
+        min-height: 300px;
+        max-height: 450px;
+        padding: 16px;
+        border-radius: 24px;
+    }
+
+    // 手机适配
+    @media (max-width: @screen-md) {
+        height: 300px;
+        min-height: 250px;
+        max-height: 350px;
+        padding: 12px;
+        border-radius: 20px;
+    }
+
+    @media (max-width: @screen-sm) {
+        height: 250px;
+        min-height: 200px;
+        max-height: 300px;
+        padding: 10px;
+        border-radius: 16px;
+    }
+
+    .preview-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img,
+        video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+
+            @media (max-width: @screen-md) {
+                border-radius: 12px;
+            }
+
+            &:hover {
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 2px rgba(255, 255, 255, 0.15);
+            }
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        animation: fadeInUp 0.5s ease-out;
+
+        p:first-child {
+            font-size: 20px;
+            color: #e5dcdcFF;
+            text-transform: uppercase;
+
+            @media (max-width: @screen-md) {
+                font-size: 16px;
+            }
+
+            @media (max-width: @screen-sm) {
+                font-size: 14px;
+            }
+        }
+
+        p:nth-child(2) {
+            color: #FFFFFF99;
+            font-size: 12px;
+            margin-top: 10px;
+            text-transform: uppercase;
+
+            @media (max-width: @screen-sm) {
+                font-size: 10px;
+                margin-top: 6px;
+            }
+        }
+    }
+}
+
+// ============================================
+// 历史记录区域统一尺寸
+// ============================================
+.bot {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, rgba(177, 178, 181, 0.2), rgba(177, 178, 181, 0.1));
+    margin-top: auto;
+    height: 140px;  // 统一历史记录栏高度
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+
+    &:hover {
+        background: linear-gradient(135deg, rgba(177, 178, 181, 0.25), rgba(177, 178, 181, 0.15));
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    // 平板适配
+    @media (max-width: @screen-lg) {
+        height: 120px;
+        padding: 15px 20px;
+        margin-top: 20px;
+    }
+
+    // 手机适配
+    @media (max-width: @screen-md) {
+        height: 100px;
+        padding: 12px 15px;
+        border-radius: 60px;
+        margin-top: 15px;
+    }
+
+    @media (max-width: @screen-sm) {
+        height: 80px;
+        padding: 10px 12px;
+        border-radius: 40px;
+        margin-top: 10px;
+    }
+
+    .play,
+    .back,
+    .next {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.02);
+
+        @media (max-width: @screen-lg) {
+            width: 60px;
+            height: 60px;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 50px;
+            height: 50px;
+        }
+
+        @media (max-width: @screen-sm) {
+            width: 40px;
+            height: 40px;
+        }
+
+        &:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: scale(1.05);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        img {
+            width: 30px;
+            transition: transform 0.3s ease;
+
+            @media (max-width: @screen-md) {
+                width: 24px;
+            }
+
+            @media (max-width: @screen-sm) {
+                width: 18px;
+            }
+        }
+
+        &:hover img {
+            transform: scale(1.1);
+        }
+    }
+
+    .play,
+    .back {
+        margin-right: 20px;
+
+        @media (max-width: @screen-md) {
+            margin-right: 12px;
+        }
+
+        @media (max-width: @screen-sm) {
+            margin-right: 8px;
+        }
+    }
+
+    .next {
+        margin-left: 20px;
+
+        @media (max-width: @screen-md) {
+            margin-left: 12px;
+        }
+
+        @media (max-width: @screen-sm) {
+            margin-left: 8px;
+        }
+    }
+
+    .items {
+        flex: 1;
+        display: flex;
+        margin-right: 20px;
+        overflow-x: auto;
+        height: 94px;  // 统一历史记录项容器高度
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+
+        @media (max-width: @screen-lg) {
+            height: 80px;
+            margin-right: 15px;
+        }
+
+        @media (max-width: @screen-md) {
+            height: 70px;
+            margin-right: 12px;
+        }
+
+        @media (max-width: @screen-sm) {
+            height: 55px;
+            margin-right: 8px;
+        }
+
+        /* Custom Scrollbar - More Subtle */
+        &::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 3px;
+            transition: background 0.3s ease;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        &::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        // 统一历史记录项尺寸
+        .item {
+            flex: 0 0 162px;  // 统一宽度
+            height: 94px;     // 统一高度
+            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(32, 79, 221, 0.08), rgba(32, 79, 221, 0.02));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-right: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            @media (max-width: @screen-lg) {
+                flex: 0 0 140px;
+                height: 80px;
+                border-radius: 12px;
+            }
+
+            @media (max-width: @screen-md) {
+                flex: 0 0 120px;
+                height: 70px;
+                border-radius: 10px;
+                margin-right: 8px;
+            }
+
+            @media (max-width: @screen-sm) {
+                flex: 0 0 95px;
+                height: 55px;
+                border-radius: 8px;
+                margin-right: 6px;
+            }
+
+            img,
+            video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+
+            &:hover {
+                border-color: rgba(99, 102, 241, 0.5);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+                img,
+                video {
+                    transform: scale(1.08);
+                }
+            }
+
+            &.active {
+                border-color: #6366f1;
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), inset 0 0 15px rgba(99, 102, 241, 0.1);
+                
+                &::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    border: 2px solid rgba(99, 102, 241, 0.8);
+                    border-radius: inherit;
+                    pointer-events: none;
+                    animation: glow 2s ease-in-out infinite;
+                }
+            }
+
+            // 视频播放指示器
+            .video-indicator {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.3);
+                transition: background 0.3s ease;
+
+                svg {
+                    color: white;
+                    opacity: 0.9;
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            &:hover .video-indicator {
+                background: rgba(0, 0, 0, 0.5);
+
+                svg {
+                    transform: scale(1.2);
+                }
+            }
+
+            // 状态指示器
+            .status-indicator {
+                position: absolute;
+                bottom: 5px;
+                right: 5px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                box-shadow: 0 0 8px currentColor;
+
+                @media (max-width: @screen-sm) {
+                    width: 6px;
+                    height: 6px;
+                    bottom: 3px;
+                    right: 3px;
+                }
+
+                &.loading {
+                    background-color: #fbbf24;
+                    animation: pulse 1.5s ease-in-out infinite;
+                }
+
+                &.success {
+                    background-color: #34d399;
+                }
+
+                &.error {
+                    background-color: #f87171;
+                }
+            }
+        }
+
+        .item:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+// ============================================
+// 通用页面布局响应式 Mixin
+// ============================================
+.page-layout-responsive() {
+    display: flex;
+    height: 100vh;
+    padding: @page-padding;
+    background: #060606FF;
+    overflow: hidden;
+
+    @media (max-width: @screen-lg) {
+        padding: @page-padding-lg;
+    }
+
+    @media (max-width: @screen-md) {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        padding: @page-padding-md;
+        overflow-y: auto;
+    }
+
+    >.left {
+        width: @left-panel-width;
+        flex-shrink: 0;
+        margin-right: @left-right-gap;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: @screen-xl) {
+            width: @left-panel-width-xl;
+        }
+
+        @media (max-width: @screen-lg) {
+            width: @left-panel-width-lg;
+            margin-right: @left-right-gap-lg;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+            min-height: auto;
+        }
+    }
+
+    >.right {
+        width: @right-panel-width;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: @screen-xl) {
+            width: @right-panel-width-xl;
+        }
+
+        @media (max-width: @screen-lg) {
+            width: @right-panel-width-lg;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+        }
+
+        >p {
+            font-size: 20px;
+            color: #fff;
+            margin-top: 10px;
+
+            @media (max-width: @screen-md) {
+                font-size: 18px;
+            }
+
+            @media (max-width: @screen-sm) {
+                font-size: 16px;
+            }
+        }
+
+        >p:nth-of-type(1) {
+            margin-top: 0;
+        }
+
+        .control-panel-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding-right: 5px;
+            max-height: calc(100vh - 100px);
+            
+            // 全局缩小控制面板内容 30%
+            font-size: 0.7em;
+            
+            .control-panel-inner {
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+            }
+            
+            // 缩小标题和文本
+            h1, h2, h3, h4, h5, h6 {
+                font-size: 0.85em;
+            }
+            
+            // 缩小输入框和按钮
+            input, textarea, select, button {
+                font-size: inherit;
+                padding: 0.4em 0.6em;
+            }
+            
+            // 缩小标签
+            label {
+                font-size: 0.75rem;
+            }
+            
+            // 缩小图标
+            svg {
+                transform: scale(0.85);
+            }
+            
+            // 缩小间距
+            .space-y-2 > * + * {
+                margin-top: 0.35rem;
+            }
+            .space-y-3 > * + * {
+                margin-top: 0.5rem;
+            }
+            .space-y-4 > * + * {
+                margin-top: 0.7rem;
+            }
+            .space-y-5 > * + * {
+                margin-top: 0.85rem;
+            }
+            .space-y-6 > * + * {
+                margin-top: 1rem;
+            }
+            .space-y-8 > * + * {
+                margin-top: 1.4rem;
+            }
+            
+            // 缩小 padding
+            .p-3 { padding: 0.5rem; }
+            .p-4 { padding: 0.7rem; }
+            .p-5 { padding: 0.85rem; }
+            .px-3 { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .px-4 { padding-left: 0.7rem; padding-right: 0.7rem; }
+            .px-5 { padding-left: 0.85rem; padding-right: 0.85rem; }
+            .py-2 { padding-top: 0.35rem; padding-bottom: 0.35rem; }
+            .py-3 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+            .py-4 { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+            
+            // 缩小 gap
+            .gap-2 { gap: 0.35rem; }
+            .gap-3 { gap: 0.5rem; }
+            .gap-4 { gap: 0.7rem; }
+            .gap-5 { gap: 0.85rem; }
+            .gap-6 { gap: 1rem; }
+            
+            // 缩小 margin
+            .mb-2 { margin-bottom: 0.35rem; }
+            .mb-3 { margin-bottom: 0.5rem; }
+            .mb-4 { margin-bottom: 0.7rem; }
+            .mb-6 { margin-bottom: 1rem; }
+            .mb-8 { margin-bottom: 1.4rem; }
+            .mt-2 { margin-top: 0.35rem; }
+            .mt-4 { margin-top: 0.7rem; }
+            .mt-6 { margin-top: 1rem; }
+            .mt-8 { margin-top: 1.4rem; }
+            
+            // 缩小圆角
+            .rounded-lg { border-radius: 0.35rem; }
+            .rounded-xl { border-radius: 0.5rem; }
+            .rounded-2xl { border-radius: 0.7rem; }
+            
+            // 缩小高度
+            .h-20 { height: 3.5rem; }
+            .h-24 { height: 4.2rem; }
+            .h-32 { height: 5.6rem; }
+            
+            // 图片上传区域缩小
+            .aspect-square {
+                max-height: 120px;
+            }
+
+            @media (max-width: @screen-md) {
+                margin-top: 15px;
+                max-height: none;
+                overflow-y: visible;
+                font-size: 0.75em;
+            }
+
+            /* Custom Scrollbar */
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 3px;
+            }
+        }
+    }
+}

@@ -1,0 +1,391 @@
+// 导入共享组件样式
+@import './components/shared/shared.less';
+
+// 响应式断点变量（与 shared.less 保持一致）
+@screen-xs: 480px;
+@screen-sm: 640px;
+@screen-md: 768px;
+@screen-lg: 1024px;
+@screen-xl: 1280px;
+@screen-2xl: 1536px;
+
+// ============================================
+// 全局样式重置和优化
+// ============================================
+* {
+  box-sizing: border-box;
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 3px;
+  
+  &:hover {
+    background: rgba(99, 102, 241, 0.5);
+  }
+}
+
+// 全局选择颜色
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: white;
+}
+
+.ant-modal-container{
+  background: #222!important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  .ant-modal-title{
+    color: #fff;
+  }
+  svg{
+    color: #fff;
+  }
+}
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: auto;
+  background: #060606FF;
+  padding: 70px 10px 0 30px;
+
+  @media (max-width: @screen-lg) {
+    padding: 60px 20px 0 20px;
+  }
+
+  @media (max-width: @screen-md) {
+    flex-direction: column;
+    padding: 50px 15px 0 15px;
+  }
+
+  @media (max-width: @screen-sm) {
+    padding: 40px 10px 0 10px;
+  }
+
+  .main-body {
+    flex: 1;
+    overflow: auto;
+  }
+  // .side{
+  //   // padding: 0 30px;
+  // }
+  .header {
+    padding: 0;
+  }
+
+  .mainTop{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: @screen-md) {
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo{
+      display: flex;
+      align-items: center;
+
+      img {
+        @media (max-width: @screen-md) {
+          width: 250px;
+        }
+
+        @media (max-width: @screen-sm) {
+          width: 200px;
+        }
+      }
+      .icon{
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        // background: #1243d6FF;
+        margin-right: 20px;
+
+        @media (max-width: @screen-md) {
+          width: 50px;
+          height: 50px;
+          margin-right: 15px;
+        }
+
+        @media (max-width: @screen-sm) {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+        }
+      }
+      .text{
+        display: flex;
+        flex-direction: column;
+        p{
+          font-weight: bold;
+        }
+        p:nth-of-type(1){
+         color: #efececFF;
+         font-size: 12px;
+
+         @media (max-width: @screen-sm) {
+           font-size: 10px;
+         }
+        }
+        p:nth-of-type(2){
+         font-size: 12px;
+         color: #05ecd1FF;
+         margin-top: 10px;
+
+         @media (max-width: @screen-sm) {
+           font-size: 10px;
+           margin-top: 6px;
+         }
+        }
+      }
+    }
+    .info{
+      padding: 14px 20px;
+      border-radius: 100px;
+      color: #fff;
+      width: 240px;
+      height: 50px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 19px 19px 19px 19px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-right: 30px;
+      font-size: 16px;
+
+      @media (max-width: @screen-md) {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+
+      @media (max-width: @screen-sm) {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+    }
+  }
+  .main{
+    flex: 1;
+    display: flex;
+    margin-top: 50px;
+    align-items: flex-start;
+
+    @media (max-width: @screen-lg) {
+      margin-top: 30px;
+    }
+
+    @media (max-width: @screen-md) {
+      flex-direction: column;
+      margin-top: 20px;
+    }
+  }
+  .menu{
+    background: rgba(18,18,18,0.6);
+    border-radius: 32px 32px 32px 32px;
+    border: 1px solid rgba(255,255,255,0.05);
+    width: 260px;
+    min-width: 260px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out;
+    padding: 24px;
+    box-sizing: content-box;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: @screen-xl) {
+      width: 220px;
+      min-width: 220px;
+    }
+
+    @media (max-width: @screen-lg) {
+      width: 200px;
+      min-width: 200px;
+      padding: 15px 8px;
+    }
+
+    @media (max-width: @screen-md) {
+      width: 100%;
+      min-width: unset;
+      flex-shrink: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .menu-item{
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 16px 0 16px 20px;
+      border-radius: 27px 27px 27px 27px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+      }
+
+      &:hover {
+        transform: translateX(5px);
+        background: rgba(255, 255, 255, 0.05);
+
+        &::before {
+          transform: translateX(100%);
+        }
+      }
+
+      &:active {
+        transform: translateX(5px) scale(0.98);
+      }
+
+      @media (max-width: @screen-lg) {
+        padding: 8px 0 8px 15px;
+        margin-top: 15px;
+      }
+
+      @media (max-width: @screen-md) {
+        margin-top: 0;
+        flex: 0 0 calc(50% - 5px);
+        padding: 10px 15px;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+
+      @media (max-width: @screen-sm) {
+        flex: 0 0 100%;
+        padding: 8px 12px;
+      }
+
+      img{
+        width: 30px;
+        margin-right: 20px;
+        transition: transform 0.3s ease;
+
+        @media (max-width: @screen-lg) {
+          width: 24px;
+          margin-right: 12px;
+        }
+
+        @media (max-width: @screen-sm) {
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
+
+      &:hover img {
+        transform: scale(1.1);
+      }
+
+      .text{
+        p:nth-of-type(1){
+          color: #9CA3AF;
+          font-size: 18px;
+          transition: color 0.3s ease;
+
+          @media (max-width: @screen-lg) {
+            font-size: 14px;
+          }
+
+          @media (max-width: @screen-sm) {
+            font-size: 12px;
+          }
+        }
+        p:nth-of-type(2){
+          color: #9CA3AF;
+          font-size: 12px;
+          margin-top: 10px;
+          transition: color 0.3s ease;
+
+          @media (max-width: @screen-lg) {
+            font-size: 10px;
+            margin-top: 6px;
+          }
+
+          @media (max-width: @screen-md) {
+            display: none;
+          }
+        }
+      }
+    }
+    .active{
+      p{
+        color: #fff!important;
+      }
+      // background: linear-gradient(to left, rgba(59, 14, 205, 1) 11%,rgba(71, 12, 210, 0.8876404494382023) 21%,rgba(166, 0, 255, 0) 100%);
+      background: linear-gradient(0, #8f34e9 0%, rgba(82, 69, 229, 0.6) 100%);
+      box-shadow: 0 4px 15px rgba(59, 14, 205, 0.3);
+      
+      &:hover {
+        box-shadow: 0 6px 20px rgba(59, 14, 205, 0.4);
+      }
+    }
+    .menu-item:nth-of-type(1){
+      margin-top: 0;
+    }
+  }
+
+  .content {
+    flex: 1;
+    margin-left: 50px;
+
+    @media (max-width: @screen-lg) {
+      margin-left: 30px;
+    }
+
+    @media (max-width: @screen-md) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  .sider-left {
+    position: relative;
+
+    .key-set-btn {
+      width: 100%;
+      position: absolute;
+      bottom: 60px;
+      right: 0;
+      letter-spacing: 1px;
+
+      @media (max-width: @screen-md) {
+        position: static;
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+p{
+  line-height: 1;
+}

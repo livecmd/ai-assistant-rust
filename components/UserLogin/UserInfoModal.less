@@ -1,0 +1,205 @@
+.login-modal {
+  padding: 24px;
+  .login-container {
+    padding: 24px;
+  }
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: PingFang SC, PingFang SC;
+      font-weight: 400;
+      font-size: 20px;
+      color: #ffffff;
+      line-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .user-name {
+      font-family: PingFang SC, PingFang SC;
+      font-weight: 400;
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 20px;
+      margin-left: 24px;
+    }
+  }
+
+  .user-quota {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 18px 24px;
+    margin-bottom: 40px;
+
+    .quota-icon {
+      width: 26px;
+      margin-right: 24px;
+    }
+
+    .quota-text {
+      font-family: PingFang SC, PingFang SC;
+      font-weight: 400;
+      font-size: 14px;
+      color: #ffffff;
+    }
+  }
+
+  .secret-box {
+    margin-bottom: 40px;
+
+    .secret-text {
+      font-family: PingFang SC, PingFang SC;
+      font-weight: 400;
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .secret-input {
+      background-color: #121212;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.1);
+      height: 40px;
+      // 修改placeholder颜色
+      &::placeholder {
+        color: #6b7280;
+      }
+    }
+
+    .secret-input:hover {
+      background-color: #121212;
+      color: #6b7280;
+      border-color: #6b7280;
+    }
+
+    .secret-input:focus {
+      background-color: #121212;
+      color: #6b7280;
+      border-color: #6b7280;
+      box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.2);
+    }
+
+    .secret-button {
+      height: 40px;
+      width: 80px;
+      background: #121212;
+      background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
+      border-radius: 4px 4px 4px 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 400;
+      font-size: 14px;
+      color: #ffffff;
+    }
+    .topup-options {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      
+      .option-item {
+        position: relative;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        
+        &:hover {
+          border-color: #6366f1;
+          background: rgba(99, 102, 241, 0.1);
+        }
+        
+        &.active {
+          background: rgba(99, 102, 241, 0.2);
+          border-color: #6366f1;
+        }
+
+        .option-amount {
+          color: #fff;
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        .option-discount {
+          font-size: 12px;
+          color: #ff4d4f;
+          margin-top: 2px;
+        }
+
+        .discount-tag {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background: #ff4d4f;
+          color: #fff;
+          font-size: 10px;
+          padding: 2px 6px;
+          border-radius: 4px;
+          transform: scale(0.9);
+        }
+      }
+    }
+
+    .payment-summary {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .label {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      
+      .final-price {
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        span {
+            font-size: 12px;
+            font-weight: normal;
+            margin-right: 4px;
+        }
+      }
+    }
+  }
+
+  .login-button {
+    height: 50px;
+    background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
+    border-radius: 36px 36px 36px 36px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFang SC, PingFang SC;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 1s;
+
+    &:hover {
+      // 增加背景颜色变化效果
+      background: linear-gradient(90deg, #9333ea 0%, #3b82f6 100%);
+    }
+  }
+}

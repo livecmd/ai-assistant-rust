@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .chat-main-scroll {
+      flex: 1;
+    }
+  }
+}

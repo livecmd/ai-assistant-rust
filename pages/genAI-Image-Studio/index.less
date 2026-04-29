@@ -1,0 +1,202 @@
+// 响应式断点变量
+@screen-xs: 480px;
+@screen-sm: 640px;
+@screen-md: 768px;
+@screen-lg: 1024px;
+@screen-xl: 1280px;
+@screen-2xl: 1536px;
+
+.genAIImageStudio {
+    display: flex;
+    height: 100%;
+    padding: 30px;
+    background: #060606FF;
+    overflow: hidden;
+
+    @media (max-width: @screen-lg) {
+        padding: 20px;
+    }
+
+    @media (max-width: @screen-md) {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    >.right{
+        width: 360px;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 250px);
+        overflow: hidden;
+
+        @media (max-width: @screen-xl) {
+            width: 320px;
+        }
+
+        @media (max-width: @screen-lg) {
+            width: 280px;
+            height: calc(100vh - 40px);
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+            height: auto;
+            max-height: none;
+        }
+
+        // 控制面板滚动容器
+        .control-panel-inner,
+        .control-panel-wrapper {
+            flex: 1;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            max-height: 100%;
+            padding-bottom: 20px;
+            
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(99, 102, 241, 0.3);
+                border-radius: 3px;
+            }
+        }
+
+        >p{
+            font-size: 20px;
+            color: #fff;
+            margin-top: 10px;
+
+            @media (max-width: @screen-md) {
+                font-size: 18px;
+            }
+
+            @media (max-width: @screen-sm) {
+                font-size: 16px;
+            }
+        }
+        >p:nth-of-type(1){
+            margin-top: 0;
+        }
+        .icon{
+            height: 130px;
+            margin-top: 20px;
+            position: relative;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 21px 21px 21px 21px;
+            border: 1px solid rgba(255,255,255,0.1);
+            input{
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+        textarea{
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            margin-top: 10px;
+            outline: none;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border-radius: 21px 21px 21px 21px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .sizes{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            p{
+                cursor: pointer;
+                width: 100px;
+                height: 50px;
+                border-radius: 50px;
+                background: #d4d0d40D;
+                border: 2px solid #f5f0f01A;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #f0ebebFF;
+                font-size: 18px;
+                margin-top: 20px;
+            }
+            .active{
+                border-color: #6a05a9FF;
+            }
+        }
+        .slider{
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            .ant-slider{
+                flex: 1;
+                background: #373b45FF;
+            }
+            .img{
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                border: 1px solid #ffefefFF;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 10px;
+                cursor: pointer;
+                img{
+                    width: 25px;
+                }
+            }
+        }
+        .btn{
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+            border-radius: 80px;
+            font-size: 26px;
+            color: #000000FF;
+            margin-top: 10px;
+            background: linear-gradient(to right, rgba(42, 156, 216, 0.90974609375) 73%,rgba(255, 3, 213, 0.6) 98%);
+            img{
+                width: 55px;
+                margin-right: 20px;
+            }
+        }
+    }
+    >.left {
+        width: calc(100% - 360px - 50px);  // 固定宽度
+        flex-shrink: 0;
+        margin-right: 50px;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: @screen-xl) {
+            width: calc(100% - 320px - 50px);
+        }
+
+        @media (max-width: @screen-lg) {
+            width: calc(100% - 280px - 30px);
+            margin-right: 30px;
+        }
+
+        @media (max-width: @screen-md) {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+        // .dialogBox 和 .bot 样式继承自 shared.less
+    }
+}
