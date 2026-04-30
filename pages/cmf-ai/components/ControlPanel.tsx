@@ -72,7 +72,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const resolutionOptions = ["1K", "2K", "4K"] as const;
 
   return (
-    <div className="flex flex-col gap-6 cmfai-ControlPanel">
+    <div className="panel-stack cmfai-ControlPanel">
       <UnifiedControlPanel className="flex-1 action-box">
         <ControlSection>
           <div className="flex gap-3">
@@ -171,7 +171,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder={t("cmf.feedbackPlaceholder")}
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-xs text-slate-200 focus:ring-1 focus:ring-indigo-500 outline-none resize-none h-20"
+            className="cmf-feedback-textarea w-full rounded-lg p-3 text-xs outline-none resize-none h-20"
             disabled={isProcessing}
           />
         </ControlSection>

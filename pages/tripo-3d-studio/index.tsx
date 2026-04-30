@@ -1332,14 +1332,14 @@ const TripoStudio: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <div className="panel-title-block animate-fadeInDown">
+      <div className="right right-panel-shell">
+        <div className="panel-title-block right-panel-header animate-fadeInDown">
           <h1>3D 工作台</h1>
           <p>3D 建模、贴图、绑定与格式转换</p>
 		  {modePriceText ? <p>当前模式价格：{modePriceText}</p> : null}
         </div>
 
-        <UnifiedControlPanel icon={<Box className="w-6 h-6 text-cyan-300" />}>
+        <UnifiedControlPanel className="action-box" icon={<Box size={22} color="#1677ff" />}>
           <ControlSection title="模式选择">
             <div className="mode-grid">
               {modeOptions.map((item) => (
@@ -1785,9 +1785,6 @@ const TripoStudio: React.FC = () => {
 
           <ControlSection title="任务控制">
             <div className="field-stack">
-              <Button type="primary" size="large" loading={isSubmitting} onClick={() => void submitTask()}>
-                发起 {getModeTitle(mode)}
-              </Button>
               <Button disabled={!currentTaskId} onClick={() => setIsPolling(true)}>
                 继续轮询当前任务
               </Button>
@@ -1823,6 +1820,11 @@ const TripoStudio: React.FC = () => {
             </div>
           </ControlSection>
         </UnifiedControlPanel>
+        <div className="right-panel-footer">
+          <Button type="primary" size="large" block loading={isSubmitting} onClick={() => void submitTask()}>
+            发起 {getModeTitle(mode)}
+          </Button>
+        </div>
       </div>
     </div>
   );

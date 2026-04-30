@@ -229,7 +229,7 @@ const App: React.FC = () => {
           items={history.map((item) => ({
             id: item.id,
             thumbnail: item.url,
-            type: "image",
+            type: "image" as const,
             isActive: resultImage === item.url,
             timestamp: item.timestamp,
             onClick: () => {}, // Logic handled by onSelect parent
@@ -240,56 +240,60 @@ const App: React.FC = () => {
         />
       </div>
 
-      <div className="right">
+      <div className="right right-panel-shell">
         {/* Title kept as per original layout, but maybe should be moved? Original had it above ControlPanel */}
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="right-panel-header lineart-title">
           {t("lineart.title")}
         </h1>
 
-        <div className="control-panel-wrapper">
-          {/* Image Inputs Area */}
-          <div className="mb-4 flex gap-4">
-            <div className="bg-slate-900/50 rounded-2xl p-3 border border-slate-800">
-              <ImageUpload
-                label="Line Art"
-                image={lineArt}
-                onImageChange={setLineArt}
-                required
-              />
+        <div className="control-panel-wrapper right-panel-body panel-compact">
+          <div className="panel-scroll-region">
+            {/* Image Inputs Area */}
+            <div className="lineart-upload-grid">
+              <div className="lineart-upload-card">
+                <ImageUpload
+                  label="Line Art"
+                  image={lineArt}
+                  onImageChange={setLineArt}
+                  required
+                />
+              </div>
+              <div className="lineart-upload-card">
+                <ImageUpload
+                  label="Style Ref"
+                  image={styleRef}
+                  onImageChange={setStyleRef}
+                />
+              </div>
             </div>
-            <div className="bg-slate-900/50 rounded-2xl p-3 border border-slate-800">
-              <ImageUpload
-                label="Style Ref"
-                image={styleRef}
-                onImageChange={setStyleRef}
-              />
-            </div>
+
+            <ControlPanel
+              config={config}
+              setConfig={setConfig}
+              isLoading={isLoading}
+              onGenerate={handleGenerate}
+              canGenerate={!!lineArt}
+              imageCount={imageCount}
+              setImageCount={setImageCount}
+            />
+
+            {error && (
+              <div className="lineart-error-banner">
+                <span>{error}</span>
+              </div>
+            )}
           </div>
-
-          <ControlPanel
-            config={config}
-            setConfig={setConfig}
-            isLoading={isLoading}
-            onGenerate={handleGenerate}
-            canGenerate={!!lineArt}
-            imageCount={imageCount}
-            setImageCount={setImageCount}
-          />
-
-          {error && (
-            <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3 text-red-400 text-sm">
-              <span>{error}</span>
-            </div>
-          )}
         </div>
 
         {/* 5. Generate Button */}
-        <UnifiedGenerateButton
-          onClick={handleGenerate}
-          disabled={!lineArt || isLoading}
-          isGenerating={isLoading}
-          label="COLORIZE IMAGE"
-        />
+        <div className="right-panel-footer">
+          <UnifiedGenerateButton
+            onClick={handleGenerate}
+            disabled={!lineArt || isLoading}
+            isGenerating={isLoading}
+            label="COLORIZE IMAGE"
+          />
+        </div>
       </div>
     </div>
   );

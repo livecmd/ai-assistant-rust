@@ -253,7 +253,7 @@ const GeminiMedicalStyler: React.FC = () => {
               thumbnail: item.generatedImage,
               timestamp: item.timestamp,
               label: item.prompt.substring(0, 30) + "...",
-              type: "image",
+              type: "image" as const,
               onClick: () => {},
             }))
             .sort((a, b) => b.timestamp - a.timestamp)}
@@ -268,15 +268,15 @@ const GeminiMedicalStyler: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+      <div className="right right-panel-shell">
+        <div className="right-panel-header text-center md:text-left">
+          <h1>
             {t("material.title")}
           </h1>
-          <p className="text-slate-400 text-sm">{t("material.subtitle")}</p>
+          <p>{t("material.subtitle")}</p>
         </div>
 
-        <div className="control-panel-wrapper">
+        <div className="control-panel-wrapper right-panel-body">
           <ControlPanel
             mode={mode}
             setMode={setMode}

@@ -208,8 +208,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   const batchSizes = [1, 2, 3, 4];
 
   return (
-    <div className="flex flex-col gap-6 stylemorph-control">
-      <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+    <div className="panel-stack stylemorph-control">
+      <h1 className="stylemorph-page-title">
         造型迁移
       </h1>
       <UnifiedControlPanel className="flex-1 action-box">
@@ -239,12 +239,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         )}
 
         <div className="space-y-4">
-          <h2 className="text-sm font-bold text-slate-200">
+          <h2 className="stylemorph-block-title">
             1. 上传图像与选区
           </h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 relative text-center">
-              <label className="text-xs font-bold text-slate-500 uppercase">
+              <label className="stylemorph-upload-label">
                 结构图 (A)
               </label>
               <input
@@ -258,7 +258,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 onClick={() =>
                   !imageA.preview && fileInputARef.current?.click()
                 }
-                className="relative group aspect-square rounded-2xl border-2 border-dashed border-slate-700 hover:border-blue-500 overflow-hidden bg-slate-800/50 transition-all cursor-pointer flex items-center justify-center"
+                className="relative group aspect-square rounded-2xl border-2 border-dashed overflow-hidden transition-all cursor-pointer flex items-center justify-center stylemorph-upload-card stylemorph-upload-card--a"
               >
                 {imageA.preview ? (
                   <>
@@ -288,9 +288,9 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     </div>
                   </>
                 ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4 text-center pointer-events-none">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center pointer-events-none stylemorph-upload-placeholder">
                     <svg
-                      className="w-10 h-10 mb-3 text-slate-500"
+                      className="w-10 h-10 mb-3 stylemorph-upload-icon"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -302,7 +302,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <p className="text-sm">点击上传图片(Click to upload image)</p>
+                    <p className="stylemorph-upload-copy">点击上传图片(Click to upload image)</p>
                   </div>
                 )}
               </div>
@@ -317,7 +317,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     </button> */}
                     <button
                       onClick={() => fileInputARef.current?.click()}
-                      className="flex-1 py-1.5 rounded-lg bg-slate-800 text-[10px] font-bold text-slate-300 border border-slate-700 hover:bg-slate-700 transition-all"
+                      className="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all stylemorph-mini-button"
                     >
                       替换图片
                     </button>
@@ -327,7 +327,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             </div>
 
             <div className="space-y-2 text-center">
-              <label className="text-xs font-bold text-slate-500 uppercase">
+              <label className="stylemorph-upload-label">
                 风格图 (B)
               </label>
               <input
@@ -341,7 +341,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 onClick={() =>
                   !imageB.preview && fileInputBRef.current?.click()
                 }
-                className="relative group aspect-square rounded-2xl border-2 border-dashed border-slate-700 hover:border-pink-500 overflow-hidden bg-slate-800/50 transition-all cursor-pointer flex items-center justify-center"
+                className="relative group aspect-square rounded-2xl border-2 border-dashed overflow-hidden transition-all cursor-pointer flex items-center justify-center stylemorph-upload-card stylemorph-upload-card--b"
               >
                 {imageB.preview ? (
                   <>
@@ -371,9 +371,9 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     </div>
                   </>
                 ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-4 text-center pointer-events-none">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center pointer-events-none stylemorph-upload-placeholder">
                     <svg
-                      className="w-10 h-10 mb-3 text-slate-500"
+                      className="w-10 h-10 mb-3 stylemorph-upload-icon"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -385,7 +385,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <p className="text-sm">点击上传图片(Click to upload image)</p>
+                    <p className="stylemorph-upload-copy">点击上传图片(Click to upload image)</p>
                   </div>
                 )}
               </div>
@@ -394,13 +394,13 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => setModalTarget("B")}
-                      className="flex-1 py-1.5 rounded-lg bg-slate-800 text-[10px] font-bold text-pink-400 border border-slate-700 hover:bg-pink-900/20 hover:border-pink-500 transition-all"
+                      className="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all stylemorph-mini-button stylemorph-mini-button--accent"
                     >
                       特征提取
                     </button>
                     <button
                       onClick={() => fileInputBRef.current?.click()}
-                      className="flex-1 py-1.5 rounded-lg bg-slate-800 text-[10px] font-bold text-slate-300 border border-slate-700 hover:bg-slate-700 transition-all"
+                      className="flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all stylemorph-mini-button"
                     >
                       替换图片
                     </button>
@@ -412,22 +412,22 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-sm font-bold text-slate-200 tracking-wider">
+          <h2 className="stylemorph-block-title">
             2. 生成设置
           </h2>
           <div className="grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[12px] text-slate-500 font-bold uppercase">
+              <label className="stylemorph-field-label">
                 画面比例
               </label>
-              <div className="grid grid-cols-3 gap-1 p-1 bg-slate-800 rounded-lg">
+              <div className="grid grid-cols-3 gap-1 p-1 stylemorph-segmented">
                 {ratios.map((r) => (
                   <button
                     key={r}
                     onClick={() => setConfig({ ...config, aspectRatio: r })}
-                    className={`py-1 rounded text-[10px] font-black ${config.aspectRatio === r
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "text-slate-500 hover:text-slate-300"
+                    className={`py-1 text-[10px] font-black stylemorph-segmented__button ${config.aspectRatio === r
+                      ? "is-active"
+                      : ""
                       }`}
                   >
                     {r}
@@ -436,17 +436,17 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[12px] text-slate-500 font-bold uppercase">
+              <label className="stylemorph-field-label">
                 输出分辨率
               </label>
-              <div className="grid grid-cols-3 gap-1 p-1 bg-slate-800 rounded-lg">
+              <div className="grid grid-cols-3 gap-1 p-1 stylemorph-segmented">
                 {sizes.map((s) => (
                   <button
                     key={s}
                     onClick={() => setConfig({ ...config, imageSize: s })}
-                    className={`py-1 rounded text-[10px] font-black ${config.imageSize === s
-                      ? "bg-purple-600 text-white shadow-md"
-                      : "text-slate-500 hover:text-slate-300"
+                    className={`py-1 text-[10px] font-black stylemorph-segmented__button ${config.imageSize === s
+                      ? "is-active"
+                      : ""
                       }`}
                   >
                     {s}
@@ -456,17 +456,17 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-[12px] text-slate-500 font-bold uppercase">
+            <label className="stylemorph-field-label">
               生成数量(Generate quantity)
             </label>
-            <div className="grid grid-cols-4 gap-1 p-1 bg-slate-800 rounded-lg">
+            <div className="grid grid-cols-4 gap-1 p-1 stylemorph-segmented">
               {batchSizes.map((size) => (
                 <button
                   key={size}
                   onClick={() => setConfig({ ...config, batchSize: size })}
-                  className={`py-1 rounded text-[10px] font-black ${config.batchSize === size
-                    ? "bg-indigo-600 text-white shadow-md"
-                    : "text-slate-500 hover:text-slate-300"
+                  className={`py-1 text-[10px] font-black stylemorph-segmented__button ${config.batchSize === size
+                    ? "is-active"
+                    : ""
                     }`}
                 >
                   {size}
@@ -479,10 +479,10 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         <div className="space-y-6">
           <div className="space-y-4">
             <div className="flex justify-between items-end">
-              <h2 className="text-sm font-bold text-slate-200 tracking-wider">
+              <h2 className="stylemorph-block-title">
                 3. 结构保留深度
               </h2>
-              <span className="text-[10px] font-black px-2 py-0.5 rounded bg-amber-600 text-white">
+              <span className="stylemorph-value-tag stylemorph-value-tag--warm">
                 {config.structuralDepth}%
               </span>
             </div>
@@ -499,21 +499,21 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               }
               className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
             />
-            <div className="flex justify-between text-[10px] text-slate-500 font-black uppercase">
+            <div className="flex justify-between text-[10px] stylemorph-range-scale">
               <span>Rigid (锁定)</span>
               <span>Loose (释放)</span>
             </div>
-            <p className="text-[12px] text-amber-300/80 italic font-medium">
+            <p className="stylemorph-range-note stylemorph-range-note--warm">
               {getDepthDescription(config.structuralDepth)}
             </p>
           </div>
 
           <div className="space-y-4">
             <div className="flex justify-between items-end">
-              <h2 className="text-sm font-bold text-slate-200 tracking-wider">
+              <h2 className="stylemorph-block-title">
                 4. 风格融合权重
               </h2>
-              <span className="text-[10px] font-black px-2 py-0.5 rounded bg-blue-600 text-white">
+              <span className="stylemorph-value-tag stylemorph-value-tag--cool">
                 {config.weight}%
               </span>
             </div>
@@ -527,14 +527,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               }
               className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
             />
-            <p className="text-[12px] text-blue-300/80 italic font-medium leading-relaxed">
+            <p className="stylemorph-range-note stylemorph-range-note--cool">
               {getWeightDescription(config.weight)}
             </p>
           </div>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-sm font-bold text-slate-200 tracking-wider">
+          <h2 className="stylemorph-block-title">
             5. 修正指令
           </h2>
           <textarea
@@ -543,7 +543,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               setConfig({ ...config, refinementPrompt: e.target.value })
             }
             placeholder="例如: 改变选区内的材质为碳纤维..."
-            className="w-full h-20 bg-slate-800/40 border border-slate-700 rounded-xl p-3 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-all resize-none"
+            className="w-full h-20 p-3 text-xs focus:outline-none transition-all resize-none stylemorph-textarea"
           />
         </div>
 
@@ -690,14 +690,15 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
         )}
       </UnifiedControlPanel>
-      <UnifiedGenerateButton
-        onClick={onGenerate}
-        disabled={!imageA.base64 || !imageB.base64 || isGenerating}
-        isGenerating={isGenerating}
-        label="开始造型迁移"
-        processingLabel="正在进化造型..."
-        className="mt-4"
-      />
+      <div className="panel-footer">
+        <UnifiedGenerateButton
+          onClick={onGenerate}
+          disabled={!imageA.base64 || !imageB.base64 || isGenerating}
+          isGenerating={isGenerating}
+          label="开始造型迁移"
+          processingLabel="正在进化造型..."
+        />
+      </div>
     </div>
   );
 };

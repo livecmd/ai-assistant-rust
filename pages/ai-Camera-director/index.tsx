@@ -220,7 +220,7 @@ const App: React.FC = () => {
             .map((item) => ({
               id: item.id,
               thumbnail: item.image,
-              type: "image",
+              type: "image" as const,
               isActive: genState.resultImage === item.image,
               timestamp: item.timestamp,
               onClick: () => {},
@@ -232,11 +232,11 @@ const App: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+      <div className="right right-panel-shell">
+        <h1 className="right-panel-header text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
           CAMERA CONTROLS
         </h1>
-        <div className="control-panel-wrapper">
+        <div className="control-panel-wrapper right-panel-body panel-compact">
           <ControlPanel
             params={params}
             setParams={setParams}

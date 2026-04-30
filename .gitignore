@@ -22,3 +22,5 @@ src-tauri
 *.njsproj
 *.sln
 *.sw?
+
+ai-ass-dist/

@@ -48,6 +48,8 @@ const App: React.FC = () => {
   const { getConfig, formatPriceSummary } = useModelCatalog({ category: "image", provider: "vertex" });
 
   const isProModel = selectedModel === ModelType.NANO_BANANA_PRO;
+  const selectedBlueClass =
+    "bg-[linear-gradient(90deg,#1677ff,#4d9dff)] border-[#1677ff] text-white shadow-lg shadow-[#1677ff]/25";
   const modelOptions = useMemo(() => {
 	const options = [
 	  {
@@ -249,7 +251,7 @@ const App: React.FC = () => {
             .map((item) => ({
               id: item.id,
               thumbnail: item.url,
-              type: "image",
+              type: "image" as const,
               label: item.prompt,
               isActive: currentOutput === item.url,
               timestamp: item.timestamp,
@@ -265,10 +267,10 @@ const App: React.FC = () => {
           title="HISTORY"
         />
       </div>
-      <div className="right">
+      <div className="right right-panel-shell">
         {/* Title */}
-        <div className="text-center md:text-left">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+        <div className="right-panel-header text-center md:text-left">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#1677ff] to-[#4d9dff] bg-clip-text text-transparent">
             {"万能图片生成"}
           </h1>
           <p className="text-slate-400 text-sm">
@@ -283,7 +285,7 @@ const App: React.FC = () => {
                 multiple
                 accept="image/*"
                 onChange={handleFileUpload}
-                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors cursor-pointer"
+                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#e8f3ff] file:text-[#1677ff] hover:file:bg-[#d7eaff] transition-colors cursor-pointer"
               />
               {uploadedImages.length > 0 ? (
                 <div className="grid grid-cols-4 gap-2 mt-4">
@@ -333,7 +335,7 @@ const App: React.FC = () => {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="E.g. Matte charceal with nion blue trim..."
-              className="w-full h-32 p-4 text-white bg-gray-800/30 rounded-2xl border border-gray-700/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none text-sm"
+              className="w-full h-32 p-4 text-white bg-gray-800/30 rounded-2xl border border-gray-700/50 focus:ring-2 focus:ring-[#1677ff] focus:border-transparent outline-none transition-all resize-none text-sm"
             />
           </ControlSection>
 
@@ -363,9 +365,10 @@ const App: React.FC = () => {
                     ] as AspectRatio[]
                   ).map((ratio) => (
                     <button
+                      type="button"
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${config.aspectRatio === ratio
-                        ? "bg-indigo-600 text-white shadow-lg"
-                        : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                        ? selectedBlueClass
+                        : "bg-slate-800 text-slate-400 border border-slate-800 hover:border-[#1677ff]/40 hover:text-slate-200"
                         }`}
                       key={ratio}
                       onClick={() =>
@@ -392,9 +395,9 @@ const App: React.FC = () => {
                       onClick={() =>
                         setConfig((prev) => ({ ...prev, imageSize: res }))
                       }
-                      className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${config.imageSize === res
-                        ? "bg-indigo-600 text-white"
-                        : "text-slate-400 hover:text-slate-200"
+                      className={`flex-1 py-1.5 text-xs font-medium rounded-md border transition-all ${config.imageSize === res
+                        ? selectedBlueClass
+                        : "border-transparent text-slate-400 hover:text-slate-200 hover:border-[#1677ff]/35"
                         }`}
                     >
                       {res}
@@ -433,12 +436,14 @@ const App: React.FC = () => {
             </div>
           )}
         </UnifiedControlPanel>
-        <UnifiedGenerateButton
-          onClick={handleGenerate}
-          isGenerating={isGenerating}
-          label="Generate"
-          className="mt-4 action-btn"
-        />
+        <div className="right-panel-footer">
+          <UnifiedGenerateButton
+            onClick={handleGenerate}
+            isGenerating={isGenerating}
+            label="Generate"
+            className="action-btn"
+          />
+        </div>
       </div>
 
       <Modal

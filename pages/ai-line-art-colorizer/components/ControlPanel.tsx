@@ -42,14 +42,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, isLoadin
   }, [config.model, models, setConfig]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="panel-compact flex flex-col gap-4">
       {/* 1. Prompt */}
       <ControlSection title="提示词(Prompt)">
         <textarea
           value={config.prompt}
           onChange={handlePromptChange}
           placeholder="描述一下颜色和款式...(Describe the colors and style...)"
-          className="w-full min-h-[100px] bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-indigo-500 outline-none leading-relaxed text-white"
+          className="lineart-prompt-field"
         />
       </ControlSection>
 
@@ -103,18 +103,18 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, isLoadin
           <div className="h-4"></div>
 
           <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-400 tracking-wider flex justify-between">
+            <label className="text-xs font-bold text-slate-500 tracking-wider flex justify-between">
               Resolution
             </label>
-            <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-700">
+            <div className="lineart-segmented">
               {[ImageResolution.RES_1K, ImageResolution.RES_2K, ImageResolution.RES_4K].map(res => (
                 <button
                   key={res}
                   type="button"
                   onClick={() => setConfig(prev => ({ ...prev, resolution: res }))}
-                  className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${config.resolution === res
-                    ? "bg-indigo-600 text-white"
-                    : "text-slate-400 hover:text-slate-200"
+                  className={`lineart-segmented__button ${config.resolution === res
+                    ? "is-active"
+                    : ""
                     }`}
                 >
                   {res}

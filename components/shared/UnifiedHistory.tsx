@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Play, Trash2, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Modal, message } from "antd";
 import "./UnifiedHistory.less";
@@ -77,8 +76,6 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  console.log('items:', items)
-
   // 计算总页数
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
@@ -146,10 +143,10 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
         className={`play hover:scale-110 transition-all duration-200 cursor-pointer ${
           !canGoLeft
             ? "opacity-30 cursor-not-allowed"
-            : "hover:bg-indigo-500/20"
+            : "hover:bg-[#1677ff]/10"
         }`}
       >
-        <ChevronLeft size={24} className="text-white" />
+        <ChevronLeft size={24} className="text-slate-700" />
       </button>
 
       {/* Items Container */}
@@ -206,7 +203,7 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
             {/* Action Buttons */}
             <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover/item:opacity-100 transition-all duration-200 z-10">
               <button
-                className="p-1.5 bg-black/60 hover:bg-indigo-500 rounded-lg text-white backdrop-blur-sm hover:scale-110 active:scale-95"
+                className="p-1.5 bg-white/85 hover:bg-[#1677ff] rounded-lg text-slate-800 hover:text-white backdrop-blur-sm hover:scale-110 active:scale-95"
                 onClick={(e) => handleDownloadItem(e, item)}
                 title="Download"
               >
@@ -214,7 +211,7 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
               </button>
               {onDelete && (
                 <button
-                  className="p-1.5 bg-black/60 hover:bg-red-500 rounded-lg text-white backdrop-blur-sm hover:scale-110 active:scale-95"
+                  className="p-1.5 bg-white/85 hover:bg-red-500 rounded-lg text-slate-800 hover:text-white backdrop-blur-sm hover:scale-110 active:scale-95"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDelete(item.id, e);
@@ -245,10 +242,10 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
         className={`next hover:scale-110 transition-all duration-200 cursor-pointer ${
           !canGoRight
             ? "opacity-30 cursor-not-allowed"
-            : "hover:bg-indigo-500/20"
+            : "hover:bg-[#1677ff]/10"
         }`}
       >
-        <ChevronRight size={24} className="text-white" />
+        <ChevronRight size={24} className="text-slate-700" />
       </button>
 
       {/* Page Indicator */}
@@ -258,7 +255,7 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
             <div
               key={idx}
               className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                idx === currentPage ? "bg-indigo-500 w-3" : "bg-white/30"
+                idx === currentPage ? "bg-[#1677ff] w-3" : "bg-slate-300"
               }`}
             />
           ))}
@@ -292,22 +289,22 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
               >
                 <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity duration-200 z-10">
                   <div
-                    className="w-[30px] h-[30px] flex items-center justify-center bg-gray-200/20 hover:bg-gray-200/60 rounded-lg cursor-pointer transition-colors backdrop-blur-md"
+                    className="w-[30px] h-[30px] flex items-center justify-center bg-white/85 hover:bg-[#1677ff] rounded-lg cursor-pointer transition-colors backdrop-blur-md text-slate-700 hover:text-white"
                     onClick={(e) => handleDownloadItem(e, item)}
                     title="Download"
                   >
-                    <Download size={14} className="text-white" />
+                    <Download size={14} />
                   </div>
                   {onDelete && (
                     <div
-                      className="w-[30px] h-[30px] flex items-center justify-center bg-gray-200/20 hover:bg-gray-200/60 rounded-lg cursor-pointer transition-colors backdrop-blur-md"
+                      className="w-[30px] h-[30px] flex items-center justify-center bg-white/85 hover:bg-red-500 rounded-lg cursor-pointer transition-colors backdrop-blur-md text-slate-700 hover:text-white"
                       onClick={(e) => {
                         e.stopPropagation();
                         onDelete(item.id, e);
                       }}
                       title="Delete"
                     >
-                      <DeleteOutlined className="text-white hover:text-red-500" />
+                      <DeleteOutlined className="hover:text-white" />
                     </div>
                   )}
                 </div>

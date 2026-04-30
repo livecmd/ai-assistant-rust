@@ -117,8 +117,8 @@ const CinematicMultiShot: React.FC = () => {
         (imageUrl, index) => ({
           id: Math.random().toString(36).substr(2, 9),
           url: imageUrl,
-          // shotName: shot.name,
-          // shotId: shot.id,
+          shotName: currentShot.name,
+          shotId: currentShot.id,
           style: selectedStyle,
           prompt: prompt,
           timestamp: Date.now() + index,
@@ -227,9 +227,9 @@ const CinematicMultiShot: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <UnifiedControlPanel className="h-full cinema-control">
-          <h1 className="text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+      <div className="right right-panel-shell">
+        <UnifiedControlPanel className="flex-1 cinema-control">
+          <h1 className="cinema-title">
             一键场景生成
           </h1>
           <div className="space-y-8">
@@ -263,14 +263,14 @@ const CinematicMultiShot: React.FC = () => {
 
             {/* 3. Scene Description */}
             <div className="space-y-2 blobk-bg">
-              <label className="block text-sm font-bold text-slate-300">
+              <label className="cinema-section-label">
                 2. 场景描述(Scene Description)
               </label>
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Describe the scene, lighting, or action..."
-                className="w-full h-24 bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all resize-none"
+                className="cinema-textarea w-full h-24 resize-none"
               />
             </div>
             {/* 4. Image Count Selector */}
@@ -289,13 +289,15 @@ const CinematicMultiShot: React.FC = () => {
           </div>
         </UnifiedControlPanel>
         {/* Generate Button */}
-        <UnifiedGenerateButton
-          onClick={handleGenerateAll}
-          disabled={sourceImages.length === 0 || isGenerating}
-          isGenerating={isGenerating}
-          label="ACTION: GENERATE ALL SHOTS"
-          processingLabel="DIRECTING..."
-        />
+        <div className="right-panel-footer">
+          <UnifiedGenerateButton
+            onClick={handleGenerateAll}
+            disabled={sourceImages.length === 0 || isGenerating}
+            isGenerating={isGenerating}
+            label="ACTION: GENERATE ALL SHOTS"
+            processingLabel="DIRECTING..."
+          />
+        </div>
       </div>
     </div>
   );

@@ -53,13 +53,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, image, onImageChange, 
   return (
     <div className="flex flex-col gap-2 h-full">
       <div className="flex justify-between items-center">
-        <label className="text-sm font-medium text-slate-300">
+        <label className="lineart-upload-label">
           {label} {required && <span className="text-red-400">*</span>}
         </label>
         {image && (
           <button
             onClick={handleClear}
-            className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+            className="lineart-upload-clear"
           >
             <X size={12} /> Clear
           </button>
@@ -72,14 +72,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, image, onImageChange, 
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         style={{ minHeight: '10rem' }}
-        className={`
-          relative flex-1 rounded-xl border hover:border-indigo-400 transition-all duration-300 ease-in-out
-          flex flex-col items-center justify-center overflow-hidden cursor-pointer
-          ${isDragging
-            ? 'border-blue-500 bg-blue-500/10'
-            : 'border-slate-700 hover:border-indigo-400'}
-          ${image ? 'border-solid border-slate-700 bg-slate-900' : ''}
-        `}
+        className={`lineart-upload-dropzone ${isDragging ? 'is-dragging' : ''} ${image ? 'has-image' : ''}`}
       >
         <input
           type="file"
@@ -90,24 +83,24 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, image, onImageChange, 
         />
 
         {image ? (
-          <div className="relative w-full h-full p-2 flex items-center justify-center">
+          <div className="lineart-upload-preview">
             <img
               src={image}
               alt="Uploaded"
-              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              className="lineart-upload-preview-image"
             />
-            <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center group">
-              <span className="opacity-0 group-hover:opacity-100 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">Change Image</span>
+            <div className="lineart-upload-overlay">
+              <span className="lineart-upload-overlay-text">Change Image</span>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-slate-400 gap-3 p-4 text-center">
-            <div className="p-4 rounded-full bg-slate-800 border border-slate-700">
-              <Upload size={24} className="text-blue-400" />
+          <div className="lineart-upload-empty">
+            <div className="lineart-upload-empty-icon">
+              <Upload size={24} className="text-[#5b7cff]" />
             </div>
             <div>
-              <p className="font-medium text-slate-200">点击上传图片</p>
-              <p className="text-xs text-slate-500 mt-1">Click to upload image</p>
+              <p className="lineart-upload-empty-title">点击上传图片</p>
+              <p className="lineart-upload-empty-subtitle">Click to upload image</p>
             </div>
           </div>
         )}

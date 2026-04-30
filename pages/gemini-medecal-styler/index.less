@@ -8,28 +8,35 @@
 
 .medecalStyler {
   display: flex;
+  align-items: flex-start;
+  gap: 28px;
   height: 100%;
-  padding: 30px;
-  background: #060606ff;
+  padding: 6px 0 0;
+  background: transparent;
   overflow: hidden;
 
   @media (max-width: @screen-lg) {
-    padding: 20px;
+    padding: 4px 0 0;
+    gap: 20px;
   }
 
   @media (max-width: @screen-md) {
     flex-direction: column;
     height: auto;
-    min-height: 100vh;
-    padding: 15px;
-    overflow-y: auto;
+    min-height: auto;
+    padding: 0;
+    gap: 16px;
+    overflow: visible;
   }
 
   > .right {
     width: 360px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 250px);
+    flex-shrink: 0;
+    height: 100%;
+    min-height: 0;
+    align-self: stretch;
 
     @media (max-width: @screen-xl) {
       width: 320px;
@@ -41,84 +48,140 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
+      min-height: auto;
     }
 
     .control-panel-wrapper {
       flex: 1;
-      // margin-top: 20px;
-      padding-right: 5px;
+      min-height: 0;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+      font-size: 0.78em;
 
       .medecal-ControlPanel {
+        flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        height: calc(100vh - 290px);
+        gap: 12px;
+
         .action-box {
           flex: 1;
-          overflow-y: auto;
+          min-height: 0;
+          overflow: hidden;
+
+          input,
+          textarea,
+          button {
+            font-size: inherit;
+          }
+
+          label {
+            font-size: 0.72rem;
+          }
+
+          .p-5 {
+            padding: 0.8rem;
+          }
+
+          .p-4 {
+            padding: 0.65rem;
+          }
+
+          .space-y-4 > * + * {
+            margin-top: 0.7rem;
+          }
+
+          .space-y-3 > * + * {
+            margin-top: 0.5rem;
+          }
         }
       }
 
       @media (max-width: @screen-md) {
+        flex: none;
+        min-height: auto;
         margin-top: 15px;
         max-height: none;
-        overflow-y: visible;
-      }
+        overflow: visible;
+        font-size: 0.9em;
 
-      /* Custom Scrollbar */
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-      &::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 3px;
+        .medecal-ControlPanel {
+          flex: none;
+          min-height: auto;
+
+          .action-box {
+            flex: none;
+            min-height: auto;
+            overflow: visible;
+          }
+        }
       }
     }
 
-    > p {
-      font-size: 20px;
-      color: #fff;
-      margin-top: 10px;
+    h1 {
+      margin: 0;
+      color: #1677ff;
+      font-size: 32px;
+      line-height: 1.1;
 
       @media (max-width: @screen-md) {
-        font-size: 18px;
-      }
-
-      @media (max-width: @screen-sm) {
-        font-size: 16px;
+        font-size: 26px;
       }
     }
 
-    > p:nth-child(1) {
-      margin-top: 0;
+    p {
+      margin-top: 6px;
+      color: #6d7582;
+      line-height: 1.45;
     }
   }
 
   > .left {
-    width: calc(100% - 360px - 50px); // 固定宽度
-    flex-shrink: 0;
-    margin-right: 50px;
+    width: calc(100% - 360px - 28px);
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
 
     @media (max-width: @screen-xl) {
-      width: calc(100% - 320px - 50px);
+      width: calc(100% - 320px - 28px);
     }
 
     @media (max-width: @screen-lg) {
-      width: calc(100% - 280px - 30px);
-      margin-right: 30px;
+      width: calc(100% - 280px - 20px);
     }
 
     @media (max-width: @screen-md) {
       width: 100%;
-      margin-right: 0;
-      margin-bottom: 20px;
+      height: auto;
+      min-height: auto;
+      margin-bottom: 0;
+      overflow: visible;
     }
-    // .dialogBox 和 .bot 样式继承自 shared.less
+  }
+
+  > .left > .dialogBox {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+
+    @media (max-width: @screen-md) {
+      flex: none;
+      min-height: 300px;
+    }
+  }
+
+  > .left > .history-container {
+    margin-top: auto;
   }
 }

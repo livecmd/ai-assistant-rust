@@ -7,11 +7,28 @@
 @screen-2xl: 1536px;
 
 .cinematicMultiShot {
+  --cinema-font-body: "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --cinema-font-display: "SF Pro Display", "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --cinema-panel-bg: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+  --cinema-panel-bg-soft: #f4f7ff;
+  --cinema-panel-bg-hover: #f7faff;
+  --cinema-border: rgba(196, 207, 225, 0.88);
+  --cinema-border-strong: rgba(115, 130, 255, 0.42);
+  --cinema-shadow: 0 14px 30px rgba(78, 95, 128, 0.08);
+  --cinema-shadow-active: 0 18px 36px rgba(104, 120, 255, 0.16);
+  --cinema-text: #21324d;
+  --cinema-text-soft: #5f708b;
+  --cinema-text-muted: #8fa0b9;
+  --cinema-accent: #6978ff;
+  --cinema-accent-strong: #5567f6;
+  --cinema-accent-soft: rgba(105, 120, 255, 0.12);
   display: flex;
   height: 100%;
   padding: 30px;
-  background: #060606ff;
+  background: transparent;
   overflow: hidden;
+  color: var(--cinema-text);
+  font-family: var(--cinema-font-body);
 
   @media (max-width: @screen-lg) {
     padding: 20px;
@@ -29,7 +46,9 @@
     width: 360px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 245px);
+    height: 100%;
+    min-height: 0;
+    align-self: stretch;
 
     @media (max-width: @screen-xl) {
       width: 320px;
@@ -41,26 +60,32 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
+      min-height: auto;
     }
 
     .cinema-control {
       flex: 1;
-      overflow-y: auto;
-      margin-bottom: 20px;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .blobk-bg {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px 16px 16px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 18px;
+      background: var(--cinema-panel-bg);
+      border-radius: 20px;
+      border: 1px solid var(--cinema-border);
+      box-shadow: var(--cinema-shadow);
+      padding: 14px;
     }
 
     .control-panel-wrapper {
       flex: 1;
-      overflow-y: auto;
+      min-height: 0;
+      overflow: hidden;
       margin-top: 20px;
       padding-right: 5px;
+      display: flex;
+      flex-direction: column;
 
       @media (max-width: @screen-md) {
         margin-top: 15px;
@@ -83,7 +108,7 @@
 
     > p {
       font-size: 20px;
-      color: #fff;
+      color: #171b22;
       margin-top: 10px;
 
       @media (max-width: @screen-md) {
@@ -105,6 +130,9 @@
     margin-right: 50px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
 
     @media (max-width: @screen-xl) {
       width: calc(100% - 320px - 50px);
@@ -117,9 +145,200 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
       margin-right: 0;
       margin-bottom: 20px;
+      overflow: visible;
     }
     // .dialogBox 和 .bot 样式继承自 shared.less
+  }
+
+  > .left > .dialogBox {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+
+    @media (max-width: @screen-md) {
+      flex: none;
+      min-height: 300px;
+    }
+  }
+
+  > .left > .history-container {
+    margin-top: auto;
+
+    @media (max-width: @screen-md) {
+      margin-top: 15px;
+    }
+  }
+
+  .cinema-title {
+    margin: 0;
+    font-family: var(--cinema-font-display);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    color: transparent;
+    background-image: linear-gradient(135deg, #465b8f 0%, #6b78ff 58%, #74a5ff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  .cinema-section-label {
+    display: block;
+    color: var(--cinema-text-soft);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.45;
+  }
+
+  .cinema-section-helper {
+    color: var(--cinema-text-muted);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .cinema-counter {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(105, 120, 255, 0.08);
+    color: var(--cinema-text-soft);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .cinema-style-selector__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cinema-style-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--cinema-border);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    text-align: left;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      border-color: rgba(115, 130, 255, 0.28);
+      background: var(--cinema-panel-bg-hover);
+      box-shadow: 0 14px 26px rgba(78, 95, 128, 0.1);
+    }
+
+    &.is-active {
+      border-color: var(--cinema-border-strong);
+      background: linear-gradient(135deg, rgba(105, 120, 255, 0.12) 0%, rgba(125, 203, 255, 0.08) 100%);
+      box-shadow: var(--cinema-shadow-active);
+    }
+  }
+
+  .cinema-style-option__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-right: 16px;
+    border-radius: 18px;
+    background: #e8eef9;
+    color: var(--cinema-text-soft);
+    transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+
+    &.is-active {
+      background: linear-gradient(135deg, #6072ff 0%, #735dff 100%);
+      color: #ffffff;
+      box-shadow: 0 12px 24px rgba(99, 114, 255, 0.28);
+    }
+  }
+
+  .cinema-style-option__icon-mark {
+    font-size: 18px;
+    color: inherit;
+  }
+
+  .cinema-style-option__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .cinema-style-option__title {
+    color: var(--cinema-text);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .cinema-style-option__desc {
+    color: var(--cinema-text-soft);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+
+  .cinema-textarea {
+    padding: 14px 15px;
+    border-radius: 18px;
+    border: 1px solid var(--cinema-border);
+    background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+    color: var(--cinema-text);
+    font-family: var(--cinema-font-body);
+    font-size: 14px;
+    line-height: 1.65;
+    box-shadow: inset 0 1px 2px rgba(136, 152, 181, 0.08);
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+
+    &::placeholder {
+      color: var(--cinema-text-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(105, 120, 255, 0.45);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(105, 120, 255, 0.1);
+    }
+  }
+
+  .cinema-upload-tile {
+    border-radius: 18px;
+    border: 1px solid rgba(182, 194, 216, 0.9);
+    background: #eef4ff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  .cinema-upload-remove {
+    background: rgba(225, 87, 116, 0.86);
+  }
+
+  .cinema-upload-input {
+    border: 1.5px dashed rgba(164, 181, 211, 0.95);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fcfdff 0%, #f5f8ff 100%);
+
+    &:hover {
+      border-color: rgba(105, 120, 255, 0.56);
+      background: linear-gradient(180deg, #ffffff 0%, #eef3ff 100%);
+      box-shadow: 0 12px 26px rgba(105, 120, 255, 0.1);
+    }
+  }
+
+  .cinema-upload-placeholder {
+    color: var(--cinema-text-soft);
   }
 }

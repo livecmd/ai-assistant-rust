@@ -211,7 +211,7 @@ const App: React.FC = () => {
             .map((item) => ({
               id: item.id,
               thumbnail: item.url,
-              type: "image",
+              type: "image" as const,
               isActive: resultImage === item.url,
               timestamp: item.timestamp,
               onClick: () => {},
@@ -226,8 +226,8 @@ const App: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+      <div className="right right-panel-shell">
+        <h1 className="right-panel-header text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
           {t("cmf.title")}
         </h1>
         <div className="control-panel-wrapper">

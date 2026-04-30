@@ -21,26 +21,26 @@ export const UnifiedControlPanel: React.FC<UnifiedControlPanelProps> = ({
     const { t } = useTranslation();
 
     return (
-        <div className={`control-panel-inner animate-fadeIn ${className}`}>
-            {/* Header Section */}
+        <div className={`control-panel-inner panel-compact unified-control-panel animate-fadeIn ${className}`}>
             {(titleKey || subtitleKey) && (
-                <div className="text-center md:text-left mb-6 animate-fadeInDown">
-                    <div className="flex items-center gap-3 justify-center md:justify-start mb-2">
-                        {icon || <Settings2 className="w-6 h-6 text-indigo-400" />}
+                <div className="unified-control-panel__header animate-fadeInDown">
+                    <div className="unified-control-panel__title-row">
+                        <span className="unified-control-panel__icon">
+                            {icon || <Settings2 size={22} color="#1677ff" />}
+                        </span>
                         {titleKey && (
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                            <h1 className="unified-control-panel__title">
                                 {t(titleKey)}
                             </h1>
                         )}
                     </div>
                     {subtitleKey && (
-                        <p className="text-slate-400 text-sm mt-1 pl-9">{t(subtitleKey)}</p>
+                        <p className="unified-control-panel__subtitle">{t(subtitleKey)}</p>
                     )}
                 </div>
             )}
 
-            {/* Scrollable Content Area */}
-            <div className="flex flex-col gap-5 pb-6">
+            <div className="panel-scroll-content">
                 {children}
             </div>
         </div>
@@ -58,37 +58,21 @@ export const ControlSection: React.FC<{
 
     return (
         <div
-            className={`
-                bg-gradient-to-br from-slate-800/60 to-slate-800/40 
-                border border-slate-700/50 
-                rounded-2xl 
-                overflow-hidden
-                transition-all duration-300 ease-out
-                hover:border-slate-600/50
-                hover:shadow-lg hover:shadow-indigo-900/5
-                animate-fadeInUp
-                ${className}
-            `}
+            className={`control-section animate-fadeInUp ${collapsible ? "is-collapsible" : ""} ${isCollapsed ? "is-collapsed" : ""} ${className}`}
             style={{ animationDelay: '0.1s' }}
         >
             {title && (
                 <div
-                    className={`
-                        flex items-center justify-between 
-                        px-5 py-4 
-                        border-b border-slate-700/30
-                        ${collapsible ? 'cursor-pointer hover:bg-slate-700/20' : ''}
-                        transition-colors duration-200
-                    `}
+                    className={`control-section__header ${collapsible ? "is-clickable" : ""}`}
                     onClick={() => collapsible && setIsCollapsed(!isCollapsed)}
                 >
-                    <label className="text-xs font-bold text-slate-400 tracking-widest flex items-center gap-2">
-                        <span className="w-1 h-4 bg-gradient-to-b from-indigo-500 to-violet-500 rounded-full"></span>
+                    <label className="control-section__title">
+                        <span className="control-section__title-bar"></span>
                         {title}
                     </label>
                     {collapsible && (
                         <svg
-                            className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`}
+                            className={`control-section__arrow ${isCollapsed ? "" : "is-open"}`}
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -99,11 +83,7 @@ export const ControlSection: React.FC<{
                 </div>
             )}
             <div
-                className={`
-                    p-5 flex flex-col gap-4
-                    transition-all duration-300 ease-out
-                    ${isCollapsed ? 'max-h-0 py-0 opacity-0 overflow-hidden' : 'max-h-[1000px] opacity-100'}
-                `}
+                className={`control-section__body ${isCollapsed ? "is-hidden" : ""}`}
             >
                 {children}
             </div>

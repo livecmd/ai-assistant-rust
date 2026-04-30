@@ -145,8 +145,8 @@ const StyleMorph: React.FC = () => {
         />
       </div>
 
-      <div className="right">
-        <div className="control-panel-wrapper">
+      <div className="right right-panel-shell">
+        <div className="control-panel-wrapper right-panel-body panel-compact">
           <ControlPanel
             imageA={imageA}
             setImageA={setImageA}

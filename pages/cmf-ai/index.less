@@ -10,7 +10,7 @@
     display: flex;
     height: 100%;
     padding: 30px;
-    background: #060606FF;
+    background: transparent;
     overflow: hidden;
 
     @media (max-width: @screen-lg) {
@@ -29,7 +29,9 @@
         width: 360px;
         display: flex;
         flex-direction: column;
-        height: calc(100vh - 250px);
+        height: 100%;
+        min-height: 0;
+        align-self: stretch;
 
         @media (max-width: @screen-xl) {
             width: 320px;
@@ -41,6 +43,8 @@
 
         @media (max-width: @screen-md) {
             width: 100%;
+            height: auto;
+            min-height: auto;
         }
 
         .right-title {
@@ -50,18 +54,18 @@
 
         .control-panel-wrapper {
             flex: 1;
-            margin-top: 20px;
+            min-height: 0;
+            margin-top: 12px;
             padding-right: 5px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
 
             .cmfai-ControlPanel {
-                display: flex;
-                flex-direction: column;
-                height: calc(100vh - 290px);
                 .action-box {
                   flex: 1;
-                  overflow-y: auto;
+                  min-height: 0;
+                  overflow: hidden;
                 }
             }
             
@@ -87,7 +91,7 @@
 
         >p {
             font-size: 20px;
-            color: #fff;
+            color: #171b22;
             margin-top: 10px;
 
             @media (max-width: @screen-md) {
@@ -110,6 +114,9 @@
         margin-right: 50px;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
 
         @media (max-width: @screen-xl) {
             width: calc(100% - 320px - 50px);
@@ -122,19 +129,91 @@
 
         @media (max-width: @screen-md) {
             width: 100%;
+            height: auto;
             margin-right: 0;
             margin-bottom: 20px;
+            overflow: visible;
         }
         // .dialogBox 和 .bot 样式继承自 shared.less
+    }
+
+    > .left > .dialogBox {
+        flex: 1;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+
+        @media (max-width: @screen-md) {
+            flex: none;
+            min-height: 300px;
+        }
+    }
+
+    > .left > .history-container {
+        margin-top: auto;
+
+        @media (max-width: @screen-md) {
+            margin-top: 15px;
+        }
     }
 }
 .cmfAi {
   .ant-select-content-value {
-    color: #fff;
+    color: #475569;
   }
 
   .anticon-down {
-    color: #fff;
+    color: #64748b;
+  }
+
+  .cmf-adherence-slider {
+    background: linear-gradient(180deg, #eef6ff 0%, #e7f1ff 100%);
+    border: 1px solid #c9dcf5;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  .cmf-adherence-slider__header {
+    color: #4f647f;
+  }
+
+  .cmf-adherence-slider__range {
+    background: linear-gradient(90deg, #bdd3ee 0%, #a9c5ea 100%);
+    accent-color: #1677ff;
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+    }
+  }
+
+  .cmf-adherence-slider__legend {
+    color: #6f84a0;
+
+    span {
+      color: #4d6483;
+    }
+  }
+
+  .cmf-feedback-textarea {
+    background: linear-gradient(180deg, #eff6ff 0%, #e9f2ff 100%);
+    border: 1px solid #c9dcf5;
+    color: #42556f;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &::placeholder {
+      color: #7e93ad;
+    }
+
+    &:focus {
+      border-color: #86b6f5;
+      box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.12);
+      background: #f4f9ff;
+    }
+
+    &:disabled {
+      color: #8b9bb0;
+      background: linear-gradient(180deg, #f4f8fc 0%, #edf3fa 100%);
+      cursor: not-allowed;
+    }
   }
 }
 

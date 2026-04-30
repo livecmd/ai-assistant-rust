@@ -30,28 +30,25 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({ selectedStyle, onSelect }
   ];
 
   return (
-    <div className="space-y-4 blobk-bg">
-      <label className="block text-sm font-medium text-slate-400">生成风格(Generation Style)</label>
-      <div className="flex flex-col gap-3">
+    <div className="cinema-style-selector space-y-4 blobk-bg">
+      <label className="cinema-section-label">生成风格(Generation Style)</label>
+      <div className="cinema-style-selector__list">
         {styles.map((style) => (
           <button
             key={style.type}
             onClick={() => onSelect(style.type)}
-            className={`flex items-center p-4 rounded-2xl border-2 transition-all duration-300 text-left group ${selectedStyle === style.type
-              ? 'border-indigo-500 bg-indigo-500/10 shadow-[0_0_20px_rgba(99,102,241,0.1)]'
-              : 'border-slate-800 bg-slate-900/40 hover:border-slate-700'
-              }`}
+            className={`cinema-style-option ${selectedStyle === style.type ? 'is-active' : ''}`}
           >
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 transition-colors ${selectedStyle === style.type ? 'bg-indigo-600' : 'bg-slate-800 group-hover:bg-slate-700'
-              }`}>
-              <i className={`fas ${style.icon} ${selectedStyle === style.type ? 'text-white' : 'text-slate-400'} text-lg`}></i>
+            <div className={`cinema-style-option__icon ${selectedStyle === style.type ? 'is-active' : ''}`}>
+              <i
+                className={`fas ${style.icon} cinema-style-option__icon-mark ${selectedStyle === style.type ? 'is-active' : ''}`}
+              ></i>
             </div>
-            <div>
-              <span className={`block text-sm font-bold ${selectedStyle === style.type ? 'text-white' : 'text-slate-300'
-                }`}>
+            <div className="cinema-style-option__content">
+              <span className="cinema-style-option__title">
                 {style.label}
               </span>
-              <span className="text-[10px] text-slate-500 font-bold tracking-tight">
+              <span className="cinema-style-option__desc">
                 {style.desc}
               </span>
             </div>

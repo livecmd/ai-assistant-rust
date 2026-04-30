@@ -9,12 +9,21 @@
 .genAIImageStudio {
     display: flex;
     height: 100%;
+    min-height: 0;
     padding: 30px;
-    background: #060606FF;
+    background: transparent;
     overflow: hidden;
 
     @media (max-width: @screen-lg) {
         padding: 20px;
+    }
+
+    @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
+        padding: 20px 20px 14px;
+    }
+
+    @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
+        padding: 14px 16px 10px;
     }
 
     @media (max-width: @screen-md) {
@@ -29,7 +38,9 @@
         width: 360px;
         display: flex;
         flex-direction: column;
-        height: calc(100vh - 250px);
+        height: 100%;
+        min-height: 0;
+        align-self: stretch;
         overflow: hidden;
 
         @media (max-width: @screen-xl) {
@@ -38,23 +49,31 @@
 
         @media (max-width: @screen-lg) {
             width: 280px;
-            height: calc(100vh - 40px);
         }
 
         @media (max-width: @screen-md) {
             width: 100%;
             height: auto;
+            min-height: auto;
             max-height: none;
         }
 
+        @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
+            width: 320px;
+        }
+
+        @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
+            width: 300px;
+        }
+
         // 控制面板滚动容器
-        .control-panel-inner,
-        .control-panel-wrapper {
+        .control-panel-wrapper,
+        .control-panel-inner {
             flex: 1;
-            overflow-y: auto !important;
+            min-height: 0;
+            overflow: hidden !important;
             overflow-x: hidden;
             max-height: 100%;
-            padding-bottom: 20px;
             
             &::-webkit-scrollbar {
                 width: 6px;
@@ -182,6 +201,10 @@
         margin-right: 50px;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
+        gap: 18px;
 
         @media (max-width: @screen-xl) {
             width: calc(100% - 320px - 50px);
@@ -194,8 +217,33 @@
 
         @media (max-width: @screen-md) {
             width: 100%;
+            height: auto;
             margin-right: 0;
             margin-bottom: 20px;
+            overflow: visible;
+        }
+
+        @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
+            width: calc(100% - 320px - 36px);
+            margin-right: 36px;
+            gap: 14px;
+        }
+
+        @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
+            width: calc(100% - 300px - 24px);
+            margin-right: 24px;
+            gap: 10px;
+        }
+
+        > .dialogBox {
+            flex: 1 1 auto;
+            min-height: 0;
+            height: auto;
+            max-height: none;
+        }
+
+        > .bot {
+            margin-top: auto;
         }
         // .dialogBox 和 .bot 样式继承自 shared.less
     }

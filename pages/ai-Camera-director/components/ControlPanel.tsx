@@ -163,7 +163,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-6 relative camera-control">
+    <div className="panel-stack relative camera-control">
       <UnifiedControlPanel className="flex-1 action-box">
         {/* 01. Input Source */}
         <ControlSection title={`01. ${t("camera.inputSource")}`}>

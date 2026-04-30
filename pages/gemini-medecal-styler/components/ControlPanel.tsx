@@ -3,7 +3,6 @@ import FileUpload from "./FileUpload";
 import {
   AppState,
   ModelType,
-  AspectRatio,
   ImageSize,
   GenerationConfig,
 } from "../types";
@@ -93,17 +92,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isAnalyzing = appState === AppState.ANALYZING;
 
   return (
-    <div className="flex flex-col gap-6 medecal-ControlPanel">
+    <div className="panel-stack medecal-ControlPanel">
       <UnifiedControlPanel className="flex-1 action-box">
         {/* Title */}
         {errorMessage && (
-          <div className="shrink-0 p-4 bg-red-900/30 border border-red-500/50 rounded-xl flex items-center justify-between animate-in slide-in-from-top-2">
-            <span className="text-red-200 text-sm font-medium">
+          <div className="shrink-0 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between animate-in slide-in-from-top-2">
+            <span className="text-red-600 text-sm font-medium">
               {errorMessage}
             </span>
             <button
               onClick={() => setErrorMessage(null)}
-              className="text-red-400 hover:text-red-200"
+              className="text-red-400 hover:text-red-600"
             >
               ✕
             </button>
@@ -112,12 +111,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
         {/* Mode Switch */}
         <ControlSection>
-          <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700 shadow-inner">
+          <div className="flex bg-[#edf2f7] p-1 rounded-xl border border-slate-200 shadow-inner">
             <button
               onClick={() => setMode("material")}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "material"
-                ? "bg-indigo-600 text-white shadow-lg"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#1677ff] text-white shadow-lg"
+                : "text-slate-500 hover:text-slate-800"
                 }`}
             >
               {t("material.materialAndRender")}
@@ -125,8 +124,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             <button
               onClick={() => setMode("shape")}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "shape"
-                ? "bg-indigo-600 text-white shadow-lg"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#1677ff] text-white shadow-lg"
+                : "text-slate-500 hover:text-slate-800"
                 }`}
             >
               {t("material.shapeAndRedesign")}
@@ -172,7 +171,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 placeholder={t("material.subjectPlaceholder")}
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none text-white"
+                className="w-full bg-[#f5f7fb] border border-slate-200 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1677ff] outline-none text-slate-700"
               />
             </div>
 
@@ -182,13 +181,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   {t("material.designSummary")}
                 </label>
                 {isAnalyzing && (
-                  <span className="text-xs text-indigo-400 animate-pulse">
+                  <span className="text-xs text-[#1677ff] animate-pulse">
                     {t("material.analyzing")}
                   </span>
                 )}
               </div>
               <textarea
-                className="w-full flex-1 min-h-[80px] bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-indigo-500 outline-none leading-relaxed text-white"
+                className="w-full flex-1 min-h-[96px] bg-[#f5f7fb] border border-slate-200 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-[#1677ff] outline-none leading-relaxed text-slate-700"
                 placeholder={t("material.designPlaceholder")}
                 value={stylePrompt}
                 onChange={(e) => setStylePrompt(e.target.value)}
@@ -208,7 +207,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 max="100"
                 value={strength}
                 onChange={(e) => setStrength(parseInt(e.target.value))}
-                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#1677ff]"
               />
             </div>
           </div>
@@ -222,7 +221,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           />
 
           {selectedModel === ModelType.NANO_BANANA_PRO && (
-            <div className="mt-4 space-y-4 pt-4 border-t border-slate-700">
+            <div className="mt-4 space-y-4 pt-4 border-t border-slate-200">
               <CommonAspectRatioSelector
                 selectedRatio={config.aspectRatio as any}
                 onSelect={(r) =>
@@ -231,7 +230,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 options={["auto", "1:1", "3:4", "4:3", "9:16", "16:9"]}
               />
               <div>
-                <label className="text-xs font-bold text-slate-300 tracking-wider mb-2 block">
+                <label className="text-xs font-bold text-slate-600 tracking-wider mb-2 block">
                   图像分辨率(Image Resolution)
                 </label>
                 <div className="flex gap-2">
@@ -242,8 +241,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                         setConfig((prev) => ({ ...prev, imageSize: size }))
                       }
                       className={`flex-1 py-1.5 text-xs font-medium rounded-lg border transition-all ${config.imageSize === size
-                        ? "bg-indigo-600 text-white border-indigo-600"
-                        : "bg-slate-800 text-slate-400 border-slate-600 hover:border-indigo-400"
+                        ? "bg-[#1677ff] text-white border-[#1677ff]"
+                        : "bg-[#f5f7fb] text-slate-500 border-slate-200 hover:border-[#1677ff] hover:text-[#1677ff]"
                         }`}
                     >
                       <span className="capitalize">{size}</span>
@@ -268,6 +267,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         onClick={onGenerate}
         disabled={isGenerating}
         isGenerating={isGenerating}
+        className="shrink-0"
         label={
           isGenerating
             ? t("material.processing")

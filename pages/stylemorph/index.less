@@ -10,7 +10,14 @@
   display: flex;
   height: 100%;
   padding: 30px;
-  background: #060606ff;
+  position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(125, 145, 201, 0.18) 0%, rgba(125, 145, 201, 0) 28%),
+    radial-gradient(circle at bottom left, rgba(175, 190, 224, 0.16) 0%, rgba(175, 190, 224, 0) 30%),
+    linear-gradient(180deg, rgba(251, 252, 254, 0.98) 0%, rgba(242, 246, 251, 0.98) 100%);
+  border: 1px solid rgba(205, 214, 228, 0.78);
+  border-radius: 32px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
   overflow: hidden;
 
   @media (max-width: @screen-lg) {
@@ -23,13 +30,16 @@
     min-height: 100%;
     padding: 15px;
     overflow-y: auto;
+    border-radius: 24px;
   }
 
   > .right {
     width: 360px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 260px);
+    height: 100%;
+    min-height: 0;
+    align-self: stretch;
 
     @media (max-width: @screen-xl) {
       width: 320px;
@@ -41,24 +51,206 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
+      min-height: auto;
     }
 
     .control-panel-wrapper {
       flex: 1;
+      min-height: 0;
       padding-right: 5px;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
 
       .stylemorph-control {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 250px);
+        .stylemorph-page-title {
+          margin: 0 0 8px;
+          color: #5d77b8;
+          font-size: 42px;
+          line-height: 1.05;
+          font-weight: 700;
+          letter-spacing: -0.03em;
+
+          @media (max-width: @screen-md) {
+            font-size: 32px;
+          }
+        }
+
+        .stylemorph-block-title {
+          margin: 0;
+          color: #5d6880;
+          font-size: 14px;
+          line-height: 1.5;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+        }
+
+        .stylemorph-upload-label {
+          color: #617590;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+        }
+
+        .stylemorph-field-label {
+          color: #60728c;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+        }
 
         .space-y-4 {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 16px 16px 16px 16px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 18px;
+          background: rgba(255, 255, 255, 0.74);
+          border-radius: 18px;
+          border: 1px solid rgba(214, 224, 238, 0.92);
+          padding: 16px;
+          box-shadow: 0 16px 30px rgba(95, 112, 143, 0.06);
+        }
+
+        .space-y-6 {
+          background: rgba(255, 255, 255, 0.7);
+          border-radius: 18px;
+          border: 1px solid rgba(214, 224, 238, 0.92);
+          padding: 16px;
+          box-shadow: 0 16px 30px rgba(95, 112, 143, 0.05);
+        }
+
+        .stylemorph-upload-card {
+          border-color: #b7c5d8;
+          background: linear-gradient(180deg, rgba(236, 242, 249, 0.96) 0%, rgba(225, 233, 244, 0.94) 100%);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+
+          &:hover {
+            background: linear-gradient(180deg, rgba(242, 247, 252, 0.98) 0%, rgba(232, 238, 247, 0.96) 100%);
+          }
+        }
+
+        .stylemorph-upload-card--a:hover {
+          border-color: #7e97cb;
+        }
+
+        .stylemorph-upload-card--b:hover {
+          border-color: #8d86c9;
+        }
+
+        .stylemorph-upload-placeholder {
+          color: #8d9aad;
+        }
+
+        .stylemorph-upload-icon {
+          color: #72819a;
+        }
+
+        .stylemorph-upload-copy {
+          margin: 0;
+          color: #8d9aad;
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .stylemorph-mini-button {
+          border: 1px solid #d6e0ee;
+          background: #eef3fb;
+          color: #55667d;
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+
+          &:hover {
+            background: #f7f9fd;
+            border-color: #c8d6ea;
+          }
+        }
+
+        .stylemorph-mini-button--accent {
+          background: #edf2ff;
+          color: #4f6cc8;
+          border-color: #ccd8f1;
+
+          &:hover {
+            background: #f3f6ff;
+            border-color: #b9c9ef;
+          }
+        }
+
+        .stylemorph-segmented {
+          background: #edf3fb;
+          border: 1px solid #d9e3f1;
+          border-radius: 14px;
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.96);
+        }
+
+        .stylemorph-segmented__button {
+          color: #73839a;
+          border-radius: 10px;
+          transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+
+          &:hover {
+            color: #41526a;
+            background: rgba(255, 255, 255, 0.62);
+          }
+
+          &.is-active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #6080f2 0%, #6170e2 100%);
+            box-shadow: 0 8px 18px rgba(96, 128, 242, 0.24);
+          }
+        }
+
+        .stylemorph-value-tag {
+          padding: 4px 10px;
+          border-radius: 999px;
+          color: #ffffff;
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.02em;
+        }
+
+        .stylemorph-value-tag--warm {
+          background: #d6a15c;
+        }
+
+        .stylemorph-value-tag--cool {
+          background: #5f7ee8;
+        }
+
+        .stylemorph-range-scale {
+          color: #8391a4;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+        }
+
+        .stylemorph-range-note {
+          margin: 0;
+          font-size: 12px;
+          line-height: 1.65;
+          font-style: normal;
+          font-weight: 500;
+        }
+
+        .stylemorph-range-note--warm {
+          color: #8b6933;
+        }
+
+        .stylemorph-range-note--cool {
+          color: #5068b8;
+        }
+
+        .stylemorph-textarea {
+          background: rgba(244, 247, 252, 0.98);
+          border: 1px solid #d7e1ef;
+          border-radius: 16px;
+          color: #4d6078;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+          &::placeholder {
+            color: #9aa8b9;
+          }
+
+          &:focus {
+            border-color: #8fa4d8;
+            box-shadow: 0 0 0 3px rgba(143, 164, 216, 0.15);
+            background: #ffffff;
+          }
         }
       }
 
@@ -69,7 +261,9 @@
       }
 
       .action-box {
-        overflow-y: auto;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
       }
 
       @media (max-width: @screen-md) {
@@ -93,7 +287,7 @@
 
     > p {
       font-size: 20px;
-      color: #fff;
+      color: #171b22;
       margin-top: 10px;
 
       @media (max-width: @screen-md) {
@@ -115,6 +309,9 @@
     margin-right: 50px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
 
     @media (max-width: @screen-xl) {
       width: calc(100% - 320px - 50px);
@@ -127,9 +324,50 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
       margin-right: 0;
       margin-bottom: 20px;
+      overflow: visible;
     }
     // .dialogBox 和 .bot 样式继承自 shared.less
+  }
+
+  > .left > .dialogBox {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(241, 246, 252, 0.98) 100%);
+    border: 1px solid rgba(208, 218, 232, 0.88);
+    box-shadow: 0 24px 44px rgba(104, 119, 148, 0.08);
+
+    @media (max-width: @screen-md) {
+      flex: none;
+      min-height: 300px;
+    }
+  }
+
+  > .left > .history-container {
+    margin-top: auto;
+
+    @media (max-width: @screen-md) {
+      margin-top: 15px;
+    }
+  }
+
+  .panel-footer {
+    background: linear-gradient(180deg, rgba(243, 246, 251, 0) 0%, rgba(243, 246, 251, 0.96) 36%);
+  }
+
+  .dialogBox .empty-state {
+    p:first-child {
+      color: #3d4d67;
+      letter-spacing: 0.04em;
+    }
+
+    p:nth-child(2) {
+      color: #7f8ea3;
+      letter-spacing: 0.02em;
+    }
   }
 }

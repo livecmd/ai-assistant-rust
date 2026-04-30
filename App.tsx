@@ -24,18 +24,8 @@ import * as OTPAuth from "otpauth";
 import "./App.less";
 import LoginModal from "./components/UserLogin/Login.tsx";
 
-import {
-  CodepenCircleOutlined,
-  TwitchOutlined,
-  PieChartOutlined,
-  FileJpgOutlined,
-  VideoCameraOutlined,
-  MessageOutlined,
-  ControlOutlined,
-  AreaChartOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Button, Layout, Menu, Modal, Input, message } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { Button, Layout, Modal, Input, message } from "antd";
 const { TextArea } = Input;
 const { Content, Sider, Header } = Layout;
 import UserInfoModal from "./components/UserLogin/UserInfoModal";
@@ -260,9 +250,7 @@ const App: React.FC = () => {
           <img src="/logo3x.png" alt="logo" />
         </div>
         <div className="info" onClick={setUser}>
-          <UserOutlined
-            style={{ color: "#fff", marginRight: "10px", fontSize: 18 }}
-          />
+          <UserOutlined className="info-icon" />
           <span>用户中心</span>
         </div>
       </div>
@@ -281,8 +269,8 @@ const App: React.FC = () => {
               >
                 <img src={item.img} alt="" />
                 <div className="text">
-                  <p style={{ fontSize: 19 }}>{item.title}</p>
-                  <p style={{ fontSize: 13 }}>{item.dec}</p>
+                  <p className="menu-title">{item.title}</p>
+                  <p className="menu-subtitle">{item.dec}</p>
                 </div>
               </div>
             );

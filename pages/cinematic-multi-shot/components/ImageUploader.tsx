@@ -45,18 +45,16 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div className="space-y-3 blobk-bg">
+    <div className="cinema-uploader space-y-3 blobk-bg">
       <div className="flex justify-between items-end">
         <div>
-          <label className="block text-sm font-bold text-slate-300">
-            {label}
-          </label>
+          <label className="cinema-section-label">{label}</label>
           {helperText && (
-            <p className="text-[10px] text-slate-500 mt-0.5">{helperText}</p>
+            <p className="cinema-section-helper mt-1">{helperText}</p>
           )}
         </div>
         {maxImages > 1 && (
-          <span className="text-[10px] font-bold text-slate-500 bg-slate-800 px-2 py-0.5 rounded">
+          <span className="cinema-counter">
             {selectedImages.length} / {maxImages}
           </span>
         )}
@@ -70,7 +68,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         {selectedImages.map((img, idx) => (
           <div
             key={idx}
-            className="relative aspect-square group rounded-xl overflow-hidden border border-slate-700 bg-slate-800 shadow-inner"
+            className="cinema-upload-tile relative aspect-square group overflow-hidden"
           >
             <img
               src={img}
@@ -79,7 +77,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             />
             <button
               onClick={() => removeImage(idx)}
-              className="absolute inset-0 bg-rose-600/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200"
+              className="cinema-upload-remove absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200"
             >
               <i className="fas fa-trash-alt text-white text-sm"></i>
             </button>
@@ -87,7 +85,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         ))}
 
         {selectedImages.length < maxImages && (
-          <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-xl cursor-pointer hover:border-indigo-500 hover:bg-indigo-500/5 transition-all group">
+          <label className="cinema-upload-input aspect-square flex flex-col items-center justify-center cursor-pointer transition-all group">
             <input
               type="file"
               multiple={maxImages > 1}
@@ -95,7 +93,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               onChange={handleFileChange}
               className="hidden"
             />
-            <div className="text-gray-500 group-hover:text-primary transition-colors flex flex-col items-center gap-1">
+            <div className="cinema-upload-placeholder flex flex-col items-center gap-1 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -112,9 +110,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               </svg>
               <span className="text-xs font-medium">点击上传</span>
             </div>
-            {/* <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
-              <i className="fas fa-plus text-slate-500 group-hover:text-indigo-400"></i>
-            </div> */}
           </label>
         )}
       </div>

@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import {
   AspectRatio,
   GenerateVideoParams,
@@ -83,9 +83,9 @@ const MultiImageUpload: React.FC<{
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full veo-upload-block">
       {label && (
-        <div className="mb-2 text-xs font-bold text-slate-500 tracking-widest">
+        <div className="veo-field-label mb-2">
           {label}
         </div>
       )}
@@ -97,17 +97,17 @@ const MultiImageUpload: React.FC<{
           accept="image/*"
           onChange={handleFileUpload}
           disabled={images.length >= MAX_IMAGES}
-          className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="veo-file-input"
         />
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="veo-helper-text mt-2">
           最多上传 {MAX_IMAGES} 张图片 (Max {MAX_IMAGES} images)
         </p>
         {images.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2 mt-4">
+          <div className="grid grid-cols-2 gap-3 mt-4">
             {images.map((img) => (
               <div
                 key={img.id}
-                className="relative aspect-video rounded-lg overflow-hidden border border-slate-500 group"
+                className="veo-upload-thumb relative aspect-video group"
               >
                 <img
                   src={img.base64}
@@ -117,7 +117,7 @@ const MultiImageUpload: React.FC<{
                 <button
                   type="button"
                   onClick={() => removeImage(img.id)}
-                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="veo-thumb-remove absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -125,9 +125,9 @@ const MultiImageUpload: React.FC<{
             ))}
           </div>
         ) : (
-          <div className="relative w-full h-24 mt-4 rounded-xl border-2 border-dashed border-slate-700 bg-slate-800/30 flex flex-col items-center justify-center text-gray-400">
+          <div className="veo-upload-empty relative w-full mt-4 flex flex-col items-center justify-center">
             <svg
-              className="w-8 h-8 mb-2 text-slate-500"
+              className="w-8 h-8 mb-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -301,12 +301,12 @@ const PromptForm: React.FC<PromptFormProps> = ({
   const isSubmitDisabled = !prompt || isGenerating;
 
   return (
-    <div className="flex-1 flex flex-col gap-6 veo-studio-panel">
-      <div className="flex flex-col gap-6 veo-studio-control">
+    <div className="panel-stack veo-studio-panel">
+      <div className="veo-studio-control panel-scroll-region">
         {/* 2. Upload (Optional) - 支持最多两张图片 */}
         <ControlSection>
           <MultiImageUpload
-            label="上传参考图片(Upload Reference Images)"
+            label="上传参考图片 (Upload Reference Images)"
             images={uploadedImages}
             onImagesChange={setUploadedImages}
           />
@@ -318,7 +318,7 @@ const PromptForm: React.FC<PromptFormProps> = ({
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="描述您要创建的视频..."
-            className="w-full min-h-[100px] bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-indigo-500 outline-none leading-relaxed text-white"
+            className="veo-prompt-textarea"
           />
         </ControlSection>
 
@@ -341,19 +341,16 @@ const PromptForm: React.FC<PromptFormProps> = ({
 
           <div className="h-4"></div>
 
-          <label className="text-xs font-bold text-gray-300 tracking-wider mb-2 block">
+          <label className="veo-field-label veo-field-label--compact mb-2 block">
             分辨率(Resolution)
           </label>
-          <div className="flex gap-2">
+          <div className="veo-segment-group">
             {[Resolution.HD, Resolution.FHD].map((res) => (
               <button
                 key={res}
                 type="button"
                 onClick={() => setResolution(res)}
-                className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-all ${resolution === res
-                  ? "bg-indigo-600 text-white border-indigo-600"
-                  : "bg-white text-slate-600 border-slate-500 hover:border-indigo-300"
-                  }`}
+                className={`veo-segment-button ${resolution === res ? "is-active" : ""}`}
               >
                 {res === Resolution.HD ? "720p" : "1080p"}
               </button>
@@ -362,7 +359,7 @@ const PromptForm: React.FC<PromptFormProps> = ({
         </ControlSection>
       </div>
       {/* 4. Generate Button */}
-      <div className="action-btn">
+      <div className="panel-footer">
         <UnifiedGenerateButton
           onClick={handleSubmit}
           isGenerating={isGenerating}

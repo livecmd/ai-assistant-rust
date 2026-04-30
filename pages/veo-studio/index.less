@@ -7,11 +7,23 @@
 @screen-2xl: 1536px;
 
 .veoStudio {
+  --veo-font-ui: "MiSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --veo-panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(247, 250, 255, 0.92) 100%);
+  --veo-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 248, 255, 0.98) 100%);
+  --veo-card-bg-soft: linear-gradient(180deg, rgba(245, 248, 255, 0.9) 0%, rgba(232, 239, 250, 0.95) 100%);
+  --veo-border: rgba(197, 208, 226, 0.96);
+  --veo-border-strong: rgba(116, 143, 196, 0.48);
+  --veo-text: #22314a;
+  --veo-muted: #72829a;
+  --veo-accent: #5d7fff;
+  --veo-accent-soft: rgba(93, 127, 255, 0.12);
+  --veo-shadow: 0 18px 42px rgba(93, 113, 150, 0.12);
   display: flex;
   height: 100%;
   padding: 30px;
-  background: #060606ff;
+  background: transparent;
   overflow: hidden;
+  font-family: var(--veo-font-ui);
 
   @media (max-width: @screen-lg) {
     padding: 20px;
@@ -29,32 +41,19 @@
     width: 360px;
     display: flex;
     flex-direction: column;
-    position: relative;
-    height: calc(100vh - 250px);
+    height: 100%;
+    min-height: 0;
+    align-self: stretch;
 
     .action-box {
       flex: 1;
-      height: calc(100vh - 250px);
-      overflow-y: auto;
-      padding-bottom: 70px;
+      overflow: hidden;
+      min-height: 0;
+      padding-bottom: 0;
     }
 
     .veo-studio-panel {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      .veo-studio-control {
-      }
-
-      .action-btn {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background-color:#060606FF;
-        width: 100%;
-        padding-top: 30px;
-      }
     }
 
     @media (max-width: @screen-xl) {
@@ -67,11 +66,13 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
+      min-height: auto;
     }
 
     > p {
       font-size: 20px;
-      color: #fff;
+      color: #171b22;
       margin-top: 10px;
 
       @media (max-width: @screen-md) {
@@ -122,6 +123,9 @@
     margin-right: 50px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
 
     @media (max-width: @screen-xl) {
       width: calc(100% - 320px - 50px);
@@ -134,9 +138,257 @@
 
     @media (max-width: @screen-md) {
       width: 100%;
+      height: auto;
       margin-right: 0;
       margin-bottom: 20px;
+      overflow: visible;
     }
     // .dialogBox 和 .bot 样式继承自 shared.less
+  }
+
+  > .left > .dialogBox {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+
+    @media (max-width: @screen-md) {
+      flex: none;
+      min-height: 300px;
+    }
+  }
+
+  > .left > .history-container {
+    margin-top: auto;
+
+    @media (max-width: @screen-md) {
+      margin-top: 15px;
+    }
+  }
+
+  .action-box {
+    border-radius: 28px;
+
+    .unified-control-panel__header {
+      margin-bottom: 16px;
+      padding: 2px 4px 0;
+    }
+
+    .unified-control-panel__icon {
+      color: var(--veo-accent);
+    }
+
+    .unified-control-panel__title {
+      color: var(--veo-text);
+      font-family: var(--veo-font-ui);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .panel-scroll-content {
+      gap: 14px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+    }
+
+    .veo-studio-control {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel-footer {
+      padding-top: 14px;
+      background: linear-gradient(180deg, rgba(245, 248, 255, 0) 0%, rgba(245, 248, 255, 0.86) 28%, rgba(245, 248, 255, 1) 100%);
+    }
+
+    .control-section {
+      border-radius: 22px;
+      border-color: var(--veo-border);
+      background: var(--veo-card-bg);
+      box-shadow: var(--veo-shadow);
+      backdrop-filter: blur(12px);
+
+      &:hover {
+        border-color: var(--veo-border-strong);
+        box-shadow: 0 22px 40px rgba(93, 113, 150, 0.14);
+      }
+    }
+
+    .control-section__header {
+      padding: 16px 18px;
+      border-bottom-color: rgba(223, 230, 242, 0.96);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(246, 249, 255, 0.92) 100%);
+    }
+
+    .control-section__body {
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .control-section__title {
+      color: #576980;
+      font-family: var(--veo-font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .control-section__title-bar {
+      width: 5px;
+      height: 20px;
+      background: linear-gradient(180deg, #5d7fff 0%, #90b5ff 100%);
+      box-shadow: 0 0 0 4px rgba(93, 127, 255, 0.08);
+    }
+
+    .veo-field-label {
+      color: #667894;
+      font-family: var(--veo-font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.5;
+    }
+
+    .veo-field-label--compact {
+      margin-bottom: 10px;
+    }
+
+    .veo-helper-text {
+      color: var(--veo-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .veo-file-input {
+      display: block;
+      width: 100%;
+      color: var(--veo-muted);
+      font-family: var(--veo-font-ui);
+      font-size: 13px;
+      line-height: 1.4;
+      cursor: pointer;
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      &::file-selector-button {
+        margin-right: 14px;
+        padding: 11px 18px;
+        color: #4a5fd8;
+        font-family: var(--veo-font-ui);
+        font-size: 14px;
+        font-weight: 700;
+        border: 1px solid rgba(124, 145, 219, 0.14);
+        border-radius: 999px;
+        background: linear-gradient(135deg, #eef2ff 0%, #dfe9ff 100%);
+        box-shadow: 0 10px 20px rgba(114, 132, 184, 0.12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        cursor: pointer;
+      }
+
+      &:hover::file-selector-button {
+        transform: translateY(-1px);
+        background: linear-gradient(135deg, #e5ecff 0%, #d7e3ff 100%);
+        box-shadow: 0 14px 24px rgba(114, 132, 184, 0.16);
+      }
+    }
+
+    .veo-upload-empty {
+      min-height: 116px;
+      border: 1.5px dashed rgba(120, 139, 173, 0.58);
+      border-radius: 18px;
+      background: var(--veo-card-bg-soft);
+      color: #7a8ca5;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+
+      svg {
+        color: #7487a4;
+      }
+
+      p {
+        color: #8a9ab0;
+      }
+    }
+
+    .veo-upload-thumb {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(179, 193, 217, 0.9);
+      background: #edf3ff;
+      box-shadow: 0 10px 24px rgba(102, 121, 159, 0.12);
+    }
+
+    .veo-thumb-remove {
+      border: 0;
+      border-radius: 999px;
+      background: rgba(226, 77, 101, 0.92);
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(165, 57, 75, 0.24);
+      cursor: pointer;
+    }
+
+    .veo-prompt-textarea {
+      width: 100%;
+      min-height: 124px;
+      padding: 15px 16px;
+      color: var(--veo-text);
+      font-family: var(--veo-font-ui);
+      font-size: 14px;
+      line-height: 1.7;
+      resize: none;
+      outline: none;
+      border: 1px solid rgba(198, 209, 228, 0.96);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfcff 0%, #f3f7ff 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+      &::placeholder {
+        color: #94a3b8;
+      }
+
+      &:focus {
+        border-color: rgba(93, 127, 255, 0.55);
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+        box-shadow: 0 0 0 4px rgba(93, 127, 255, 0.12);
+      }
+    }
+
+    .veo-segment-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .veo-segment-button {
+      flex: 1;
+      padding: 10px 14px;
+      color: #586c89;
+      font-family: var(--veo-font-ui);
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(196, 208, 227, 0.96);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(242, 246, 255, 0.98) 100%);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-1px);
+        color: #4e67d7;
+        border-color: rgba(93, 127, 255, 0.4);
+        box-shadow: 0 10px 22px rgba(97, 118, 158, 0.12);
+      }
+
+      &.is-active {
+        color: #ffffff;
+        border-color: transparent;
+        background: linear-gradient(135deg, #5d7fff 0%, #7aa8ff 100%);
+        box-shadow: 0 14px 30px rgba(93, 127, 255, 0.24);
+      }
+    }
   }
 }

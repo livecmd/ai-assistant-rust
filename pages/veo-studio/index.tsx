@@ -236,7 +236,7 @@ const App: React.FC = () => {
           items={history.map((item) => ({
             id: item.id,
             thumbnail: item.videoData, // Assuming videoData is a playable blob URL or base64
-            type: "video",
+            type: "video" as const,
             timestamp: item.timestamp,
             onClick: () => handleHistorySelect(item),
           })).sort((a, b) => b.timestamp - a.timestamp)}
@@ -254,10 +254,10 @@ const App: React.FC = () => {
         />
       </div>
 
-      <div className="right">
+      <div className="right right-panel-shell">
         <UnifiedControlPanel
-          className="action-box"
-          titleKey="视频生成" // Or use hardcoded string if translation key missing
+          className="flex-1 action-box"
+          titleKey="veo.title"
         >
           <PromptForm
             onGenerate={handleGenerate}

@@ -10,7 +10,7 @@
     display: flex;
     height: 100%;
     padding: 30px;
-    background: #060606FF;
+    background: transparent;
     overflow: hidden;
 
     @media (max-width: @screen-lg) {
@@ -29,6 +29,9 @@
         width: 360px;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        align-self: stretch;
 
         @media (max-width: @screen-xl) {
             width: 320px;
@@ -40,23 +43,24 @@
 
         @media (max-width: @screen-md) {
             width: 100%;
+            height: auto;
+            min-height: auto;
         }
         
         .control-panel-wrapper {
             flex: 1;
-            overflow-y: auto;
-            margin-top: 20px;
+            min-height: 0;
+            overflow: hidden;
+            margin-top: 12px;
             padding-right: 5px;
             display: flex;
             flex-direction: column;
 
             .camera-control {
-                display: flex;
-                flex-direction: column;
-                height: calc(100vh - 300px);
                 .action-box {
                   flex: 1;
-                  overflow-y: auto;
+                  min-height: 0;
+                  overflow: hidden;
                 }
             }
 
@@ -96,7 +100,7 @@
 
         >p {
             font-size: 20px;
-            color: #fff;
+            color: #171b22;
             margin-top: 10px;
 
             @media (max-width: @screen-md) {
@@ -119,6 +123,9 @@
         margin-right: 50px;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
 
         @media (max-width: @screen-xl) {
             width: calc(100% - 320px - 50px);
@@ -131,10 +138,32 @@
 
         @media (max-width: @screen-md) {
             width: 100%;
+            height: auto;
             margin-right: 0;
             margin-bottom: 20px;
+            overflow: visible;
         }
         // .dialogBox 和 .bot 样式继承自 shared.less
+    }
+
+    > .left > .dialogBox {
+        flex: 1;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+
+        @media (max-width: @screen-md) {
+            flex: none;
+            min-height: 300px;
+        }
+    }
+
+    > .left > .history-container {
+        margin-top: auto;
+
+        @media (max-width: @screen-md) {
+            margin-top: 15px;
+        }
     }
 
     /* Interactive Cube Styles Preserved */

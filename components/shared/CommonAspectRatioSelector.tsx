@@ -15,17 +15,17 @@ export const CommonAspectRatioSelector: React.FC<CommonAspectRatioSelectorProps>
 }) => {
     return (
         <div className="space-y-3">
-            <label className="text-xs font-bold text-gray-300 tracking-wider">
+            <label className="text-xs font-bold text-slate-600 tracking-wider">
                 {label}
             </label>
-            <div className="grid grid-cols-6 gap-2">
+            <div className="grid grid-cols-6 gap-1.5">
                 {options.map((ratio) => (
                     <button
                         key={ratio}
                         onClick={() => onSelect(ratio)}
-                        className={`py-2 text-[10px] font-medium rounded-lg border transition-all ${selectedRatio === ratio
-                            ? "bg-indigo-600 text-white border-indigo-600"
-                            : "bg-white text-slate-600 border-slate-500 hover:border-indigo-300"
+                        className={`py-1.5 text-[10px] font-medium rounded-lg border transition-all ${selectedRatio === ratio
+                            ? "bg-[#1677ff] text-white border-[#1677ff] shadow-lg shadow-[#1677ff]/20"
+                            : "bg-[#f5f7fb] text-slate-600 border-slate-200 hover:border-[#1677ff] hover:text-[#1677ff]"
                             }`}
                     >
                         <span className="capitalize">{ratio}</span>
