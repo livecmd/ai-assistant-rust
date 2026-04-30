@@ -209,9 +209,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
 
   return (
     <div className="panel-stack stylemorph-control">
-      <h1 className="stylemorph-page-title">
-        造型迁移
-      </h1>
       <UnifiedControlPanel className="flex-1 action-box">
         {false && (
           <div className="space-y-4">
@@ -695,8 +692,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           onClick={onGenerate}
           disabled={!imageA.base64 || !imageB.base64 || isGenerating}
           isGenerating={isGenerating}
-          label="开始造型迁移"
-          processingLabel="正在进化造型..."
         />
       </div>
     </div>

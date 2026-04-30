@@ -111,10 +111,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
         {/* Mode Switch */}
         <ControlSection>
-          <div className="flex bg-[#edf2f7] p-1 rounded-xl border border-slate-200 shadow-inner">
+          <div className="medecal-mode-switch flex bg-[#edf2f7] p-1 rounded-xl border border-slate-200 shadow-inner">
             <button
               onClick={() => setMode("material")}
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "material"
+              className={`medecal-mode-button flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "material"
                 ? "bg-[#1677ff] text-white shadow-lg"
                 : "text-slate-500 hover:text-slate-800"
                 }`}
@@ -123,7 +123,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             </button>
             <button
               onClick={() => setMode("shape")}
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "shape"
+              className={`medecal-mode-button flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === "shape"
                 ? "bg-[#1677ff] text-white shadow-lg"
                 : "text-slate-500 hover:text-slate-800"
                 }`}
@@ -161,9 +161,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
         {/* Inputs */}
         <ControlSection>
-          <div className="flex flex-col gap-5">
-            <div>
-              <label className="text-xs font-bold text-slate-500 tracking-widest block mb-2">
+          <div className="flex flex-col gap-5 medecal-fields">
+            <div className="medecal-field">
+              <label className="medecal-field-label text-xs font-bold text-slate-500 tracking-widest block mb-2">
                 {t("material.subjectName")}
               </label>
               <input
@@ -171,13 +171,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 placeholder={t("material.subjectPlaceholder")}
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-                className="w-full bg-[#f5f7fb] border border-slate-200 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1677ff] outline-none text-slate-700"
+                className="medecal-field-input w-full bg-[#f5f7fb] border border-slate-200 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1677ff] outline-none text-slate-700"
               />
             </div>
 
-            <div className="flex-1 flex flex-col gap-2 min-h-0">
+            <div className="medecal-field flex-1 flex flex-col gap-2 min-h-0">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-bold text-slate-500 tracking-widest">
+                <label className="medecal-field-label text-xs font-bold text-slate-500 tracking-widest">
                   {t("material.designSummary")}
                 </label>
                 {isAnalyzing && (
@@ -187,15 +187,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 )}
               </div>
               <textarea
-                className="w-full flex-1 min-h-[96px] bg-[#f5f7fb] border border-slate-200 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-[#1677ff] outline-none leading-relaxed text-slate-700"
+                className="medecal-field-input medecal-field-textarea w-full flex-1 min-h-[96px] bg-[#f5f7fb] border border-slate-200 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-[#1677ff] outline-none leading-relaxed text-slate-700"
                 placeholder={t("material.designPlaceholder")}
                 value={stylePrompt}
                 onChange={(e) => setStylePrompt(e.target.value)}
               />
             </div>
 
-            <div>
-              <div className="flex justify-between text-xs font-bold text-slate-500 mb-2 tracking-widest">
+            <div className="medecal-field">
+              <div className="medecal-range-labels flex justify-between text-xs font-bold text-slate-500 mb-2 tracking-widest">
                 <span>{t("material.originalStructure")}</span>
                 <span>
                   {t("material.aiInfluenceLabel")} ({strength}%)
@@ -267,12 +267,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         onClick={onGenerate}
         disabled={isGenerating}
         isGenerating={isGenerating}
-        className="shrink-0"
-        label={
-          isGenerating
-            ? t("material.processing")
-            : t("material.generateNewDesign")
-        }
       />
     </div>
   );

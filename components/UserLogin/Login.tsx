@@ -53,7 +53,7 @@ function Login(props: LoginProps) {
         if (res.success) {
           const data = res.data;
           if (data && data.id) {
-            if (data.group !== "premium") {
+            if (data.group !== "premium" && data.group !== "vip") {
               message.error("当前用户无使用权限，请联系管理员开通！");
               return;
             }

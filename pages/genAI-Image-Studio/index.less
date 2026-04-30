@@ -121,7 +121,7 @@
             }
         }
         textarea{
-            font-size: 18px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             padding-left: 10px;
@@ -131,6 +131,16 @@
             background: rgba(255,255,255,0.05);
             border-radius: 21px 21px 21px 21px;
             border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .prompt-textarea {
+            color: var(--shell-text);
+            background: rgba(255, 255, 255, 0.96);
+            border-color: rgba(203, 213, 225, 0.9);
+
+            &::placeholder {
+                color: #94a3b8;
+            }
         }
         .sizes{
             display: flex;

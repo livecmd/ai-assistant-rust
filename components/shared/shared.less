@@ -169,6 +169,40 @@
 .right-panel-header {
     flex-shrink: 0;
     margin-bottom: 12px;
+
+    h1 {
+        margin: 0;
+        color: var(--shell-accent-strong);
+        font-family: var(--shell-font-display);
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+
+        @media (max-width: @screen-md) {
+            font-size: 28px;
+        }
+
+        @media (max-width: @screen-sm) {
+            font-size: 24px;
+        }
+    }
+
+    p {
+        margin: 8px 0 0;
+        color: var(--shell-muted);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+
+        @media (max-width: @screen-md) {
+            font-size: 13px;
+        }
+    }
+
+    p + p {
+        margin-top: 4px;
+    }
 }
 
 .right-panel-body,
@@ -263,7 +297,7 @@
     margin-top: auto;
     flex-shrink: 0;
     padding-top: 12px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 28%);
+    background: transparent;
 }
 
 .control-section {
@@ -595,18 +629,19 @@
     align-items: center;
     padding: 20px 30px;
     border-radius: 100px;
-    background: #f4f5f7;
+    background: var(--shell-panel-strong, #f7f9fc);
     margin-top: 0;
     height: 140px;  // 统一历史记录栏高度
     flex-shrink: 0;
-    border: 1px solid rgba(211, 218, 228, 0.9);
+    border: 1px solid rgba(176, 188, 206, 0.52);
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
     animation: fadeInUp 0.5s ease-out 0.2s both;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
     &:hover {
-        border-color: rgba(170, 186, 212, 0.92);
+        border-color: rgba(154, 171, 198, 0.88);
     }
 
     // 平板适配
@@ -649,14 +684,16 @@
         width: 70px;
         height: 70px;
         border-radius: 50%;
-        border: 1px solid rgba(194, 202, 214, 0.9);
+        border: 1px solid rgba(188, 198, 212, 0.96);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         flex-shrink: 0;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: #ffffff;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(243, 247, 252, 0.98) 100%);
+        color: #5b687d;
+        box-shadow: 0 8px 20px rgba(104, 121, 150, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.96);
 
         @media (max-width: @screen-lg) {
             width: 60px;
@@ -684,9 +721,11 @@
         }
 
         &:hover {
-            background: rgba(22, 119, 255, 0.08);
+            background: linear-gradient(180deg, rgba(235, 243, 255, 0.98) 0%, rgba(224, 237, 255, 0.98) 100%);
             border-color: rgba(22, 119, 255, 0.32);
             transform: scale(1.05);
+            color: #3d64d8;
+            box-shadow: 0 12px 24px rgba(72, 103, 180, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.98);
         }
 
         &:active {
@@ -708,6 +747,33 @@
 
         &:hover img {
             transform: scale(1.1);
+        }
+    }
+
+    .history-nav-icon {
+        color: currentColor;
+        transition: color 0.3s ease;
+        stroke-width: 2.35;
+    }
+
+    .history-launch-button {
+        color: #68778d;
+    }
+
+    .history-launch-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .history-nav-button {
+        &:disabled {
+            opacity: 1;
+            cursor: not-allowed;
+            transform: none;
+            background: linear-gradient(180deg, rgba(252, 253, 255, 0.96) 0%, rgba(241, 245, 250, 0.96) 100%);
+            border-color: rgba(200, 209, 221, 0.98);
+            color: #99a7ba;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.94);
         }
     }
 
@@ -945,6 +1011,103 @@
         .item:last-child {
             margin-right: 0;
         }
+    }
+}
+
+:root[data-theme="dark"] {
+    .bot {
+        background: linear-gradient(180deg, rgba(18, 29, 46, 0.96) 0%, rgba(14, 23, 37, 0.98) 100%);
+        border-color: rgba(112, 134, 168, 0.3);
+
+        &:hover {
+            border-color: rgba(134, 159, 205, 0.42);
+        }
+
+        .play,
+        .back,
+        .next {
+            background: linear-gradient(180deg, rgba(20, 33, 53, 0.98) 0%, rgba(16, 26, 42, 0.98) 100%);
+            border-color: rgba(112, 134, 168, 0.3);
+            color: #dbe7ff;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+            &:hover {
+                background: linear-gradient(180deg, rgba(31, 48, 72, 0.98) 0%, rgba(22, 35, 55, 0.98) 100%);
+                border-color: rgba(143, 170, 224, 0.5);
+                color: #f8fbff;
+            }
+        }
+    }
+}
+
+// ============================================
+// Theme bridge
+// ============================================
+.unified-control-panel__title {
+    color: var(--shell-text);
+}
+
+.unified-control-panel__subtitle {
+    color: var(--shell-muted);
+}
+
+.right-panel-footer,
+.panel-footer {
+    background: transparent;
+}
+
+.control-section {
+    border-color: var(--shell-border);
+    background: var(--shell-elevated-bg);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+
+    &:hover {
+        border-color: rgba(22, 119, 255, 0.22);
+    }
+}
+
+.control-section__header {
+    border-bottom-color: var(--shell-border);
+
+    &.is-clickable:hover {
+        background: var(--shell-accent-soft);
+    }
+}
+
+.control-section__title,
+.panel-compact {
+    color: var(--shell-muted);
+}
+
+.control-section__arrow {
+    color: var(--shell-muted);
+}
+
+.dialogBox {
+    .empty-state {
+        p:first-child {
+            color: var(--shell-text);
+        }
+
+        p:nth-child(2) {
+            color: var(--shell-muted);
+        }
+    }
+}
+
+.bot {
+    background: var(--shell-elevated-soft);
+    border-color: var(--shell-border);
+
+    &:hover {
+        border-color: rgba(170, 186, 212, 0.92);
+    }
+
+    .play,
+    .back,
+    .next {
+        border-color: var(--shell-border);
+        background: var(--shell-elevated-bg);
     }
 }
 

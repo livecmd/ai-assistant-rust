@@ -12,6 +12,12 @@
   --cinema-panel-bg: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
   --cinema-panel-bg-soft: #f4f7ff;
   --cinema-panel-bg-hover: #f7faff;
+  --cinema-card-bg: rgba(255, 255, 255, 0.9);
+  --cinema-card-bg-hover: #f7faff;
+  --cinema-card-bg-active: linear-gradient(135deg, rgba(105, 120, 255, 0.12) 0%, rgba(125, 203, 255, 0.08) 100%);
+  --cinema-card-icon-bg: #e8eef9;
+  --cinema-input-bg: linear-gradient(180deg, #fcfdff 0%, #f5f8ff 100%);
+  --cinema-input-bg-hover: linear-gradient(180deg, #ffffff 0%, #eef3ff 100%);
   --cinema-border: rgba(196, 207, 225, 0.88);
   --cinema-border-strong: rgba(115, 130, 255, 0.42);
   --cinema-shadow: 0 14px 30px rgba(78, 95, 128, 0.08);
@@ -29,6 +35,28 @@
   overflow: hidden;
   color: var(--cinema-text);
   font-family: var(--cinema-font-body);
+
+  :root[data-theme="dark"] & {
+    --cinema-panel-bg: linear-gradient(180deg, rgba(20, 33, 53, 0.96) 0%, rgba(14, 24, 40, 0.98) 100%);
+    --cinema-panel-bg-soft: #15233a;
+    --cinema-panel-bg-hover: #1a2a43;
+    --cinema-card-bg: linear-gradient(180deg, rgba(18, 29, 46, 0.96) 0%, rgba(14, 23, 37, 0.98) 100%);
+    --cinema-card-bg-hover: linear-gradient(180deg, rgba(24, 38, 58, 0.98) 0%, rgba(18, 29, 46, 0.98) 100%);
+    --cinema-card-bg-active: linear-gradient(135deg, rgba(72, 97, 196, 0.34) 0%, rgba(49, 127, 191, 0.26) 100%);
+    --cinema-card-icon-bg: rgba(214, 224, 246, 0.12);
+    --cinema-input-bg: linear-gradient(180deg, rgba(19, 31, 48, 0.98) 0%, rgba(16, 26, 42, 0.98) 100%);
+    --cinema-input-bg-hover: linear-gradient(180deg, rgba(24, 38, 58, 0.98) 0%, rgba(19, 31, 48, 0.98) 100%);
+    --cinema-border: rgba(112, 134, 168, 0.32);
+    --cinema-border-strong: rgba(122, 155, 255, 0.58);
+    --cinema-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+    --cinema-shadow-active: 0 22px 44px rgba(44, 73, 164, 0.28);
+    --cinema-text: #edf3ff;
+    --cinema-text-soft: #d4def1;
+    --cinema-text-muted: #96a9c9;
+    --cinema-accent: #8fb1ff;
+    --cinema-accent-strong: #7d9fff;
+    --cinema-accent-soft: rgba(122, 155, 255, 0.18);
+  }
 
   @media (max-width: @screen-lg) {
     padding: 20px;
@@ -226,21 +254,22 @@
     padding: 18px 20px;
     border-radius: 20px;
     border: 1px solid var(--cinema-border);
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--cinema-card-bg);
+    color: var(--cinema-text);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
     text-align: left;
-    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
 
     &:hover {
       transform: translateY(-1px);
       border-color: rgba(115, 130, 255, 0.28);
-      background: var(--cinema-panel-bg-hover);
+      background: var(--cinema-card-bg-hover);
       box-shadow: 0 14px 26px rgba(78, 95, 128, 0.1);
     }
 
     &.is-active {
       border-color: var(--cinema-border-strong);
-      background: linear-gradient(135deg, rgba(105, 120, 255, 0.12) 0%, rgba(125, 203, 255, 0.08) 100%);
+      background: var(--cinema-card-bg-active);
       box-shadow: var(--cinema-shadow-active);
     }
   }
@@ -253,7 +282,7 @@
     height: 58px;
     margin-right: 16px;
     border-radius: 18px;
-    background: #e8eef9;
+    background: var(--cinema-card-icon-bg);
     color: var(--cinema-text-soft);
     transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
 
@@ -289,6 +318,14 @@
     font-weight: 500;
     line-height: 1.45;
     letter-spacing: 0.01em;
+  }
+
+  .cinema-style-option.is-active .cinema-style-option__title {
+    color: var(--cinema-text);
+  }
+
+  .cinema-style-option.is-active .cinema-style-option__desc {
+    color: var(--cinema-text-soft);
   }
 
   .cinema-textarea {
@@ -329,11 +366,11 @@
   .cinema-upload-input {
     border: 1.5px dashed rgba(164, 181, 211, 0.95);
     border-radius: 18px;
-    background: linear-gradient(180deg, #fcfdff 0%, #f5f8ff 100%);
+    background: var(--cinema-input-bg);
 
     &:hover {
       border-color: rgba(105, 120, 255, 0.56);
-      background: linear-gradient(180deg, #ffffff 0%, #eef3ff 100%);
+      background: var(--cinema-input-bg-hover);
       box-shadow: 0 12px 26px rgba(105, 120, 255, 0.1);
     }
   }

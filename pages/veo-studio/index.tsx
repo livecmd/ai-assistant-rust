@@ -12,6 +12,7 @@ import { generateVideo } from "./services/geminiService";
 import { AppState, GenerateVideoParams, HistoryItem } from "./types";
 import { loadHistory, saveHistory, STORES } from "../../utils/indexedDB";
 import "./index.less";
+import { useTranslation } from "../../hooks/useTranslation";
 
 // Shared Components
 import { UnifiedPreview } from "../../components/shared/UnifiedPreview";
@@ -22,6 +23,7 @@ import {
 import { UnifiedControlPanel } from "../../components/shared/UnifiedControlPanel";
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   const [appState, setAppState] = useState<AppState>(AppState.IDLE);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -255,9 +257,12 @@ const App: React.FC = () => {
       </div>
 
       <div className="right right-panel-shell">
+        <div className="right-panel-header">
+          <h1>{t("veo.title")}</h1>
+          <p>{t("veo.subtitle")}</p>
+        </div>
         <UnifiedControlPanel
           className="flex-1 action-box"
-          titleKey="veo.title"
         >
           <PromptForm
             onGenerate={handleGenerate}

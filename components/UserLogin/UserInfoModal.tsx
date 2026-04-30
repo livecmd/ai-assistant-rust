@@ -265,7 +265,7 @@ function Login(props: LoginProps) {
             </div>
             <p className="card-desc">输入您的礼品卡或兑换码以增加账户余额</p>
 
-            <div className="card-form">
+            <div className="card-form redeem-form">
               <Input
                 value={key}
                 onChange={(e) => setKey(e.target.value)}

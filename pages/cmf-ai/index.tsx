@@ -227,9 +227,10 @@ const App: React.FC = () => {
       </div>
 
       <div className="right right-panel-shell">
-        <h1 className="right-panel-header text-2xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-          {t("cmf.title")}
-        </h1>
+        <div className="right-panel-header">
+          <h1>{t("cmf.title")}</h1>
+          <p>Color, Material & Finish Design</p>
+        </div>
         <div className="control-panel-wrapper">
           <ControlPanel
             targetImage={targetImage}

@@ -146,6 +146,10 @@ const StyleMorph: React.FC = () => {
       </div>
 
       <div className="right right-panel-shell">
+        <div className="right-panel-header">
+          <h1>造型迁移</h1>
+          <p>转变您的设计基因</p>
+        </div>
         <div className="control-panel-wrapper right-panel-body panel-compact">
           <ControlPanel
             imageA={imageA}

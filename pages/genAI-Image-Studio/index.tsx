@@ -268,14 +268,9 @@ const App: React.FC = () => {
         />
       </div>
       <div className="right right-panel-shell">
-        {/* Title */}
         <div className="right-panel-header text-center md:text-left">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#1677ff] to-[#4d9dff] bg-clip-text text-transparent">
-            {"万能图片生成"}
-          </h1>
-          <p className="text-slate-400 text-sm">
-            {"Universal picture generation"}
-          </p>
+          <h1>{"万能图片生成"}</h1>
+          <p>{"Universal picture generation"}</p>
         </div>
         <UnifiedControlPanel className="flex-1 action-box">
           <ControlSection title="上传图片(Upload Images)">
@@ -335,7 +330,7 @@ const App: React.FC = () => {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="E.g. Matte charceal with nion blue trim..."
-              className="w-full h-32 p-4 text-white bg-gray-800/30 rounded-2xl border border-gray-700/50 focus:ring-2 focus:ring-[#1677ff] focus:border-transparent outline-none transition-all resize-none text-sm"
+              className="prompt-textarea w-full h-32 p-4 rounded-2xl border focus:ring-2 focus:ring-[#1677ff] focus:border-transparent outline-none transition-all resize-none text-sm"
             />
           </ControlSection>
 
@@ -440,8 +435,6 @@ const App: React.FC = () => {
           <UnifiedGenerateButton
             onClick={handleGenerate}
             isGenerating={isGenerating}
-            label="Generate"
-            className="action-btn"
           />
         </div>
       </div>

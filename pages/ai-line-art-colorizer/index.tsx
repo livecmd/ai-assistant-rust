@@ -241,10 +241,10 @@ const App: React.FC = () => {
       </div>
 
       <div className="right right-panel-shell">
-        {/* Title kept as per original layout, but maybe should be moved? Original had it above ControlPanel */}
-        <h1 className="right-panel-header lineart-title">
-          {t("lineart.title")}
-        </h1>
+        <div className="right-panel-header">
+          <h1>{t("lineart.title")}</h1>
+          <p>{t("lineart.subtitle")}</p>
+        </div>
 
         <div className="control-panel-wrapper right-panel-body panel-compact">
           <div className="panel-scroll-region">
@@ -291,7 +291,6 @@ const App: React.FC = () => {
             onClick={handleGenerate}
             disabled={!lineArt || isLoading}
             isGenerating={isLoading}
-            label="COLORIZE IMAGE"
           />
         </div>
       </div>

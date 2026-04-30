@@ -276,7 +276,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         onClick={() => onExecute(selectedModel, config, imageCount)}
         disabled={isGenerating}
         isGenerating={isGenerating}
-        label={t("genai.startGenerate")}
       />
     </div>
   );

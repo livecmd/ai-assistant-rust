@@ -228,10 +228,11 @@ const CinematicMultiShot: React.FC = () => {
       </div>
 
       <div className="right right-panel-shell">
+        <div className="right-panel-header">
+          <h1>一键场景生成</h1>
+          <p>上传主体图片并生成场景</p>
+        </div>
         <UnifiedControlPanel className="flex-1 cinema-control">
-          <h1 className="cinema-title">
-            一键场景生成
-          </h1>
           <div className="space-y-8">
             {/* 1. Source Images */}
             <ImageUploader
@@ -294,8 +295,6 @@ const CinematicMultiShot: React.FC = () => {
             onClick={handleGenerateAll}
             disabled={sourceImages.length === 0 || isGenerating}
             isGenerating={isGenerating}
-            label="ACTION: GENERATE ALL SHOTS"
-            processingLabel="DIRECTING..."
           />
         </div>
       </div>

@@ -7,18 +7,78 @@
 @screen-2xl: 1536px;
 
 .styleMorph {
+  --stylemorph-title: #5d77b8;
+  --stylemorph-label: #5d6880;
+  --stylemorph-upload-label: #617590;
+  --stylemorph-field-label: #60728c;
+  --stylemorph-upload-surface: linear-gradient(180deg, rgba(236, 242, 249, 0.96) 0%, rgba(225, 233, 244, 0.94) 100%);
+  --stylemorph-upload-surface-hover: linear-gradient(180deg, rgba(242, 247, 252, 0.98) 0%, rgba(232, 238, 247, 0.96) 100%);
+  --stylemorph-upload-border: #b7c5d8;
+  --stylemorph-upload-placeholder: #8d9aad;
+  --stylemorph-upload-icon: #72819a;
+  --stylemorph-mini-button-bg: #eef3fb;
+  --stylemorph-mini-button-hover: #f7f9fd;
+  --stylemorph-mini-button-border: #d6e0ee;
+  --stylemorph-mini-button-text: #55667d;
+  --stylemorph-mini-button-accent-bg: #edf2ff;
+  --stylemorph-mini-button-accent-hover: #f3f6ff;
+  --stylemorph-mini-button-accent-border: #ccd8f1;
+  --stylemorph-mini-button-accent-text: #4f6cc8;
+  --stylemorph-segmented-bg: #edf3fb;
+  --stylemorph-segmented-border: #d9e3f1;
+  --stylemorph-segmented-text: #73839a;
+  --stylemorph-segmented-hover-bg: rgba(255, 255, 255, 0.62);
+  --stylemorph-segmented-hover-text: #41526a;
+  --stylemorph-textarea-bg: rgba(244, 247, 252, 0.98);
+  --stylemorph-textarea-focus-bg: #ffffff;
+  --stylemorph-textarea-border: #d7e1ef;
+  --stylemorph-textarea-text: #4d6078;
+  --stylemorph-textarea-placeholder: #9aa8b9;
+  --stylemorph-range-scale: #8391a4;
+  --stylemorph-range-note-warm: #8b6933;
+  --stylemorph-range-note-cool: #5068b8;
   display: flex;
   height: 100%;
   padding: 30px;
   position: relative;
-  background:
-    radial-gradient(circle at top right, rgba(125, 145, 201, 0.18) 0%, rgba(125, 145, 201, 0) 28%),
-    radial-gradient(circle at bottom left, rgba(175, 190, 224, 0.16) 0%, rgba(175, 190, 224, 0) 30%),
-    linear-gradient(180deg, rgba(251, 252, 254, 0.98) 0%, rgba(242, 246, 251, 0.98) 100%);
-  border: 1px solid rgba(205, 214, 228, 0.78);
-  border-radius: 32px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
+
+  :root[data-theme="dark"] & {
+    --stylemorph-title: #8fb1ff;
+    --stylemorph-label: #d4def1;
+    --stylemorph-upload-label: #d4def1;
+    --stylemorph-field-label: #d4def1;
+    --stylemorph-upload-surface: linear-gradient(180deg, rgba(19, 31, 48, 0.98) 0%, rgba(15, 25, 40, 0.98) 100%);
+    --stylemorph-upload-surface-hover: linear-gradient(180deg, rgba(25, 40, 61, 0.98) 0%, rgba(18, 30, 46, 0.98) 100%);
+    --stylemorph-upload-border: rgba(112, 134, 168, 0.38);
+    --stylemorph-upload-placeholder: #96a9c9;
+    --stylemorph-upload-icon: #b4c5e4;
+    --stylemorph-mini-button-bg: rgba(17, 28, 43, 0.94);
+    --stylemorph-mini-button-hover: rgba(24, 38, 58, 0.98);
+    --stylemorph-mini-button-border: rgba(112, 134, 168, 0.32);
+    --stylemorph-mini-button-text: #d4def1;
+    --stylemorph-mini-button-accent-bg: rgba(32, 53, 97, 0.94);
+    --stylemorph-mini-button-accent-hover: rgba(41, 67, 118, 0.98);
+    --stylemorph-mini-button-accent-border: rgba(98, 127, 197, 0.4);
+    --stylemorph-mini-button-accent-text: #bcd0ff;
+    --stylemorph-segmented-bg: rgba(17, 28, 43, 0.94);
+    --stylemorph-segmented-border: rgba(112, 134, 168, 0.32);
+    --stylemorph-segmented-text: #9cb0ce;
+    --stylemorph-segmented-hover-bg: rgba(24, 38, 58, 0.98);
+    --stylemorph-segmented-hover-text: #edf3ff;
+    --stylemorph-textarea-bg: rgba(19, 31, 48, 0.98);
+    --stylemorph-textarea-focus-bg: rgba(24, 38, 58, 0.98);
+    --stylemorph-textarea-border: rgba(112, 134, 168, 0.32);
+    --stylemorph-textarea-text: #edf3ff;
+    --stylemorph-textarea-placeholder: #96a9c9;
+    --stylemorph-range-scale: #96a9c9;
+    --stylemorph-range-note-warm: #f4c989;
+    --stylemorph-range-note-cool: #bcd0ff;
+  }
 
   @media (max-width: @screen-lg) {
     padding: 20px;
@@ -66,7 +126,7 @@
       .stylemorph-control {
         .stylemorph-page-title {
           margin: 0 0 8px;
-          color: #5d77b8;
+          color: var(--stylemorph-title);
           font-size: 42px;
           line-height: 1.05;
           font-weight: 700;
@@ -79,7 +139,7 @@
 
         .stylemorph-block-title {
           margin: 0;
-          color: #5d6880;
+          color: var(--stylemorph-label);
           font-size: 14px;
           line-height: 1.5;
           font-weight: 700;
@@ -87,42 +147,42 @@
         }
 
         .stylemorph-upload-label {
-          color: #617590;
+          color: var(--stylemorph-upload-label);
           font-size: 12px;
           font-weight: 700;
           letter-spacing: 0.04em;
         }
 
         .stylemorph-field-label {
-          color: #60728c;
+          color: var(--stylemorph-field-label);
           font-size: 12px;
           font-weight: 700;
           letter-spacing: 0.04em;
         }
 
         .space-y-4 {
-          background: rgba(255, 255, 255, 0.74);
-          border-radius: 18px;
-          border: 1px solid rgba(214, 224, 238, 0.92);
-          padding: 16px;
-          box-shadow: 0 16px 30px rgba(95, 112, 143, 0.06);
+          background: transparent;
+          border: none;
+          border-radius: 0;
+          padding: 0;
+          box-shadow: none;
         }
 
         .space-y-6 {
-          background: rgba(255, 255, 255, 0.7);
-          border-radius: 18px;
-          border: 1px solid rgba(214, 224, 238, 0.92);
-          padding: 16px;
-          box-shadow: 0 16px 30px rgba(95, 112, 143, 0.05);
+          background: transparent;
+          border: none;
+          border-radius: 0;
+          padding: 0;
+          box-shadow: none;
         }
 
         .stylemorph-upload-card {
-          border-color: #b7c5d8;
-          background: linear-gradient(180deg, rgba(236, 242, 249, 0.96) 0%, rgba(225, 233, 244, 0.94) 100%);
+          border-color: var(--stylemorph-upload-border);
+          background: var(--stylemorph-upload-surface);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
 
           &:hover {
-            background: linear-gradient(180deg, rgba(242, 247, 252, 0.98) 0%, rgba(232, 238, 247, 0.96) 100%);
+            background: var(--stylemorph-upload-surface-hover);
           }
         }
 
@@ -135,58 +195,58 @@
         }
 
         .stylemorph-upload-placeholder {
-          color: #8d9aad;
+          color: var(--stylemorph-upload-placeholder);
         }
 
         .stylemorph-upload-icon {
-          color: #72819a;
+          color: var(--stylemorph-upload-icon);
         }
 
         .stylemorph-upload-copy {
           margin: 0;
-          color: #8d9aad;
+          color: var(--stylemorph-upload-placeholder);
           font-size: 13px;
           line-height: 1.6;
         }
 
         .stylemorph-mini-button {
-          border: 1px solid #d6e0ee;
-          background: #eef3fb;
-          color: #55667d;
+          border: 1px solid var(--stylemorph-mini-button-border);
+          background: var(--stylemorph-mini-button-bg);
+          color: var(--stylemorph-mini-button-text);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
 
           &:hover {
-            background: #f7f9fd;
-            border-color: #c8d6ea;
+            background: var(--stylemorph-mini-button-hover);
+            border-color: var(--stylemorph-mini-button-border);
           }
         }
 
         .stylemorph-mini-button--accent {
-          background: #edf2ff;
-          color: #4f6cc8;
-          border-color: #ccd8f1;
+          background: var(--stylemorph-mini-button-accent-bg);
+          color: var(--stylemorph-mini-button-accent-text);
+          border-color: var(--stylemorph-mini-button-accent-border);
 
           &:hover {
-            background: #f3f6ff;
-            border-color: #b9c9ef;
+            background: var(--stylemorph-mini-button-accent-hover);
+            border-color: var(--stylemorph-mini-button-accent-border);
           }
         }
 
         .stylemorph-segmented {
-          background: #edf3fb;
-          border: 1px solid #d9e3f1;
+          background: var(--stylemorph-segmented-bg);
+          border: 1px solid var(--stylemorph-segmented-border);
           border-radius: 14px;
           box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.96);
         }
 
         .stylemorph-segmented__button {
-          color: #73839a;
+          color: var(--stylemorph-segmented-text);
           border-radius: 10px;
           transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 
           &:hover {
-            color: #41526a;
-            background: rgba(255, 255, 255, 0.62);
+            color: var(--stylemorph-segmented-hover-text);
+            background: var(--stylemorph-segmented-hover-bg);
           }
 
           &.is-active {
@@ -214,7 +274,7 @@
         }
 
         .stylemorph-range-scale {
-          color: #8391a4;
+          color: var(--stylemorph-range-scale);
           font-weight: 700;
           letter-spacing: 0.02em;
         }
@@ -228,28 +288,28 @@
         }
 
         .stylemorph-range-note--warm {
-          color: #8b6933;
+          color: var(--stylemorph-range-note-warm);
         }
 
         .stylemorph-range-note--cool {
-          color: #5068b8;
+          color: var(--stylemorph-range-note-cool);
         }
 
         .stylemorph-textarea {
-          background: rgba(244, 247, 252, 0.98);
-          border: 1px solid #d7e1ef;
+          background: var(--stylemorph-textarea-bg);
+          border: 1px solid var(--stylemorph-textarea-border);
           border-radius: 16px;
-          color: #4d6078;
+          color: var(--stylemorph-textarea-text);
           transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 
           &::placeholder {
-            color: #9aa8b9;
+            color: var(--stylemorph-textarea-placeholder);
           }
 
           &:focus {
             border-color: #8fa4d8;
             box-shadow: 0 0 0 3px rgba(143, 164, 216, 0.15);
-            background: #ffffff;
+            background: var(--stylemorph-textarea-focus-bg);
           }
         }
       }
@@ -337,9 +397,6 @@
     height: auto;
     min-height: 0;
     max-height: none;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(241, 246, 252, 0.98) 100%);
-    border: 1px solid rgba(208, 218, 232, 0.88);
-    box-shadow: 0 24px 44px rgba(104, 119, 148, 0.08);
 
     @media (max-width: @screen-md) {
       flex: none;
@@ -353,10 +410,6 @@
     @media (max-width: @screen-md) {
       margin-top: 15px;
     }
-  }
-
-  .panel-footer {
-    background: linear-gradient(180deg, rgba(243, 246, 251, 0) 0%, rgba(243, 246, 251, 0.96) 36%);
   }
 
   .dialogBox .empty-state {

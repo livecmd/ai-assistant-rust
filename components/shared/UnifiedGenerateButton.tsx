@@ -1,6 +1,5 @@
 import React from 'react';
 import { Loader2, Sparkles, Zap } from 'lucide-react';
-import { useTranslation } from '../../hooks/useTranslation';
 
 interface UnifiedGenerateButtonProps {
     onClick: () => void;
@@ -23,28 +22,26 @@ export const UnifiedGenerateButton: React.FC<UnifiedGenerateButtonProps> = ({
     variant = 'gradient',
     icon
 }) => {
-    const { t } = useTranslation();
-
-    const baseStyles = "relative w-full py-3.5 rounded-xl font-bold text-xs tracking-widest transition-all duration-300 overflow-hidden";
+    const baseStyles = "relative flex min-h-[56px] w-full items-center justify-center overflow-hidden rounded-[28px] px-6 py-3.5 text-sm font-bold tracking-[0.2em] transition-all duration-300";
 
     const variantStyles = {
         default: isGenerating || disabled
-            ? "bg-slate-300 cursor-not-allowed opacity-70 text-slate-500"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
             : "bg-[#1677ff] hover:bg-[#0d63db] text-white active:scale-[0.98]",
         gradient: isGenerating || disabled
-            ? "bg-slate-300 cursor-not-allowed opacity-70 text-slate-500"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
             : "bg-gradient-to-r from-[#1677ff] to-[#4d9dff] hover:from-[#0d63db] hover:to-[#3a91fa] text-white active:scale-[0.98]",
         glow: isGenerating || disabled
-            ? "bg-slate-300 cursor-not-allowed opacity-70 text-slate-500"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
             : "bg-[#1677ff] hover:bg-[#0d63db] text-white active:scale-[0.98]"
     };
 
     return (
         <button
+            type="button"
             onClick={onClick}
             disabled={isGenerating || disabled}
             className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-            style={{ borderRadius: '36px 36px 36px 36px' }}
         >
             {/* Animated Background Shine Effect */}
             {!isGenerating && !disabled && variant === 'gradient' && (
@@ -57,13 +54,13 @@ export const UnifiedGenerateButton: React.FC<UnifiedGenerateButtonProps> = ({
                     <>
                         <Loader2 size={18} className="animate-spin" />
                         <span className="animate-pulse">
-                            {processingLabel || t('common.processing') || "PROCESSING..."}
+                            {processingLabel || "生成中..."}
                         </span>
                     </>
                 ) : (
                     <>
                         {icon || (variant === 'gradient' ? <Sparkles size={18} /> : <Zap size={18} />)}
-                        <span>{label || t('common.generate') || "GENERATE"}</span>
+                        <span>{label || "生成"}</span>
                     </>
                 )}
             </span>

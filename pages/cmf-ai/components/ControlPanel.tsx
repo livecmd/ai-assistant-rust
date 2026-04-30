@@ -189,7 +189,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         onClick={onGenerate}
         disabled={!targetImage || !refImage || isProcessing}
         isGenerating={isProcessing}
-        label={isProcessing ? t("cmf.generating") : t("cmf.startGenerate")}
       />
     </div>
   );

@@ -364,8 +364,6 @@ const PromptForm: React.FC<PromptFormProps> = ({
           onClick={handleSubmit}
           isGenerating={isGenerating}
           disabled={isSubmitDisabled}
-          label="生成视频(Generate Video)"
-          className="w-full"
         />
       </div>
 

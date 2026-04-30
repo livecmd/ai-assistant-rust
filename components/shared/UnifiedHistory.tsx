@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Play, Trash2, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { Play, Trash2, ChevronLeft, ChevronRight, Download, History } from "lucide-react";
 import { Modal, message } from "antd";
 import "./UnifiedHistory.less";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -121,32 +121,17 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
   return (
     <div className="bot group/history history-container">
       {!isVideo && (
-        <div className="play">
-          <img
-            src="/4.svg"
-            alt="Play"
-            className="w-6 h-6"
-            onClick={() => setShowMore(true)}
-            onError={(e) => {
-              // Fallback if generic asset is missing
-              e.currentTarget.style.display = "none";
-              e.currentTarget.parentElement!.innerHTML =
-                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>';
-            }}
-          />
+        <div className="play history-launch-button" onClick={() => setShowMore(true)}>
+          <History size={22} className="history-nav-icon history-launch-icon" />
         </div>
       )}
       {/* Left Arrow Button */}
       <button
         onClick={() => goToPage("left")}
         disabled={!canGoLeft}
-        className={`play hover:scale-110 transition-all duration-200 cursor-pointer ${
-          !canGoLeft
-            ? "opacity-30 cursor-not-allowed"
-            : "hover:bg-[#1677ff]/10"
-        }`}
+        className="play history-nav-button"
       >
-        <ChevronLeft size={24} className="text-slate-700" />
+        <ChevronLeft size={24} className="history-nav-icon" />
       </button>
 
       {/* Items Container */}
@@ -239,13 +224,9 @@ export const UnifiedHistory: React.FC<UnifiedHistoryProps> = ({
       <button
         onClick={() => goToPage("right")}
         disabled={!canGoRight}
-        className={`next hover:scale-110 transition-all duration-200 cursor-pointer ${
-          !canGoRight
-            ? "opacity-30 cursor-not-allowed"
-            : "hover:bg-[#1677ff]/10"
-        }`}
+        className="next history-nav-button"
       >
-        <ChevronRight size={24} className="text-slate-700" />
+        <ChevronRight size={24} className="history-nav-icon" />
       </button>
 
       {/* Page Indicator */}

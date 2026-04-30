@@ -7,6 +7,18 @@
 @screen-2xl: 1536px;
 
 .medecalStyler {
+  --medecal-title: #1677ff;
+  --medecal-subtitle: #6d7582;
+  --medecal-label: #556274;
+  --medecal-label-strong: #425066;
+  --medecal-input-text: #334155;
+  --medecal-input-placeholder: #94a3b8;
+  --medecal-field-bg: #f5f7fb;
+  --medecal-field-border: #cbd5e1;
+  --medecal-upload-text: #4b5563;
+  --medecal-upload-subtext: #94a3b8;
+  --medecal-upload-bg: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(243,246,250,0.94));
+  --medecal-upload-border: #cbd5e1;
   display: flex;
   align-items: flex-start;
   gap: 28px;
@@ -123,21 +135,14 @@
       }
     }
 
-    h1 {
-      margin: 0;
-      color: #1677ff;
-      font-size: 32px;
-      line-height: 1.1;
-
-      @media (max-width: @screen-md) {
-        font-size: 26px;
+    .right-panel-header {
+      h1 {
+        color: var(--medecal-title);
       }
-    }
 
-    p {
-      margin-top: 6px;
-      color: #6d7582;
-      line-height: 1.45;
+      p {
+        color: var(--medecal-subtitle);
+      }
     }
   }
 
@@ -183,5 +188,75 @@
 
   > .left > .history-container {
     margin-top: auto;
+  }
+
+  .medecal-mode-switch {
+    background: var(--medecal-field-bg);
+    border-color: var(--medecal-field-border);
+  }
+
+  .medecal-mode-button {
+    &.text-slate-500 {
+      color: var(--medecal-label-strong);
+    }
+  }
+
+  .medecal-upload-label {
+    color: var(--medecal-label-strong);
+  }
+
+  .medecal-upload-sub-label {
+    color: var(--medecal-upload-subtext);
+  }
+
+  .medecal-upload-dropzone {
+    border-color: var(--medecal-upload-border);
+    background: var(--medecal-upload-bg);
+  }
+
+  .medecal-upload-dropzone--filled {
+    background: var(--shell-elevated-bg);
+  }
+
+  .medecal-upload-empty {
+    color: var(--medecal-upload-subtext);
+  }
+
+  .medecal-upload-empty-text,
+  .medecal-upload-overlay-label {
+    color: var(--medecal-upload-text);
+  }
+
+  .medecal-field-label,
+  .medecal-range-labels {
+    color: var(--medecal-label) !important;
+  }
+
+  .medecal-field-input {
+    background: var(--medecal-field-bg) !important;
+    border-color: var(--medecal-field-border) !important;
+    color: var(--medecal-input-text) !important;
+
+    &::placeholder {
+      color: var(--medecal-input-placeholder) !important;
+      opacity: 1;
+    }
+  }
+}
+
+:root[data-theme="dark"] {
+  .medecalStyler {
+    --medecal-title: #6fa7ff;
+    --medecal-subtitle: #a3b1c6;
+    --medecal-label: #b7c4d8;
+    --medecal-label-strong: #d7e2f1;
+    --medecal-input-text: #edf3ff;
+    --medecal-input-placeholder: #b1bfd3;
+    --medecal-field-bg: #e2e8f0;
+    --medecal-field-border: rgba(138, 159, 191, 0.3);
+    --medecal-upload-text: #dce6f5;
+    --medecal-upload-subtext: #b5c2d6;
+    --medecal-upload-bg: linear-gradient(180deg, rgba(16, 28, 45, 0.94), rgba(12, 24, 39, 0.96));
+    --medecal-upload-border: rgba(122, 155, 255, 0.22);
   }
 }

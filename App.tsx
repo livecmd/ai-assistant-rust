@@ -24,13 +24,32 @@ import * as OTPAuth from "otpauth";
 import "./App.less";
 import LoginModal from "./components/UserLogin/Login.tsx";
 
-import { UserOutlined } from "@ant-design/icons";
-import { Button, Layout, Modal, Input, message } from "antd";
+import { MoonOutlined, SunOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, ConfigProvider, Layout, Modal, Input, message, theme as antdTheme } from "antd";
 const { TextArea } = Input;
 const { Content, Sider, Header } = Layout;
 import UserInfoModal from "./components/UserLogin/UserInfoModal";
 import { getUserInfoApi } from "@/api";
 
+type AppTheme = "light" | "dark";
+const THEME_STORAGE_KEY = "app-theme";
+
+function getInitialTheme(): AppTheme {
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (storedTheme === "light" || storedTheme === "dark") {
+      return storedTheme;
+    }
+
+    if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+  } catch {
+    // Ignore storage and media-query access errors, then fall back to light mode.
+  }
+
+  return "light";
+}
 
 function getItem(label, key, icon?, children?) {
   return {
@@ -49,6 +68,7 @@ if (pathname === "/") {
 
 const App: React.FC = () => {
   const { t } = useTranslation();
+  const [themeMode, setThemeMode] = useState<AppTheme>(() => getInitialTheme());
   const [collapsed, setCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newKey, setNewKey] = useState("");
@@ -74,6 +94,7 @@ const App: React.FC = () => {
 
   // TOTP 密钥
   const MY_SECRET: string = "JBSWY3DPEHPK3PXP";
+  const isDarkTheme = themeMode === "dark";
 
   useEffect(() => {
     setPathnameState(location.pathname);
@@ -83,6 +104,11 @@ const App: React.FC = () => {
       setLoginShow(true);
     }
   }, [location]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeMode;
+    localStorage.setItem(THEME_STORAGE_KEY, themeMode);
+  }, [themeMode]);
 
   useEffect(() => {
     // 定时检测登录状态
@@ -104,7 +130,7 @@ const App: React.FC = () => {
             } else {
               console.log("登录状态异常", res);
             }
-          } else if (res.data && !["premium", "admin"].includes(res.data.group)) {
+          } else if (res.data && !["premium", "vip", "admin"].includes(res.data.group)) {
             // 检测分组是否为premium
             localStorage.removeItem("token");
             localStorage.removeItem("userInfo");
@@ -243,71 +269,101 @@ const App: React.FC = () => {
     window.location.reload();
   };
 
-  return (
-    <Layout className="app-container" style={{ minHeight: "100vh" }}>
-      <div className="mainTop">
-        <div className="logo">
-          <img src="/logo3x.png" alt="logo" />
-        </div>
-        <div className="info" onClick={setUser}>
-          <UserOutlined className="info-icon" />
-          <span>用户中心</span>
-        </div>
-      </div>
-      <div className="main">
-        <div className="menu">
-          {items.map((item, index) => {
-            return (
-              <div
-                onClick={() => {
-                  setPathnameState(item.path);
-                  navigate(item.path);
-                }}
-                className={`menu-item ${item.path == pathnameState ? "active" : ""
-                  }`}
-                key={index}
-              >
-                <img src={item.img} alt="" />
-                <div className="text">
-                  <p className="menu-title">{item.title}</p>
-                  <p className="menu-subtitle">{item.dec}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="content">
-          <Routes>
-            <Route
-              path="/"
-              element={<Navigate to="/GenAIImageStudio" replace />}
-            />
-            <Route
-              path="/"
-              element={<Navigate to="/GenAIImageStudio" replace />}
-            />
+  const toggleTheme = () => {
+    setThemeMode((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+  };
 
-            <Route path="/GenAIImageStudio" element={<GenAIImageStudio />} />
-            <Route path="/GeminiProductAI" element={<GeminiProductAI />} />
-            <Route path="/Cmftransfer" element={<Cmftransfer />} />
-            <Route path="/AICameraDirector" element={<AICameraDirector />} />
-            <Route
-              path="/AILineArtColorizer"
-              element={<AILineArtColorizer />}
-            />
-            <Route path="/VeoStudio" element={<VeoStudio />} />
-            <Route path="/StyleMorph" element={<StyleMorph />} />
-            <Route
-              path="/CinematicMultiShot"
-              element={<CinematicMultiShot />}
-            />
-            <Route path="/TripoStudio" element={<TripoStudio />} />
-            <Route path="/AdminConsole" element={<AdminConsole />} />
-          </Routes>
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkTheme ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+        token: {
+          colorPrimary: "#5b7cff",
+          borderRadius: 16,
+          fontFamily:
+            '"MiSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif',
+        },
+      }}
+    >
+      <Layout className="app-container" style={{ minHeight: "100vh" }}>
+        <div className="mainTop">
+          <div className="logo">
+            <img className="icon" src="/logo.png" alt="万象魔方 logo" />
+            <div className="text">
+              <p className="logo-title">万象魔方</p>
+              <p className="logo-subtitle">一个专业的图视频AI生成器</p>
+            </div>
+          </div>
+          <div className="top-actions">
+            <Button
+              type="text"
+              className="theme-toggle"
+              icon={isDarkTheme ? <SunOutlined /> : <MoonOutlined />}
+              onClick={toggleTheme}
+              aria-label={`切换到${isDarkTheme ? "白天" : "夜间"}模式`}
+            >
+              {isDarkTheme ? "白天模式" : "夜间模式"}
+            </Button>
+            <div className="info" onClick={setUser}>
+              <UserOutlined className="info-icon" />
+              <span>用户中心</span>
+            </div>
+          </div>
         </div>
-      </div>
-      {loginShow && <LoginModal setLoginShow={setLoginShow} />}
-      {showInfo && <UserInfoModal onCancel={() => setShowInfo(false)} />}
+        <div className="main">
+          <div className="menu">
+            {items.map((item, index) => {
+              return (
+                <div
+                  onClick={() => {
+                    setPathnameState(item.path);
+                    navigate(item.path);
+                  }}
+                  className={`menu-item ${item.path == pathnameState ? "active" : ""
+                  }`}
+                  key={index}
+                >
+                  <img src={item.img} alt="" />
+                  <div className="text">
+                    <p className="menu-title">{item.title}</p>
+                    <p className="menu-subtitle">{item.dec}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="content">
+            <Routes>
+              <Route
+                path="/"
+                element={<Navigate to="/GenAIImageStudio" replace />}
+              />
+              <Route
+                path="/"
+                element={<Navigate to="/GenAIImageStudio" replace />}
+              />
+
+              <Route path="/GenAIImageStudio" element={<GenAIImageStudio />} />
+              <Route path="/GeminiProductAI" element={<GeminiProductAI />} />
+              <Route path="/Cmftransfer" element={<Cmftransfer />} />
+              <Route path="/AICameraDirector" element={<AICameraDirector />} />
+              <Route
+                path="/AILineArtColorizer"
+                element={<AILineArtColorizer />}
+              />
+              <Route path="/VeoStudio" element={<VeoStudio />} />
+              <Route path="/StyleMorph" element={<StyleMorph />} />
+              <Route
+                path="/CinematicMultiShot"
+                element={<CinematicMultiShot />}
+              />
+              <Route path="/TripoStudio" element={<TripoStudio />} />
+              <Route path="/AdminConsole" element={<AdminConsole />} />
+            </Routes>
+          </div>
+        </div>
+        {loginShow && <LoginModal setLoginShow={setLoginShow} />}
+        {showInfo && <UserInfoModal onCancel={() => setShowInfo(false)} />}
 
       {/* <Sider
         className="sider-left"
@@ -376,135 +432,136 @@ const App: React.FC = () => {
         </Content>
       </Layout> */}
 
-      <Modal
-        title={t("common.settings") + " KEY"}
-        okText={t("common.save")}
-        cancelText={t("common.cancel")}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={() => setIsModalOpen(false)}
-      >
-        <TextArea
-          rows={4}
-          value={newKey}
-          onChange={(e) => setNewKey(e.target.value)}
-        />
-      </Modal>
+        <Modal
+          title={t("common.settings") + " KEY"}
+          okText={t("common.save")}
+          cancelText={t("common.cancel")}
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={() => setIsModalOpen(false)}
+        >
+          <TextArea
+            rows={4}
+            value={newKey}
+            onChange={(e) => setNewKey(e.target.value)}
+          />
+        </Modal>
 
       {/* 密码验证弹窗 - 无法关闭 */}
-      <Modal
-        title={null}
-        open={!isAuthenticated}
-        closable={false}
-        maskClosable={false}
-        keyboard={false}
-        footer={null}
-        centered
-        className="password-modal"
-        styles={{
-          mask: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
-        }}
-      >
-        <div
-          style={{
-            textAlign: "center",
-            padding: "40px 20px",
-            background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
-            borderRadius: "12px",
-            margin: "-24px",
+        <Modal
+          title={null}
+          open={!isAuthenticated}
+          closable={false}
+          maskClosable={false}
+          keyboard={false}
+          footer={null}
+          centered
+          className="password-modal"
+          styles={{
+            mask: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
           }}
         >
-          <div style={{ marginBottom: "30px" }}>
-            <div
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                margin: "0 auto 20px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </div>
-            <h2
-              style={{
-                color: "#fff",
-                fontSize: "24px",
-                fontWeight: "bold",
-                marginBottom: "8px",
-              }}
-            >
-              万象魔方 AI 工作室
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>
-              请输入访问密码以继续使用
-            </p>
-          </div>
-
-          <Input.Password
-            size="large"
-            placeholder="请输入密码"
-            value={passwordInput}
-            onChange={(e) => {
-              setPasswordInput(e.target.value);
-              setPasswordError("");
-            }}
-            onPressEnter={handlePasswordSubmit}
+          <div
             style={{
-              marginBottom: "16px",
-              background: "rgba(255,255,255,0.1)",
-              border: passwordError
-                ? "1px solid #ff4d4f"
-                : "1px solid rgba(255,255,255,0.2)",
-              borderRadius: "8px",
-            }}
-          />
-
-          {passwordError && (
-            <p
-              style={{
-                color: "#ff4d4f",
-                fontSize: "13px",
-                marginBottom: "16px",
-                textAlign: "left",
-              }}
-            >
-              {passwordError}
-            </p>
-          )}
-
-          <Button
-            type="primary"
-            size="large"
-            block
-            onClick={handlePasswordSubmit}
-            style={{
-              height: "48px",
-              fontSize: "16px",
-              fontWeight: "bold",
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              border: "none",
-              borderRadius: "8px",
+              textAlign: "center",
+              padding: "40px 20px",
+              background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+              borderRadius: "12px",
+              margin: "-24px",
             }}
           >
-            验证并进入
-          </Button>
-        </div>
-      </Modal>
-    </Layout>
+            <div style={{ marginBottom: "30px" }}>
+              <div
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  margin: "0 auto 20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <h2
+                style={{
+                  color: "#fff",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                }}
+              >
+                万象魔方 AI 工作室
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>
+                请输入访问密码以继续使用
+              </p>
+            </div>
+
+            <Input.Password
+              size="large"
+              placeholder="请输入密码"
+              value={passwordInput}
+              onChange={(e) => {
+                setPasswordInput(e.target.value);
+                setPasswordError("");
+              }}
+              onPressEnter={handlePasswordSubmit}
+              style={{
+                marginBottom: "16px",
+                background: "rgba(255,255,255,0.1)",
+                border: passwordError
+                  ? "1px solid #ff4d4f"
+                  : "1px solid rgba(255,255,255,0.2)",
+                borderRadius: "8px",
+              }}
+            />
+
+            {passwordError && (
+              <p
+                style={{
+                  color: "#ff4d4f",
+                  fontSize: "13px",
+                  marginBottom: "16px",
+                  textAlign: "left",
+                }}
+              >
+                {passwordError}
+              </p>
+            )}
+
+            <Button
+              type="primary"
+              size="large"
+              block
+              onClick={handlePasswordSubmit}
+              style={{
+                height: "48px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                border: "none",
+                borderRadius: "8px",
+              }}
+            >
+              验证并进入
+            </Button>
+          </div>
+        </Modal>
+      </Layout>
+    </ConfigProvider>
   );
 };
 

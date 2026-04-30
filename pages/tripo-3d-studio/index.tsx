@@ -25,6 +25,7 @@ import {
 } from "@/api";
 import { UnifiedPreview } from "../../components/shared/UnifiedPreview";
 import { UnifiedHistory } from "../../components/shared/UnifiedHistory";
+import { UnifiedGenerateButton } from "../../components/shared/UnifiedGenerateButton";
 import {
   ControlSection,
   UnifiedControlPanel,
@@ -1821,9 +1822,11 @@ const TripoStudio: React.FC = () => {
           </ControlSection>
         </UnifiedControlPanel>
         <div className="right-panel-footer">
-          <Button type="primary" size="large" block loading={isSubmitting} onClick={() => void submitTask()}>
-            发起 {getModeTitle(mode)}
-          </Button>
+          <UnifiedGenerateButton
+            onClick={() => void submitTask()}
+            isGenerating={isSubmitting}
+            disabled={isSubmitting}
+          />
         </div>
       </div>
     </div>
