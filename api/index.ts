@@ -341,6 +341,13 @@ class ApiClient {
   }
 
   /**
+   * 修改用户密码
+   */
+  async changePassword(data: { old_password: string; new_password: string }) {
+    return this.post("/api/user/password", data);
+  }
+
+  /**
    * 兑换卡密
    */
   async redeemCard(data: { key: string }) {
@@ -542,6 +549,10 @@ export const registerApi = async (data: any) => apiClient.register(data);
 export const getAllTokensApi = async (data: any) =>
   apiClient.getAllTokens(data);
 export const getUserInfoApi = async () => apiClient.getUserInfo();
+export const changePasswordApi = async (data: {
+  old_password: string;
+  new_password: string;
+}) => apiClient.changePassword(data);
 export const redeemCardApi = async (data: any) => apiClient.redeemCard(data);
 export const createTokenApi = async (data: any) => apiClient.createToken(data);
 export const getStatus = async () => apiClient.getStatus();

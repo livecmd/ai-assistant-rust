@@ -1,12 +1,14 @@
 import {
   CloseOutlined,
   CreditCardOutlined,
+  LockOutlined,
   LogoutOutlined,
   WalletOutlined,
 } from "@ant-design/icons";
 import { Button, Input, Modal, message } from "antd";
 import "./UserInfoModal.less";
 import {
+  changePasswordApi,
   getPaymentStatus,
   getTopupInfo,
   getUserInfoApi,
@@ -55,8 +57,13 @@ function Login(props: LoginProps) {
   const [userData, setUserData] = useState<{ quota: string | number }>({ quota: 0 });
   const [key, setKey] = useState("");
   const [amount, setAmount] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [btnExchangeLoading, setBtnExchangeLoading] = useState(false);
   const [btnTopupLoading, setBtnTopupLoading] = useState(false);
+  const [btnPasswordLoading, setBtnPasswordLoading] = useState(false);
+  const [passwordPanelOpen, setPasswordPanelOpen] = useState(false);
   const [topupInfo, setTopupInfo] = useState<{
     amount_options: number[];
     discount: Record<string, number>;
@@ -198,6 +205,78 @@ function Login(props: LoginProps) {
     setAmount(nextValue);
   };
 
+  const resetPasswordFields = () => {
+    setOldPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
+
+  const validatePassword = (password: string) => {
+    if (!password) {
+      return "请输入新密码！";
+    }
+    if (password.length < 8) {
+      return "密码长度不能小于8位！";
+    }
+    if (password.length > 16) {
+      return "密码长度不能大于16位！";
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
+      return "密码只能包含字母和数字！";
+    }
+    return "";
+  };
+
+  const changePassword = async () => {
+    if (btnPasswordLoading) return;
+
+    if (!oldPassword) {
+      message.error("请输入旧密码！");
+      return;
+    }
+
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      message.error(passwordError);
+      return;
+    }
+
+    if (newPassword === oldPassword) {
+      message.error("新密码不能与旧密码相同！");
+      return;
+    }
+
+    if (!confirmPassword) {
+      message.error("请再次输入新密码！");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      message.error("两次输入的新密码不一致！");
+      return;
+    }
+
+    setBtnPasswordLoading(true);
+    try {
+      const res = await changePasswordApi({
+        old_password: oldPassword,
+        new_password: newPassword,
+      });
+
+      if (res.success) {
+        message.success("密码修改成功！");
+        resetPasswordFields();
+        setPasswordPanelOpen(false);
+      } else {
+        message.error(res.error || "密码修改失败！");
+      }
+    } catch {
+      message.error("密码修改失败！");
+    } finally {
+      setBtnPasswordLoading(false);
+    }
+  };
+
   const username = userInfo.username || "用户";
   const planLabel = formatPlanLabel(userInfo.group);
   const quotaDisplay = useMemo(() => splitQuotaDisplay(userData.quota), [userData.quota]);
@@ -220,9 +299,16 @@ function Login(props: LoginProps) {
         <div className="user-center-header">
           <div className="title-block">
             <h1>个人中心</h1>
-            <p>管理您的账户资产与订阅状态</p>
+            <p>{passwordPanelOpen ? "更新您的账户登录密码" : "管理您的账户资产与订阅状态"}</p>
           </div>
           <div className="header-actions">
+            <button
+              className={`header-action ${passwordPanelOpen ? "is-active" : ""}`}
+              onClick={() => setPasswordPanelOpen((prev) => !prev)}
+            >
+              <LockOutlined />
+              <span>{passwordPanelOpen ? "返回中心" : "修改密码"}</span>
+            </button>
             <button className="header-action subtle" onClick={props.onCancel}>
               <CloseOutlined />
               <span>关闭</span>
@@ -234,144 +320,192 @@ function Login(props: LoginProps) {
           </div>
         </div>
 
-        <div className="user-center-grid">
-          <section className="center-card profile-card">
-            <div className="profile-top">
-              <div className="avatar-frame">
-                <div className="user-avatar">{username.slice(0, 1).toUpperCase()}</div>
-                <span className="online-dot" />
-              </div>
-              <div className="user-name">{username}</div>
-              <div className="user-plan">{planLabel}</div>
-            </div>
-
-            <div className="quota-block">
-              <div className="quota-label">剩余余额</div>
-              <div className="quota-value">
-                {quotaDisplay.symbol && (
-                  <span className="quota-symbol">{quotaDisplay.symbol}</span>
-                )}
-                <span>{quotaDisplay.amount}</span>
-              </div>
-            </div>
-          </section>
-
-          <section className="center-card action-card">
+        {passwordPanelOpen ? (
+          <section className="center-card action-card password-panel">
             <div className="card-head">
               <div className="card-icon">
-                <CreditCardOutlined />
+                <LockOutlined />
               </div>
-              <h2>卡密兑换</h2>
+              <h2>修改密码</h2>
             </div>
-            <p className="card-desc">输入您的礼品卡或兑换码以增加账户余额</p>
+            <p className="card-desc">输入当前密码并设置新的登录密码，密码需为 8-16 位字母或数字</p>
 
-            <div className="card-form redeem-form">
-              <Input
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
+            <div className="card-form password-form">
+              <Input.Password
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
                 className="center-input"
-                placeholder="输入兑换卡密..."
+                placeholder="输入当前密码"
+                autoComplete="off"
+              />
+              <Input.Password
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="center-input"
+                placeholder="输入新密码"
+                autoComplete="off"
+              />
+              <Input.Password
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="center-input"
+                placeholder="再次输入新密码"
+                autoComplete="off"
+                onPressEnter={changePassword}
               />
               <Button
                 className="action-button dark"
-                onClick={exchange}
-                loading={btnExchangeLoading}
+                onClick={changePassword}
+                loading={btnPasswordLoading}
               >
-                兑换
+                确认修改
               </Button>
             </div>
           </section>
+        ) : (
+          <>
+            <div className="user-center-grid">
+              <section className="center-card profile-card">
+                <div className="profile-top">
+                  <div className="avatar-frame">
+                    <div className="user-avatar">{username.slice(0, 1).toUpperCase()}</div>
+                    <span className="online-dot" />
+                  </div>
+                  <div className="user-name">{username}</div>
+                  <div className="user-plan">{planLabel}</div>
+                </div>
 
-          <section className="center-card action-card">
-            <div className="card-head">
-              <div className="card-icon">
-                <WalletOutlined />
+                <div className="quota-block">
+                  <div className="quota-label">剩余余额</div>
+                  <div className="quota-value">
+                    {quotaDisplay.symbol && (
+                      <span className="quota-symbol">{quotaDisplay.symbol}</span>
+                    )}
+                    <span>{quotaDisplay.amount}</span>
+                  </div>
+                </div>
+              </section>
+
+              <section className="center-card action-card">
+                <div className="card-head">
+                  <div className="card-icon">
+                    <CreditCardOutlined />
+                  </div>
+                  <h2>卡密兑换</h2>
+                </div>
+                <p className="card-desc">输入您的礼品卡或兑换码以增加账户余额</p>
+
+                <div className="card-form redeem-form">
+                  <Input
+                    value={key}
+                    onChange={(e) => setKey(e.target.value)}
+                    className="center-input"
+                    placeholder="输入兑换卡密..."
+                  />
+                  <Button
+                    className="action-button dark"
+                    onClick={exchange}
+                    loading={btnExchangeLoading}
+                  >
+                    兑换
+                  </Button>
+                </div>
+              </section>
+
+              <section className="center-card action-card">
+                <div className="card-head">
+                  <div className="card-icon">
+                    <WalletOutlined />
+                  </div>
+                  <h2>余额充值</h2>
+                </div>
+                <p className="card-desc">选择或输入金额进行快速安全支付</p>
+
+                <div className="card-form">
+                  <Input
+                    value={amount}
+                    onChange={topupHandleChange}
+                    className="center-input currency-input"
+                    placeholder="输入充值金额"
+                    prefix="¥"
+                  />
+                  <Button
+                    className="action-button light"
+                    onClick={topup}
+                    loading={btnTopupLoading}
+                  >
+                    支付宝支付
+                  </Button>
+                </div>
+
+                {numericAmount > 0 && (
+                  <div className="payment-summary">
+                    <span>实付金额</span>
+                    <div className="summary-price">
+                      <strong>¥{finalPrice}</strong>
+                      {hasAmountDiscount && <em>¥{numericAmount}</em>}
+                    </div>
+                  </div>
+                )}
+
+                {!topupInfo.payment_ready && (
+                  <div className="payment-warning">
+                    后台尚未启用支付宝当面付，暂时不能在线充值。
+                  </div>
+                )}
+
+                {topupInfo.amount_options.length > 0 && (
+                  <div className="topup-options">
+                    {topupInfo.amount_options.map((opt) => {
+                      const discount = topupInfo.discount[String(opt)];
+                      const hasDiscount = Boolean(discount);
+
+                      return (
+                        <button
+                          key={opt}
+                          type="button"
+                          className={`option-item ${numericAmount === opt ? "active" : ""}`}
+                          onClick={() => setAmount(String(opt))}
+                        >
+                          <span className="option-main">¥{opt}</span>
+                          {hasDiscount && (
+                            <span className="option-sub">
+                              ¥{getDiscountedAmount(opt).toFixed(2)}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </section>
+            </div>
+
+            <div className="status-card">
+              <div className="status-item">
+                <span className="status-label">账户类型</span>
+                <strong>{planLabel}</strong>
               </div>
-              <h2>余额充值</h2>
-            </div>
-            <p className="card-desc">选择或输入金额进行快速安全支付</p>
-
-            <div className="card-form">
-              <Input
-                value={amount}
-                onChange={topupHandleChange}
-                className="center-input currency-input"
-                placeholder="输入充值金额"
-                prefix="¥"
-              />
-              <Button
-                className="action-button light"
-                onClick={topup}
-                loading={btnTopupLoading}
-              >
-                支付宝支付
-              </Button>
-            </div>
-
-            {numericAmount > 0 && (
-              <div className="payment-summary">
-                <span>实付金额</span>
-                <div className="summary-price">
-                  <strong>¥{finalPrice}</strong>
-                  {hasAmountDiscount && <em>¥{numericAmount}</em>}
+              <div className="status-divider" />
+              <div className="status-item">
+                <span className="status-label">支付状态</span>
+                <div
+                  className={`status-indicator ${
+                    topupInfo.payment_ready ? "is-ready" : "is-pending"
+                  }`}
+                >
+                  <span className="status-dot" />
+                  <strong>{topupInfo.payment_ready ? "稳定" : "未启用"}</strong>
                 </div>
               </div>
-            )}
-
-            {!topupInfo.payment_ready && (
-              <div className="payment-warning">
-                后台尚未启用支付宝当面付，暂时不能在线充值。
+              <div className="status-divider" />
+              <div className="status-item">
+                <span className="status-label">充值档位</span>
+                <strong>{topupInfo.amount_options.length || 0} 个</strong>
               </div>
-            )}
-
-            {topupInfo.amount_options.length > 0 && (
-              <div className="topup-options">
-                {topupInfo.amount_options.map((opt) => {
-                  const discount = topupInfo.discount[String(opt)];
-                  const hasDiscount = Boolean(discount);
-
-                  return (
-                    <button
-                      key={opt}
-                      type="button"
-                      className={`option-item ${numericAmount === opt ? "active" : ""}`}
-                      onClick={() => setAmount(String(opt))}
-                    >
-                      <span className="option-main">¥{opt}</span>
-                      {hasDiscount && (
-                        <span className="option-sub">¥{getDiscountedAmount(opt).toFixed(2)}</span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-        </div>
-
-        <div className="status-card">
-          <div className="status-item">
-            <span className="status-label">账户类型</span>
-            <strong>{planLabel}</strong>
-          </div>
-          <div className="status-divider" />
-          <div className="status-item">
-            <span className="status-label">支付状态</span>
-            <div
-              className={`status-indicator ${
-                topupInfo.payment_ready ? "is-ready" : "is-pending"
-              }`}
-            >
-              <span className="status-dot" />
-              <strong>{topupInfo.payment_ready ? "稳定" : "未启用"}</strong>
             </div>
-          </div>
-          <div className="status-divider" />
-          <div className="status-item">
-            <span className="status-label">充值档位</span>
-            <strong>{topupInfo.amount_options.length || 0} 个</strong>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </Modal>
   );

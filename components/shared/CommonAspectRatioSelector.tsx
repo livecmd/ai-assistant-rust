@@ -14,8 +14,8 @@ export const CommonAspectRatioSelector: React.FC<CommonAspectRatioSelectorProps>
     label = "长宽比(Aspect Ratio)"
 }) => {
     return (
-        <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-600 tracking-wider">
+        <div className="common-aspect-ratio-selector space-y-3">
+            <label className="common-field-label tracking-wider">
                 {label}
             </label>
             <div className="grid grid-cols-6 gap-1.5">
@@ -23,9 +23,9 @@ export const CommonAspectRatioSelector: React.FC<CommonAspectRatioSelectorProps>
                     <button
                         key={ratio}
                         onClick={() => onSelect(ratio)}
-                        className={`py-1.5 text-[10px] font-medium rounded-lg border transition-all ${selectedRatio === ratio
-                            ? "bg-[#1677ff] text-white border-[#1677ff] shadow-lg shadow-[#1677ff]/20"
-                            : "bg-[#f5f7fb] text-slate-600 border-slate-200 hover:border-[#1677ff] hover:text-[#1677ff]"
+                        className={`common-aspect-ratio-option py-1.5 text-[10px] font-medium rounded-lg border transition-all ${selectedRatio === ratio
+                            ? "is-selected"
+                            : ""
                             }`}
                     >
                         <span className="capitalize">{ratio}</span>

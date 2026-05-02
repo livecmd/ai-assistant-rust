@@ -99,25 +99,25 @@ export const UnifiedPreview: React.FC<UnifiedPreviewProps> = ({
             ) : (
                 <div className="empty-state text-center py-16 animate-fadeIn">
                     {/* Animated Icon Container */}
-                    <div className="relative w-24 h-24 mx-auto mb-6">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/15 to-blue-400/20 rounded-2xl blur-xl animate-pulse"></div>
-                        <div className="relative w-full h-full bg-white/10 rounded-2xl border border-white/15 flex items-center justify-center backdrop-blur-sm">
+                    <div className="empty-state__icon-wrap relative w-24 h-24 mx-auto mb-6">
+                        <div className="empty-state__icon-glow absolute inset-0 rounded-2xl blur-xl animate-pulse"></div>
+                        <div className="empty-state__icon-shell relative w-full h-full rounded-2xl border flex items-center justify-center backdrop-blur-sm">
                             {placeholderIcon || (type === 'video' ? (
-                                <Video size={40} className="text-slate-300" />
+                                <Video size={40} className="empty-state__icon" />
                             ) : (
-                                <ImageIcon size={40} className="text-slate-300" />
+                                <ImageIcon size={40} className="empty-state__icon" />
                             ))}
                         </div>
                         {/* Sparkle Effects */}
-                        <Sparkles size={16} className="absolute -top-2 -right-2 text-blue-300 animate-pulse" />
-                        <Sparkles size={12} className="absolute -bottom-1 -left-1 text-cyan-300 animate-pulse" style={{ animationDelay: '0.5s' }} />
+                        <Sparkles size={16} className="empty-state__sparkle absolute -top-2 -right-2 animate-pulse" />
+                        <Sparkles size={12} className="empty-state__sparkle empty-state__sparkle--secondary absolute -bottom-1 -left-1 animate-pulse" style={{ animationDelay: '0.5s' }} />
                     </div>
 
-                    <p className="text-xl font-semibold text-slate-100 tracking-widest mb-2">{emptyText}</p>
-                    <p className="text-xs text-slate-300/75 tracking-wider max-w-xs mx-auto">{emptySubtext}</p>
+                    <p className="empty-state__title text-xl font-semibold tracking-widest mb-2">{emptyText}</p>
+                    <p className="empty-state__subtitle text-xs tracking-wider max-w-xs mx-auto">{emptySubtext}</p>
 
                     {/* Subtle Animated Line */}
-                    <div className="mt-6 mx-auto w-16 h-0.5 bg-gradient-to-r from-transparent via-blue-300/70 to-transparent animate-pulse"></div>
+                    <div className="empty-state__line mt-6 mx-auto w-16 h-0.5 animate-pulse"></div>
                 </div>
             )}
         </div>
