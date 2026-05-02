@@ -10,13 +10,16 @@ import "./UserInfoModal.less";
 import {
   changePasswordApi,
   getPaymentStatus,
+  getStatus,
   getTopupInfo,
   getUserInfoApi,
   pay,
   redeemCardApi,
+  StatusInfo,
+  TopupInfo,
 } from "@/api";
-import { useEffect, useMemo, useState } from "react";
-import { renderQuota } from "@/utils/helper";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { formatPointsValue, getPointsSettings, renderQuota } from "@/utils/helper";
 import { invoke } from "@tauri-apps/api/core";
 
 interface LoginProps {
@@ -61,33 +64,50 @@ function Login(props: LoginProps) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [btnExchangeLoading, setBtnExchangeLoading] = useState(false);
+  const [redeemSuccess, setRedeemSuccess] = useState(false);
   const [btnTopupLoading, setBtnTopupLoading] = useState(false);
   const [btnPasswordLoading, setBtnPasswordLoading] = useState(false);
   const [passwordPanelOpen, setPasswordPanelOpen] = useState(false);
-  const [topupInfo, setTopupInfo] = useState<{
-    amount_options: number[];
-    discount: Record<string, number>;
-    payment_ready?: boolean;
-  }>({
+  const redeemSuccessTimerRef = useRef<number | null>(null);
+  const [topupInfo, setTopupInfo] = useState<TopupInfo>({
     amount_options: [],
     discount: {},
     payment_ready: false,
   });
+  const [pointsSettings, setPointsSettings] = useState(() => getPointsSettings());
 
   useEffect(() => {
-    getTopupInfo().then((res) => {
-      if (res.success && res.data) {
-        setTopupInfo(res.data);
+    Promise.all([getTopupInfo(), getStatus()]).then(([topupRes, statusRes]) => {
+      let mergedStatus: StatusInfo | null = null;
+
+      if (topupRes.success && topupRes.data) {
+        setTopupInfo(topupRes.data);
+        mergedStatus = { ...(mergedStatus || {}), ...topupRes.data };
+      }
+
+      if (statusRes.success && statusRes.data) {
+        localStorage.setItem("status", JSON.stringify(statusRes.data));
+        mergedStatus = { ...(mergedStatus || {}), ...statusRes.data };
+      }
+
+      if (mergedStatus) {
+        setPointsSettings(getPointsSettings(mergedStatus));
       }
     });
 
     getUserInfo();
+
+    return () => {
+      if (redeemSuccessTimerRef.current) {
+        window.clearTimeout(redeemSuccessTimerRef.current);
+      }
+    };
   }, []);
 
   const getUserInfo = async () => {
     const res = await getUserInfoApi();
     if (res.success) {
-      setUserData({ quota: renderQuota(res.data.quota) });
+      setUserData({ quota: renderQuota(res.data.quota, 2, { preferPoints: true }) });
     } else {
       message.error("余额获取失败！");
     }
@@ -116,6 +136,14 @@ function Login(props: LoginProps) {
         message.success("兑换成功！");
         getUserInfo();
         setKey("");
+        setRedeemSuccess(true);
+        if (redeemSuccessTimerRef.current) {
+          window.clearTimeout(redeemSuccessTimerRef.current);
+        }
+        redeemSuccessTimerRef.current = window.setTimeout(() => {
+          setRedeemSuccess(false);
+          redeemSuccessTimerRef.current = null;
+        }, 1800);
       } else {
         message.error(res.error || "兑换失败！");
       }
@@ -281,7 +309,10 @@ function Login(props: LoginProps) {
   const planLabel = formatPlanLabel(userInfo.group);
   const quotaDisplay = useMemo(() => splitQuotaDisplay(userData.quota), [userData.quota]);
   const finalPrice = numericAmount ? getDiscountedAmount(numericAmount).toFixed(2) : "";
-  const hasAmountDiscount = Boolean(topupInfo.discount[String(numericAmount)]);
+  const pointsPerCny = Number(topupInfo.points_per_cny || pointsSettings.pointsPerCny) || pointsSettings.pointsPerCny;
+  const pointsName = topupInfo.points_name || pointsSettings.pointsName;
+  const pointsTextPerCny = formatPointsValue(pointsPerCny, pointsName);
+  const earnedPoints = numericAmount > 0 ? numericAmount * pointsPerCny : 0;
 
   return (
     <Modal
@@ -376,7 +407,7 @@ function Login(props: LoginProps) {
                 </div>
 
                 <div className="quota-block">
-                  <div className="quota-label">剩余余额</div>
+                  <div className="quota-label">剩余{pointsName}</div>
                   <div className="quota-value">
                     {quotaDisplay.symbol && (
                       <span className="quota-symbol">{quotaDisplay.symbol}</span>
@@ -386,7 +417,7 @@ function Login(props: LoginProps) {
                 </div>
               </section>
 
-              <section className="center-card action-card">
+              <section className="center-card action-card redeem-card">
                 <div className="card-head">
                   <div className="card-icon">
                     <CreditCardOutlined />
@@ -403,23 +434,23 @@ function Login(props: LoginProps) {
                     placeholder="输入兑换卡密..."
                   />
                   <Button
-                    className="action-button dark"
+                    className={`action-button dark ${redeemSuccess ? "is-success" : ""}`}
                     onClick={exchange}
                     loading={btnExchangeLoading}
                   >
-                    兑换
+                    {redeemSuccess ? "兑换成功" : "兑换"}
                   </Button>
                 </div>
               </section>
 
-              <section className="center-card action-card">
+              <section className="center-card action-card topup-card">
                 <div className="card-head">
                   <div className="card-icon">
                     <WalletOutlined />
                   </div>
                   <h2>余额充值</h2>
                 </div>
-                <p className="card-desc">选择或输入金额进行快速安全支付</p>
+                <p className="card-desc">选择或输入金额进行快速安全支付，当前比例 1 元 = {pointsTextPerCny}</p>
 
                 <div className="card-form">
                   <Input
@@ -440,10 +471,10 @@ function Login(props: LoginProps) {
 
                 {numericAmount > 0 && (
                   <div className="payment-summary">
-                    <span>实付金额</span>
-                    <div className="summary-price">
-                      <strong>¥{finalPrice}</strong>
-                      {hasAmountDiscount && <em>¥{numericAmount}</em>}
+                    <span>充值摘要</span>
+                    <div className="summary-price" style={{ flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+                      <strong>实付 ¥{finalPrice}</strong>
+                      <strong>到账 {formatPointsValue(earnedPoints, pointsName)}</strong>
                     </div>
                   </div>
                 )}
@@ -468,11 +499,10 @@ function Login(props: LoginProps) {
                           onClick={() => setAmount(String(opt))}
                         >
                           <span className="option-main">¥{opt}</span>
-                          {hasDiscount && (
-                            <span className="option-sub">
-                              ¥{getDiscountedAmount(opt).toFixed(2)}
-                            </span>
-                          )}
+                          <span className="option-sub">
+                            到账 {formatPointsValue(opt * pointsPerCny, pointsName)}
+                            {hasDiscount ? ` · 实付 ¥${getDiscountedAmount(opt).toFixed(2)}` : ""}
+                          </span>
                         </button>
                       );
                     })}
@@ -500,8 +530,8 @@ function Login(props: LoginProps) {
               </div>
               <div className="status-divider" />
               <div className="status-item">
-                <span className="status-label">充值档位</span>
-                <strong>{topupInfo.amount_options.length || 0} 个</strong>
+                <span className="status-label">充值比例</span>
+                <strong>1 元 = {pointsTextPerCny}</strong>
               </div>
             </div>
           </>

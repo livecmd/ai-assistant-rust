@@ -1,7 +1,7 @@
 .user-info-modal {
-  width: 72vw !important;
+  width: 70vw !important;
   min-width: 960px;
-  max-width: 80vw;
+  max-width: 76vw;
 
   .ant-modal-content {
     padding: 0;
@@ -17,7 +17,7 @@
   }
 
   .user-center-shell {
-    padding: 32px 40px 24px;
+    padding: 22px 28px 18px;
     color: #111111;
     background:
       radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(247, 248, 251, 0.96)),
@@ -28,14 +28,14 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 22px;
+    gap: 18px;
+    margin-bottom: 14px;
   }
 
   .title-block {
     h1 {
       margin: 0;
-      font-size: 52px;
+      font-size: 38px;
       line-height: 1;
       font-weight: 400;
       letter-spacing: -0.06em;
@@ -43,8 +43,8 @@
     }
 
     p {
-      margin: 8px 0 0;
-      font-size: 18px;
+      margin: 6px 0 0;
+      font-size: 15px;
       color: #475569;
       letter-spacing: -0.03em;
     }
@@ -53,19 +53,19 @@
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-top: 10px;
+    gap: 8px;
+    padding-top: 4px;
   }
 
   .header-action {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border: 0;
     background: transparent;
     color: #64748b;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
 
@@ -85,13 +85,15 @@
 
   .user-center-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr 0.9fr;
-    gap: 18px;
-    margin-bottom: 18px;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.35fr);
+    grid-template-rows: auto auto;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: start;
   }
 
   .center-card {
-    min-height: 300px;
+    min-height: 220px;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(226, 232, 240, 0.9);
     border-radius: 22px;
@@ -99,11 +101,28 @@
   }
 
   .profile-card {
+    grid-column: 1;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 28px 30px 24px;
+    padding: 22px 24px 18px;
     text-align: center;
+  }
+
+  .redeem-card {
+    grid-column: 1;
+    grid-row: 2;
+
+    .card-form {
+      margin-top: 0;
+    }
+  }
+
+  .topup-card {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: stretch;
   }
 
   .profile-top {
@@ -114,9 +133,9 @@
 
   .avatar-frame {
     position: relative;
-    width: 88px;
-    height: 88px;
-    margin-bottom: 18px;
+    width: 78px;
+    height: 78px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,13 +145,13 @@
   }
 
   .user-avatar {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
     color: #ffffff;
     background: linear-gradient(135deg, #1f2937 0%, #475569 100%);
@@ -140,18 +159,18 @@
 
   .online-dot {
     position: absolute;
-    right: 8px;
-    bottom: 8px;
-    width: 16px;
-    height: 16px;
+    right: 7px;
+    bottom: 7px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: #22c55e;
     border: 2px solid #ffffff;
   }
 
   .user-name {
-    margin-bottom: 8px;
-    font-size: 24px;
+    margin-bottom: 6px;
+    font-size: 22px;
     line-height: 1.2;
     font-weight: 600;
     color: #111111;
@@ -159,19 +178,19 @@
   }
 
   .user-plan {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.4;
     letter-spacing: 0.12em;
     color: #52525b;
   }
 
   .quota-block {
-    padding-top: 20px;
+    padding-top: 12px;
   }
 
   .quota-label {
-    margin-bottom: 10px;
-    font-size: 22px;
+    margin-bottom: 8px;
+    font-size: 18px;
     color: #475569;
     letter-spacing: -0.02em;
   }
@@ -180,14 +199,14 @@
     display: inline-flex;
     align-items: flex-start;
     gap: 6px;
-    font-size: 46px;
+    font-size: 40px;
     line-height: 1;
     letter-spacing: -0.05em;
     color: #111111;
 
     .quota-symbol {
-      margin-top: 7px;
-      font-size: 18px;
+      margin-top: 6px;
+      font-size: 16px;
       line-height: 1;
       letter-spacing: 0;
     }
@@ -196,18 +215,18 @@
   .action-card {
     display: flex;
     flex-direction: column;
-    padding: 28px 26px 22px;
+    padding: 22px 22px 18px;
   }
 
   .card-head {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 
     h2 {
       margin: 0;
-      font-size: 21px;
+      font-size: 19px;
       font-weight: 600;
       color: #111111;
       letter-spacing: -0.03em;
@@ -219,14 +238,14 @@
     align-items: center;
     justify-content: center;
     color: #111111;
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .card-desc {
-    min-height: 44px;
-    margin: 0 0 24px;
-    font-size: 14px;
-    line-height: 1.6;
+    min-height: 0;
+    margin: 0 0 16px;
+    font-size: 13px;
+    line-height: 1.5;
     color: #475569;
   }
 
@@ -237,7 +256,7 @@
   .redeem-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 
     .center-input,
     .center-input.ant-input-affix-wrapper {
@@ -252,7 +271,7 @@
   .password-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 
     .center-input,
     .center-input.ant-input-affix-wrapper {
@@ -266,12 +285,12 @@
   }
 
   .password-panel {
-    min-height: 420px;
-    padding: 32px 28px 28px;
+    min-height: 360px;
+    padding: 24px 24px 22px;
 
     .card-desc {
       min-height: 0;
-      margin-bottom: 32px;
+      margin-bottom: 20px;
     }
 
     .card-form {
@@ -282,7 +301,7 @@
 
   .center-input,
   .center-input.ant-input-affix-wrapper {
-    height: 44px;
+    height: 42px;
     border-radius: 0;
     border: 1px solid #d6d3d1;
     background: #ffffff;
@@ -312,16 +331,19 @@
   }
 
   .currency-input {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .action-button {
     width: 100%;
-    height: 48px;
+    height: 44px;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     box-shadow: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 
     &.dark {
       background: #1f1f1f;
@@ -348,11 +370,70 @@
         color: #111111;
       }
     }
+
+    &.is-success {
+      background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+      border-color: #16a34a;
+      color: #ffffff;
+      animation: redeemSuccessBounce 0.7s ease;
+
+      &:hover,
+      &:focus {
+        background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+        border-color: #15803d;
+        color: #ffffff;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          rgba(255, 255, 255, 0) 18%,
+          rgba(255, 255, 255, 0.14) 42%,
+          rgba(255, 255, 255, 0.42) 50%,
+          rgba(255, 255, 255, 0.14) 58%,
+          rgba(255, 255, 255, 0) 82%
+        );
+        transform: translateX(-135%);
+        animation: redeemSuccessSweep 1.15s ease;
+        pointer-events: none;
+      }
+    }
+  }
+
+  @keyframes redeemSuccessBounce {
+    0% {
+      transform: scale(1);
+    }
+
+    35% {
+      transform: scale(1.04);
+    }
+
+    65% {
+      transform: scale(0.985);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes redeemSuccessSweep {
+    0% {
+      transform: translateX(-135%);
+    }
+
+    100% {
+      transform: translateX(135%);
+    }
   }
 
   .payment-summary {
-    margin-top: 12px;
-    padding: 10px 12px;
+    margin-top: 10px;
+    padding: 8px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -361,7 +442,7 @@
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     color: #334155;
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .summary-price {
@@ -370,14 +451,8 @@
     gap: 10px;
 
     strong {
-      font-size: 18px;
+      font-size: 16px;
       color: #111111;
-    }
-
-    em {
-      font-style: normal;
-      color: #94a3b8;
-      text-decoration: line-through;
     }
   }
 
@@ -391,12 +466,13 @@
   .topup-options {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 12px;
+    gap: 8px;
+    margin-top: 10px;
   }
 
   .option-item {
-    padding: 10px 8px;
+    min-height: 92px;
+    padding: 10px 8px 8px;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     background: #ffffff;
@@ -405,7 +481,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 
     &:hover {
       border-color: #cbd5e1;
@@ -419,22 +495,23 @@
   }
 
   .option-main {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #111111;
   }
 
   .option-sub {
     font-size: 11px;
+    line-height: 1.35;
     color: #64748b;
   }
 
   .status-card {
-    min-height: 92px;
+    min-height: 74px;
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 16px 22px;
+    padding: 12px 18px;
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba(226, 232, 240, 0.9);
     border-radius: 18px;
@@ -449,7 +526,7 @@
     color: #111111;
 
     strong {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.1;
       font-weight: 600;
       letter-spacing: -0.03em;
@@ -458,7 +535,7 @@
   }
 
   .status-label {
-    font-size: 13px;
+    font-size: 12px;
     color: #475569;
   }
 
@@ -474,7 +551,7 @@
     gap: 10px;
 
     strong {
-      font-size: 18px;
+      font-size: 16px;
     }
 
     &.is-ready {
@@ -496,18 +573,18 @@
   @media (max-width: 1440px) {
     .title-block {
       h1 {
-        font-size: 46px;
+        font-size: 34px;
       }
 
       p {
-        font-size: 17px;
+        font-size: 14px;
       }
     }
 
     .profile-card,
     .action-card {
-      padding-left: 24px;
-      padding-right: 24px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 
@@ -518,6 +595,14 @@
 
     .user-center-grid {
       grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+
+    .profile-card,
+    .redeem-card,
+    .topup-card {
+      grid-column: auto;
+      grid-row: auto;
     }
 
     .center-card {
@@ -526,13 +611,13 @@
 
     .profile-card,
     .action-card {
-      padding-top: 34px;
-      padding-bottom: 32px;
+      padding-top: 26px;
+      padding-bottom: 24px;
     }
 
     .card-desc {
       min-height: 0;
-      margin-bottom: 28px;
+      margin-bottom: 18px;
     }
 
     .status-card {
@@ -554,7 +639,7 @@
     max-width: calc(100vw - 20px);
 
     .user-center-shell {
-      padding: 28px 20px 22px;
+      padding: 22px 18px 18px;
     }
 
     .user-center-header {
@@ -565,11 +650,11 @@
 
     .title-block {
       h1 {
-        font-size: 40px;
+        font-size: 30px;
       }
 
       p {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
 
@@ -580,19 +665,19 @@
 
     .profile-card,
     .action-card {
-      padding: 28px 20px 24px;
+      padding: 22px 18px 18px;
     }
 
     .quota-label {
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .quota-value {
-      font-size: 42px;
+      font-size: 34px;
 
       .quota-symbol {
-        margin-top: 6px;
-        font-size: 18px;
+        margin-top: 5px;
+        font-size: 15px;
       }
     }
 

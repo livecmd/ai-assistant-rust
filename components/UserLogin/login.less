@@ -7,33 +7,67 @@
   .login-form {
     .ant-form-item-label {
       label {
-        // color: #fff;
+        color: var(--shell-text);
         font-family: PingFang SC, PingFang SC;
         font-weight: 400;
       }
     }
-    .login-input {
-      // background-color: #121212;
-      color: #6b7280;
-      border-color: rgba(255, 255, 255, 0.1);
+
+    .login-input,
+    .login-input.ant-input-affix-wrapper {
+      background: var(--shell-elevated-soft);
+      border-color: var(--shell-border);
+      color: var(--shell-text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
 
-    .login-input:hover {
-      // background-color: #121212;
-      // color: #6b7280;
-      border-color: #6b7280;
+    .login-input,
+    .login-input .ant-input,
+    .login-input input {
+      color: var(--shell-text);
     }
 
-    .login-input:focus {
-      // background-color: #121212;
-      // color: #6b7280;
-      border-color: #6b7280;
-      box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.2);
+    .login-input::placeholder,
+    .login-input .ant-input::placeholder,
+    .login-input input::placeholder {
+      color: var(--shell-muted);
+      opacity: 1;
     }
 
-    .login-input[disabled] {
-      // background-color: #121212;
-      color: rgba(107, 114, 128, 0.5);
+    .login-input.ant-input-affix-wrapper .ant-input {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .login-input .ant-input-password-icon {
+      color: var(--shell-muted);
+      transition: color 0.2s ease;
+    }
+
+    .login-input:hover,
+    .login-input.ant-input-affix-wrapper:hover {
+      border-color: rgba(91, 124, 255, 0.35);
+      background: var(--shell-hover);
+    }
+
+    .login-input:focus,
+    .login-input:focus-within,
+    .login-input.ant-input-affix-wrapper:focus,
+    .login-input.ant-input-affix-wrapper:focus-within {
+      border-color: var(--shell-accent);
+      background: var(--shell-elevated-bg);
+      box-shadow: 0 0 0 2px rgba(91, 124, 255, 0.16);
+    }
+
+    .login-input:hover .ant-input-password-icon,
+    .login-input:focus-within .ant-input-password-icon {
+      color: var(--shell-text);
+    }
+
+    .login-input[disabled],
+    .login-input.ant-input-affix-wrapper-disabled,
+    .login-input[disabled] input {
+      color: rgba(151, 167, 189, 0.72);
     }
   }
 

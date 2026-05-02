@@ -10,25 +10,84 @@ export function renderNumber(num) {
     }
 }
 
-export function renderQuota(quota, digits = 2) {
+export function getStoredStatus() {
     const statusStr = localStorage.getItem('status');
-    let status
-    try {
-        status = JSON.parse(statusStr);
-    } catch (e) {
-        throw (e);
+    if (!statusStr) {
+        return null;
     }
+
+    try {
+        return JSON.parse(statusStr);
+    } catch {
+        return null;
+    }
+}
+
+function formatDecimal(value, digits = 2) {
+    if (!Number.isFinite(value)) {
+        return '0';
+    }
+
+    if (Number.isInteger(value)) {
+        return String(value);
+    }
+
+    return value.toFixed(digits).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+export function getPointsSettings(statusOverride = null) {
+    const status = statusOverride || getStoredStatus();
+    const ratio = Number(status?.points_per_cny);
+    const pointsPerCny = Number.isFinite(ratio) && ratio > 0 ? ratio : 10;
+    const pointsName =
+        typeof status?.points_name === 'string' && status.points_name.trim()
+            ? status.points_name.trim()
+            : '积分';
+
+    return {
+        pointsPerCny,
+        pointsName,
+    };
+}
+
+export function formatPointsValue(value, pointsName = '积分', digits = 2) {
+    return `${formatDecimal(Number(value), digits)} ${pointsName}`;
+}
+
+export function renderQuota(quota, digits = 2, options = {}) {
+    const status = getStoredStatus();
+    const { preferPoints = false } = options;
     let quotaPerUnit = status?.quota_per_unit;
     const quotaDisplayType = status?.quota_display_type || 'USD';
     quotaPerUnit = parseFloat(quotaPerUnit);
-    if (quotaDisplayType === 'TOKENS') {
+    const { pointsName, pointsPerCny } = getPointsSettings(status);
+    const usdRate = Number(status?.usd_exchange_rate || 1);
+
+    if (quotaDisplayType === 'TOKENS' && !preferPoints) {
         return renderNumber(quota);
     }
+
+    if (quotaDisplayType === 'POINTS' && !preferPoints) {
+        return formatPointsValue(quota, pointsName, digits);
+    }
+
+    if (!Number.isFinite(quotaPerUnit) || quotaPerUnit <= 0) {
+        if (preferPoints) {
+            return formatPointsValue(quota, pointsName, digits);
+        }
+        return quota;
+    }
+
     const resultUSD = quota / quotaPerUnit;
+    const resultCny = resultUSD * (Number.isFinite(usdRate) && usdRate > 0 ? usdRate : 1);
+
+    if (preferPoints) {
+        return formatPointsValue(resultCny * pointsPerCny, pointsName, digits);
+    }
+
     let symbol = '$';
     let value = resultUSD;
     if (quotaDisplayType === 'CNY') {
-        const usdRate = status?.usd_exchange_rate || 1;
         value = resultUSD * usdRate;
         symbol = '¥';
     } else if (quotaDisplayType === 'CUSTOM') {

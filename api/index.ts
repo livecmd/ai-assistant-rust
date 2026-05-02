@@ -37,12 +37,32 @@ export interface PublicModelPrice {
   display_name: string;
   billing_type: string;
   price: number;
+  points_price?: number;
   currency: string;
   unit: string;
   enabled: boolean;
   remark: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface StatusInfo {
+  quota_per_unit?: number | string;
+  quota_display_type?: string;
+  usd_exchange_rate?: number | string;
+  custom_currency_symbol?: string;
+  custom_currency_exchange_rate?: number | string;
+  points_per_cny?: number | string;
+  points_name?: string;
+  [key: string]: any;
+}
+
+export interface TopupInfo {
+  amount_options: number[];
+  discount: Record<string, number>;
+  payment_ready?: boolean;
+  points_per_cny?: number | string;
+  points_name?: string;
 }
 
 export interface PaymentConfigItem {
@@ -358,7 +378,7 @@ class ApiClient {
    * 获取状态
    */
   async getStatus() {
-    return this.get("/api/status");
+    return this.get<StatusInfo>("/api/status");
   }
 
   /**
@@ -379,7 +399,7 @@ class ApiClient {
    * 获取充值配置信息
    */
   async getTopupInfo() {
-    return this.get("/api/user/topup/info")
+    return this.get<TopupInfo>("/api/user/topup/info")
   }
 
   async listPaymentConfigs(params: { p?: number; size?: number; keyword?: string; provider?: string; method_key?: string; enabled?: boolean | string }) {

@@ -69,6 +69,7 @@ type ModelPriceItem = {
   display_name: string;
   billing_type: string;
   price: number;
+  points_price?: number;
   currency: string;
   unit: string;
   enabled: boolean;
@@ -351,8 +352,8 @@ const AdminConsole = () => {
   const configColumns: ColumnsType<ModelConfigItem> = [
     { title: "提供方", dataIndex: "provider", key: "provider" },
     { title: "类型", dataIndex: "category", key: "category" },
-    { title: "模型 Key", dataIndex: "model_key", key: "model_key" },
-    { title: "展示名", dataIndex: "display_name", key: "display_name" },
+    { title: "模型标识", dataIndex: "model_key", key: "model_key" },
+    { title: "显示名称", dataIndex: "display_name", key: "display_name" },
     { title: "状态", dataIndex: "enabled", key: "enabled", render: (_, record) => <Switch checked={record.enabled} onChange={(checked) => setModelConfigEnabledApi(record.id, checked).then(() => loadConfigs())} /> },
     {
       title: "操作",
@@ -378,9 +379,11 @@ const AdminConsole = () => {
 
   const priceColumns: ColumnsType<ModelPriceItem> = [
     { title: "提供方", dataIndex: "provider", key: "provider" },
-    { title: "模型 Key", dataIndex: "model_key", key: "model_key" },
+    { title: "模型标识", dataIndex: "model_key", key: "model_key" },
+    { title: "显示名称", dataIndex: "display_name", key: "display_name", render: (value) => value || "-" },
     { title: "计费类型", dataIndex: "billing_type", key: "billing_type" },
-    { title: "价格", dataIndex: "price", key: "price" },
+    { title: "人民币价格", dataIndex: "price", key: "price" },
+    { title: "积分价格", dataIndex: "points_price", key: "points_price", render: (value) => value ?? "-" },
     { title: "币种", dataIndex: "currency", key: "currency" },
     { title: "单位", dataIndex: "unit", key: "unit" },
     { title: "状态", dataIndex: "enabled", key: "enabled", render: (_, record) => <Switch checked={record.enabled} onChange={(checked) => setModelPriceEnabledApi(record.id, checked).then(() => loadPrices())} /> },
@@ -475,7 +478,7 @@ const AdminConsole = () => {
             children: (
               <Card>
                 <Space style={{ marginBottom: 16 }}>
-                  <Input.Search placeholder="搜索 provider / model key" allowClear onSearch={(value) => { setConfigKeyword(value); loadConfigs(1, configs.size, value); }} style={{ width: 280 }} />
+                  <Input.Search placeholder="搜索 provider / 模型标识 / 显示名称" allowClear onSearch={(value) => { setConfigKeyword(value); loadConfigs(1, configs.size, value); }} style={{ width: 320 }} />
                   <Button type="primary" onClick={openCreateConfig}>新增模型配置</Button>
                 </Space>
                 <Table rowKey="id" loading={loadingConfigs} columns={configColumns} dataSource={configs.items} pagination={{ current: configs.p, pageSize: configs.size, total: configs.total, onChange: (page, pageSize) => loadConfigs(page, pageSize, configKeyword) }} />
@@ -488,7 +491,7 @@ const AdminConsole = () => {
             children: (
               <Card>
                 <Space style={{ marginBottom: 16 }}>
-                  <Input.Search placeholder="搜索 provider / model key" allowClear onSearch={(value) => { setPriceKeyword(value); loadPrices(1, prices.size, value); }} style={{ width: 280 }} />
+                  <Input.Search placeholder="搜索 provider / 模型标识 / 显示名称" allowClear onSearch={(value) => { setPriceKeyword(value); loadPrices(1, prices.size, value); }} style={{ width: 320 }} />
                   <Button type="primary" onClick={openCreatePrice}>新增模型价格</Button>
                 </Space>
                 <Table rowKey="id" loading={loadingPrices} columns={priceColumns} dataSource={prices.items} pagination={{ current: prices.p, pageSize: prices.size, total: prices.total, onChange: (page, pageSize) => loadPrices(page, pageSize, priceKeyword) }} />
@@ -535,8 +538,8 @@ const AdminConsole = () => {
         <Form form={configForm} layout="vertical">
           <Form.Item name="provider" label="提供方" rules={[{ required: true, message: "请输入提供方" }]}><Input /></Form.Item>
           <Form.Item name="category" label="模型类型" rules={[{ required: true, message: "请输入模型类型" }]}><Input placeholder="text / image / video / 3d" /></Form.Item>
-          <Form.Item name="model_key" label="模型 Key" rules={[{ required: true, message: "请输入模型 Key" }]}><Input /></Form.Item>
-          <Form.Item name="display_name" label="展示名称" rules={[{ required: true, message: "请输入展示名称" }]}><Input /></Form.Item>
+          <Form.Item name="model_key" label="模型标识" rules={[{ required: true, message: "请输入模型标识" }]}><Input /></Form.Item>
+          <Form.Item name="display_name" label="显示名称" rules={[{ required: true, message: "请输入显示名称" }]}><Input /></Form.Item>
           <Form.Item name="endpoint" label="接口端点"><Input /></Form.Item>
           <Form.Item name="settings_json" label="配置 JSON"><Input.TextArea rows={6} /></Form.Item>
           <Form.Item name="remark" label="备注"><Input.TextArea rows={3} /></Form.Item>
@@ -547,10 +550,10 @@ const AdminConsole = () => {
       <Modal title={editingPrice ? "编辑模型价格" : "新增模型价格"} open={priceModalOpen} onOk={savePrice} onCancel={() => setPriceModalOpen(false)} destroyOnClose>
         <Form form={priceForm} layout="vertical">
           <Form.Item name="provider" label="提供方" rules={[{ required: true, message: "请输入提供方" }]}><Input /></Form.Item>
-          <Form.Item name="model_key" label="模型 Key" rules={[{ required: true, message: "请输入模型 Key" }]}><Input /></Form.Item>
-          <Form.Item name="display_name" label="展示名称"><Input /></Form.Item>
+          <Form.Item name="model_key" label="模型标识" rules={[{ required: true, message: "请输入模型标识" }]}><Input /></Form.Item>
+          <Form.Item name="display_name" label="显示名称"><Input /></Form.Item>
           <Form.Item name="billing_type" label="计费类型" rules={[{ required: true, message: "请输入计费类型" }]}><Input placeholder="input / output / per_call / per_second" /></Form.Item>
-          <Form.Item name="price" label="价格" rules={[{ required: true, message: "请输入价格" }]}><InputNumber style={{ width: "100%" }} min={0} step={0.01} /></Form.Item>
+          <Form.Item name="price" label="人民币价格" rules={[{ required: true, message: "请输入人民币价格" }]}><InputNumber style={{ width: "100%" }} min={0} step={0.01} /></Form.Item>
           <Form.Item name="currency" label="币种" rules={[{ required: true, message: "请输入币种" }]}><Input /></Form.Item>
           <Form.Item name="unit" label="计价单位" rules={[{ required: true, message: "请输入单位" }]}><Input /></Form.Item>
           <Form.Item name="remark" label="备注"><Input.TextArea rows={3} /></Form.Item>

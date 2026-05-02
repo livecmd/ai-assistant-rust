@@ -5,6 +5,7 @@ import {
 	PublicModelConfig,
 	PublicModelPrice,
 } from "@/api";
+import { getPointsSettings, getStoredStatus } from "@/utils/helper";
 
 type CatalogOptions = {
 	category?: string;
@@ -22,6 +23,29 @@ export function useModelCatalog(options: CatalogOptions) {
 	const [configs, setConfigs] = useState<PublicModelConfig[]>([]);
 	const [prices, setPrices] = useState<PublicModelPrice[]>([]);
 	const [loading, setLoading] = useState(false);
+	const { pointsName } = getPointsSettings();
+	const status = getStoredStatus();
+	const usdExchangeRate = Number(status?.usd_exchange_rate || 1);
+
+	const toPointsPrice = (entry: PublicModelPrice) => {
+		if (typeof entry.points_price === "number" && Number.isFinite(entry.points_price)) {
+			return entry.points_price;
+		}
+
+		if (typeof entry.price !== "number" || !Number.isFinite(entry.price)) {
+			return null;
+		}
+
+		if (entry.currency === "CNY") {
+			return entry.price * getPointsSettings(status).pointsPerCny;
+		}
+
+		if (entry.currency === "USD") {
+			return entry.price * usdExchangeRate * getPointsSettings(status).pointsPerCny;
+		}
+
+		return null;
+	};
 
 	useEffect(() => {
 		let cancelled = false;
@@ -72,7 +96,10 @@ export function useModelCatalog(options: CatalogOptions) {
 		const parts = modelKeys.flatMap((key) => {
 			const entries = pricesByKey.get(key) || [];
 			return entries.map((entry) => {
-				const priceText = `${entry.currency === "CNY" ? "¥" : `${entry.currency} `}${formatPriceValue(entry.price)}/${entry.unit}`;
+				const pointsPrice = toPointsPrice(entry);
+				const priceText = pointsPrice !== null
+					? `${formatPriceValue(pointsPrice)}${pointsName}/${entry.unit}`
+					: `${entry.currency === "CNY" ? "¥" : `${entry.currency} `}${formatPriceValue(entry.price)}/${entry.unit}`;
 				if (entry.display_name && entry.display_name !== entry.model_key) {
 					return `${entry.display_name} ${priceText}`;
 				}
