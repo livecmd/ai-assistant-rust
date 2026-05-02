@@ -19,7 +19,7 @@ import {
   TopupInfo,
 } from "@/api";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { formatPointsValue, getPointsSettings, renderQuota } from "@/utils/helper";
+import { formatPointsValue, getPointsSettings } from "@/utils/helper";
 import { invoke } from "@tauri-apps/api/core";
 
 interface LoginProps {
@@ -107,7 +107,7 @@ function Login(props: LoginProps) {
   const getUserInfo = async () => {
     const res = await getUserInfoApi();
     if (res.success) {
-      setUserData({ quota: renderQuota(res.data.quota, 2, { preferPoints: true }) });
+      setUserData({ quota: res.data.quota ?? 0 });
     } else {
       message.error("余额获取失败！");
     }
@@ -307,10 +307,13 @@ function Login(props: LoginProps) {
 
   const username = userInfo.username || "用户";
   const planLabel = formatPlanLabel(userInfo.group);
-  const quotaDisplay = useMemo(() => splitQuotaDisplay(userData.quota), [userData.quota]);
+  const pointsName = topupInfo.points_name || pointsSettings.pointsName;
+  const quotaDisplay = useMemo(
+    () => splitQuotaDisplay(formatPointsValue(userData.quota, pointsName)),
+    [pointsName, userData.quota]
+  );
   const finalPrice = numericAmount ? getDiscountedAmount(numericAmount).toFixed(2) : "";
   const pointsPerCny = Number(topupInfo.points_per_cny || pointsSettings.pointsPerCny) || pointsSettings.pointsPerCny;
-  const pointsName = topupInfo.points_name || pointsSettings.pointsName;
   const pointsTextPerCny = formatPointsValue(pointsPerCny, pointsName);
   const earnedPoints = numericAmount > 0 ? numericAmount * pointsPerCny : 0;
 
