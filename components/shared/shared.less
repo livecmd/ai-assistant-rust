@@ -387,6 +387,11 @@
 }
 
 .common-model-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 112px;
     border-color: var(--shell-border);
     background: var(--shell-elevated-bg);
     color: var(--shell-text);
@@ -406,7 +411,15 @@
     }
 }
 
+.common-model-option__content {
+    width: 100%;
+    min-height: 42px;
+}
+
 .common-model-option__name {
+    margin: 0;
+    width: 100%;
+    line-height: 1.25;
     color: var(--shell-text);
 
     &.is-selected {
@@ -415,6 +428,9 @@
 }
 
 .common-model-option__description {
+    margin: 0;
+    width: 100%;
+    min-height: 24px;
     color: var(--shell-muted);
 
     &.is-selected {
@@ -423,6 +439,8 @@
 }
 
 .common-model-option__price {
+    margin: auto 0 0;
+    width: 100%;
     color: var(--shell-accent-strong);
 
     &.is-selected {

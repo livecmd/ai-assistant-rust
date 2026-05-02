@@ -17,8 +17,8 @@ export const CommonModelSelector: React.FC<CommonModelSelectorProps> = ({
     selectedModel,
     onSelect,
     models = [
-        { id: "nano-banana", name: "base", description: "Fast & Efficient" },
-        { id: "nano-banana-pro", name: "pro", description: "High Quality (4K)" }
+        { id: "nano-banana", name: "Base", description: "Fast & Efficient" },
+        { id: "nano-banana-pro", name: "Pro", description: "High Quality (4K)" }
     ]
 }) => {
     return (
@@ -31,24 +31,26 @@ export const CommonModelSelector: React.FC<CommonModelSelectorProps> = ({
                     <button
                         key={m.id}
                         onClick={() => onSelect(m.id)}
-                        className={`common-model-option p-3 text-left rounded-2xl border transition-all ${selectedModel === m.id
+                        className={`common-model-option flex h-full flex-col items-start p-3 text-left rounded-2xl border transition-all ${selectedModel === m.id
                             ? "is-selected"
                             : ""
                             }`}
                     >
-                        <p
-                            className={`common-model-option__name text-[12px] font-bold capitalize ${selectedModel === m.id ? "is-selected" : ""
-                                }`}
-                        >
-                            {m.name}
-                        </p>
-                        {m.description && (
+                        <div className="common-model-option__content w-full">
                             <p
-                                className={`common-model-option__description text-[10px] leading-tight mt-1 ${selectedModel === m.id ? "is-selected" : ""}`}
+                                className={`common-model-option__name text-[12px] font-bold capitalize ${selectedModel === m.id ? "is-selected" : ""
+                                    }`}
                             >
-                                {m.description}
+                                {m.name}
                             </p>
-                        )}
+                            {m.description && (
+                                <p
+                                    className={`common-model-option__description text-[10px] leading-tight mt-1 ${selectedModel === m.id ? "is-selected" : ""}`}
+                                >
+                                    {m.description}
+                                </p>
+                            )}
+                        </div>
                         {m.price && (
                             <p
                                 className={`common-model-option__price text-[10px] leading-tight mt-2 font-medium ${selectedModel === m.id ? "is-selected" : ""}`}

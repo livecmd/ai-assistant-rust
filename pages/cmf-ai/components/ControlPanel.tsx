@@ -56,8 +56,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isPro = selectedModel === ModelType.NANO_BANANA_PRO;
   const models = useMemo(() => {
     const options = [
-    { id: ModelType.NANO_BANANA, name: getConfig(ModelType.NANO_BANANA)?.display_name || "2.5 Image", description: "快速图片生成", price: formatPriceSummary([ModelType.NANO_BANANA]) },
-    { id: ModelType.NANO_BANANA_PRO, name: getConfig(ModelType.NANO_BANANA_PRO)?.display_name || "3.0 Pro Image", description: "高质量图片生成", price: formatPriceSummary(["gemini-3-pro-image-preview-1k-2k", "gemini-3-pro-image-preview-4k"]) },
+    { id: ModelType.NANO_BANANA, name: "Base", description: "快速图片生成", price: formatPriceSummary([ModelType.NANO_BANANA]) },
+    { id: ModelType.NANO_BANANA_PRO, name: "Pro", description: "高质量图片生成", price: formatPriceSummary(["gemini-3-pro-image-preview-1k-2k", "gemini-3-pro-image-preview-4k"]) },
     ];
     const enabled = options.filter((item) => getConfig(item.id));
     return enabled.length > 0 ? enabled : options;

@@ -28,8 +28,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, setConfig, isLoadin
   const { getConfig, formatPriceSummary } = useModelCatalog({ category: 'image', provider: 'vertex' });
   const models = useMemo(() => {
     const options = [
-      { id: ModelVersion.FLASH, name: getConfig(ModelVersion.FLASH)?.display_name || '2.5 Image', description: '快速图片生成', price: formatPriceSummary([ModelVersion.FLASH]) },
-      { id: ModelVersion.PRO, name: getConfig(ModelVersion.PRO)?.display_name || '3.0 Pro Image', description: '高质量图片生成', price: formatPriceSummary(['gemini-3-pro-image-preview-1k-2k', 'gemini-3-pro-image-preview-4k']) },
+      { id: ModelVersion.FLASH, name: 'Base', description: '快速图片生成', price: formatPriceSummary([ModelVersion.FLASH]) },
+      { id: ModelVersion.PRO, name: 'Pro', description: '高质量图片生成', price: formatPriceSummary(['gemini-3-pro-image-preview-1k-2k', 'gemini-3-pro-image-preview-4k']) },
     ];
     const enabled = options.filter((item) => getConfig(item.id));
     return enabled.length > 0 ? enabled : options;
