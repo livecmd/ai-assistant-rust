@@ -111,12 +111,13 @@
          .cube-container {
             height: 200px;
             margin-bottom: 20px;
-            background: rgba(0,0,0,0.2);
+            background: var(--shell-elevated-soft);
             border-radius: 20px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--shell-border);
 
             @media (max-width: @screen-md) {
                 height: 150px;
@@ -199,20 +200,75 @@
         transform-style: preserve-3d;
         transition: transform 0.1s ease-out;
     }
+
+    .cube-outer {
+        background: var(--shell-elevated-soft);
+        border: 1px solid var(--shell-border);
+        border-radius: 16px;
+    }
+
+    .cube-label {
+        color: var(--shell-muted);
+    }
+
+    .cube-label-icon {
+        color: var(--shell-accent);
+    }
+
+    .cube-zoom-sidebar {
+        background: var(--shell-elevated-soft);
+        border-color: var(--shell-border);
+    }
+
+    .cube-zoom-track {
+        background: var(--shell-border);
+    }
+
+    .cube-zoom-indicator {
+        background: var(--shell-accent);
+    }
+
+    .cube-zoom-tick {
+        background: var(--shell-muted);
+        opacity: 0.3;
+    }
+
+    .cube-zoom-value {
+        color: var(--shell-muted);
+    }
+
+    .cube-stage {
+        background-image:
+            linear-gradient(to right, var(--shell-border) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--shell-border) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.9;
+    }
+
+    .cube-core {
+        background: var(--shell-accent);
+        opacity: 0.15;
+    }
+
+    .cube-params {
+        color: var(--shell-muted);
+    }
+
     .cube-face {
         position: absolute;
         width: 100px;
         height: 100px;
-        border: 1px solid rgba(6, 182, 212, 0.5);
-        background: #020617;
+        border: 1px solid var(--shell-accent);
+        background: var(--shell-elevated-bg);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 14px;
         font-weight: bold;
-        color: rgba(6, 182, 212, 0.9);
-        box-shadow: 0 0 15px rgba(6, 182, 212, 0.15) inset;
+        color: var(--shell-accent);
+        box-shadow: 0 0 15px rgba(91, 124, 255, 0.1) inset;
         backface-visibility: hidden;
+        opacity: 0.85;
 
         @media (max-width: @screen-md) {
             width: 70px;

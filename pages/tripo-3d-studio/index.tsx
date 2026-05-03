@@ -50,16 +50,16 @@ const modeOptions: Array<{ value: TripoMode; title: string; description: string 
   { value: "highpoly-to-lowpoly", title: "高模转低模", description: "控制面数并导出轻量版本" },
   // { value: "prerig-check", title: "绑定预检", description: "先检查模型是否适合自动绑定" },
   // { value: "rig", title: "自动绑定", description: "生成骨骼和可动画模型" },
-  { value: "retarget", title: "动作重定向", description: "套用预设动作导出动画结果" },
+  // { value: "retarget", title: "动作重定向", description: "套用预设动作导出动画结果" },
   // { value: "stylize-model", title: "模型风格化", description: "转 LEGO / Voxel / Minecraft 风格" },
   { value: "convert-model", title: "格式转换", description: "导出 GLTF / FBX / OBJ / STL 等格式" },
 ];
 
 const generationModelVersionOptions = [
   { label: "默认", value: "" },
-  { label: "标准版 v2.5", value: "v2.5-20250123" },
-  { label: "标准版 v2.0", value: "v2.0-20240919" },
-  { label: "标准版 v3.0", value: "v3.0-20250812" },
+  // { label: "标准版 v2.5", value: "v2.5-20250123" },
+  // { label: "标准版 v2.0", value: "v2.0-20240919" },
+  // { label: "标准版 v3.0", value: "v3.0-20250812" },
   { label: "标准版 v3.1", value: "v3.1-20260211" },
   { label: "Turbo 加速版", value: "Turbo-v1.0-20250506" },
   { label: "P1 专业版", value: "P1-20260311" },

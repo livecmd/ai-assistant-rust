@@ -102,34 +102,33 @@ const InteractiveCube: React.FC<InteractiveCubeProps> = ({ params, setParams }) 
   const scale = 0.8 + (params.zoom / 20);
 
   return (
-    <div className="flex w-full h-full border-hud-border border-gray-400 bg-[#0f172a] relative overflow-hidden">
+    <div className="cube-outer flex w-full h-full relative overflow-hidden">
       {/* Label */}
-      <div className="absolute top-4 left-4 text-[12px] font-bold text-slate-300 z-10">
-        <span className="text-hud-blue mr-2">■</span>交互式魔方 (INTERACTIVE_CUBE)
+      <div className="cube-label absolute top-4 left-4 text-[12px] font-bold z-10">
+        <span className="cube-label-icon mr-2">■</span>交互式魔方 (INTERACTIVE_CUBE)
       </div>
 
       {/* Right side zoom slider visualizer */}
-      <div className="absolute right-0 top-0 bottom-0 w-12 border-l border-gray-400 border-hud-border flex flex-col items-center justify-center py-4 z-10 bg-[#0f172a]">
-        {/* <span className="text-[12px] text-slate-300 mb-2 mr-20 writing-vertical-rl rotate-180 translate-x-[2px] whitespace-nowrap">[拖动立方体 // 滑动缩放]</span> */}
-        <div className="h-full w-[1px] bg-hud-border relative">
+      <div className="cube-zoom-sidebar absolute right-0 top-0 bottom-0 w-12 border-l flex flex-col items-center justify-center py-4 z-10">
+        <div className="cube-zoom-track h-full w-[1px] relative">
           <div
-            className="absolute w-2 h-2 bg-hud-blue -left-[3px] transition-all duration-300"
+            className="cube-zoom-indicator absolute w-2 h-2 -left-[3px] transition-all duration-300"
             style={{ bottom: `${(params.zoom / 10) * 100}%` }}
           ></div>
           {/* Zoom ticks */}
           <div className="absolute w-full h-full left-0 top-0 pointer-events-none">
-            <div className="absolute left-1 bottom-0 w-1 h-[1px] bg-hud-text/20"></div>
-            <div className="absolute left-1 bottom-1/2 w-1 h-[1px] bg-hud-text/20"></div>
-            <div className="absolute left-1 bottom-full w-1 h-[1px] bg-hud-text/20"></div>
+            <div className="cube-zoom-tick absolute left-1 bottom-0 w-1 h-[1px]"></div>
+            <div className="cube-zoom-tick absolute left-1 bottom-1/2 w-1 h-[1px]"></div>
+            <div className="cube-zoom-tick absolute left-1 bottom-full w-1 h-[1px]"></div>
           </div>
         </div>
-        <div className="mt-2 text-[8px] text-hud-white">{params.zoom.toFixed(0)}</div>
+        <div className="cube-zoom-value mt-2 text-[8px]">{params.zoom.toFixed(0)}</div>
       </div>
 
       {/* 3D Stage */}
       <div
         ref={containerRef}
-        className="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing perspective-container bg-grid-pattern bg-[length:40px_40px] opacity-80"
+        className="cube-stage w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing perspective-container"
         onMouseDown={handleMouseDown}
         onWheel={handleWheel}
       >
@@ -147,20 +146,15 @@ const InteractiveCube: React.FC<InteractiveCubeProps> = ({ params, setParams }) 
           <div className="cube-face face-bottom">下</div>
 
           {/* Internal Core for visual effect */}
-          <div className="absolute top-1/2 left-1/2 w-10 h-10 bg-hud-cyan/20 blur-md transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+          <div className="cube-core absolute top-1/2 left-1/2 w-10 h-10 blur-md transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
         </div>
       </div>
 
       {/* Floating Params Display in Cube Area */}
-      <div className="absolute bottom-4 left-4 text-[12px] text-slate-300 space-y-1 pointer-events-none">
+      <div className="cube-params absolute bottom-4 left-4 text-[12px] space-y-1 pointer-events-none">
         <div>旋转 (ROT): {params.rotationH}°</div>
         <div>倾斜 (TILT): {params.rotationV}</div>
       </div>
-
-      {/* Gemini Credits */}
-      {/* <div className="absolute bottom-2 right-14 text-[12px] text-slate-300 tracking-widest">
-             Gemini 视觉模型 2.5 // Flash Attention // 构建版本 89234
-        </div> */}
     </div>
   );
 };

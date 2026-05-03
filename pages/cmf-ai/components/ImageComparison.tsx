@@ -92,7 +92,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
         <img
           src={afterImage}
           alt="After"
-          className="max-w-full max-h-full object-contain"
+          className="w-full h-full object-contain"
           onLoad={() => setImageLoaded(true)}
         />
       </div>
@@ -111,8 +111,7 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
           <img
             src={beforeImage}
             alt="Before"
-            className="max-w-full max-h-full object-contain"
-            style={{ maxWidth: containerSize.width || '100%' }}
+            className="w-full h-full object-contain"
           />
         </div>
         {/* Label for Before */}

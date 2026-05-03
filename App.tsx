@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Routes,
-  Route,
   useNavigate,
-  Navigate,
   useSearchParams,
   useLocation,
 } from "react-router-dom";
@@ -98,6 +95,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setPathnameState(location.pathname);
+
+    if (location.pathname === "/") {
+      navigate("/GenAIImageStudio", { replace: true });
+    }
 
     const userInfo = localStorage.getItem("userInfo");
     if (!userInfo) {
@@ -333,33 +334,38 @@ const App: React.FC = () => {
             })}
           </div>
           <div className="content">
-            <Routes>
-              <Route
-                path="/"
-                element={<Navigate to="/GenAIImageStudio" replace />}
-              />
-              <Route
-                path="/"
-                element={<Navigate to="/GenAIImageStudio" replace />}
-              />
-
-              <Route path="/GenAIImageStudio" element={<GenAIImageStudio />} />
-              <Route path="/GeminiProductAI" element={<GeminiProductAI />} />
-              <Route path="/Cmftransfer" element={<Cmftransfer />} />
-              <Route path="/AICameraDirector" element={<AICameraDirector />} />
-              <Route
-                path="/AILineArtColorizer"
-                element={<AILineArtColorizer />}
-              />
-              <Route path="/VeoStudio" element={<VeoStudio />} />
-              <Route path="/StyleMorph" element={<StyleMorph />} />
-              <Route
-                path="/CinematicMultiShot"
-                element={<CinematicMultiShot />}
-              />
-              <Route path="/TripoStudio" element={<TripoStudio />} />
-              <Route path="/AdminConsole" element={<AdminConsole />} />
-            </Routes>
+            <div style={{ display: pathnameState === "/GenAIImageStudio" ? "block" : "none", height: "100%" }}>
+              <GenAIImageStudio />
+            </div>
+            <div style={{ display: pathnameState === "/GeminiProductAI" ? "block" : "none", height: "100%" }}>
+              <GeminiProductAI />
+            </div>
+            <div style={{ display: pathnameState === "/Cmftransfer" ? "block" : "none", height: "100%" }}>
+              <Cmftransfer />
+            </div>
+            <div style={{ display: pathnameState === "/AICameraDirector" ? "block" : "none", height: "100%" }}>
+              <AICameraDirector />
+            </div>
+            <div style={{ display: pathnameState === "/AILineArtColorizer" ? "block" : "none", height: "100%" }}>
+              <AILineArtColorizer />
+            </div>
+            <div style={{ display: pathnameState === "/StyleMorph" ? "block" : "none", height: "100%" }}>
+              <StyleMorph />
+            </div>
+            <div style={{ display: pathnameState === "/CinematicMultiShot" ? "block" : "none", height: "100%" }}>
+              <CinematicMultiShot />
+            </div>
+            <div style={{ display: pathnameState === "/VeoStudio" ? "block" : "none", height: "100%" }}>
+              <VeoStudio />
+            </div>
+            <div style={{ display: pathnameState === "/TripoStudio" ? "block" : "none", height: "100%" }}>
+              <TripoStudio />
+            </div>
+            {currentUser?.group === "admin" && (
+              <div style={{ display: pathnameState === "/AdminConsole" ? "block" : "none", height: "100%" }}>
+                <AdminConsole />
+              </div>
+            )}
           </div>
         </div>
         {loginShow && <LoginModal setLoginShow={setLoginShow} />}

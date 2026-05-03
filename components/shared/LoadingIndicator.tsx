@@ -21,8 +21,6 @@ const loadingMessages = [
   "Untangling the timelines...",
   "Enhancing to ludicrous speed...",
   "Don't worry, the pixels are friendly.",
-  "Harvesting doubao image stems...",
-  "Praying to the Gemini star...",
   "Starting a draft for your oscar speech..."
 ];
 

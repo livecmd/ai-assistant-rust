@@ -55,12 +55,10 @@ const initDB = (): Promise<IDBDatabase> => {
  * Save history items to IndexedDB
  * @param storeName - The name of the object store
  * @param items - Array of history items to save
- * @param maxItems - Maximum number of items to keep (default: 50)
  */
 export const saveHistory = async <T extends { id: string }>(
   storeName: string,
-  items: T[],
-  maxItems: number = 50
+  items: T[]
 ): Promise<void> => {
   try {
     const db = await initDB();
@@ -74,11 +72,8 @@ export const saveHistory = async <T extends { id: string }>(
       clearRequest.onerror = () => reject(clearRequest.error);
     });
 
-    // Limit items to maxItems
-    const limitedItems = items.slice(0, maxItems);
-
     // Add new items
-    for (const item of limitedItems) {
+    for (const item of items) {
       await new Promise<void>((resolve, reject) => {
         const addRequest = store.add(item);
         addRequest.onsuccess = () => resolve();
