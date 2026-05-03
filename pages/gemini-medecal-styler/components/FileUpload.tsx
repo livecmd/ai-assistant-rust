@@ -57,8 +57,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ label, image, onUpload, accept 
               alt="Uploaded"
               className="w-full h-full object-contain p-2"
             />
-            <div className="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-              <span className="medecal-upload-overlay-label text-slate-900 text-sm font-medium bg-white/88 px-3 py-1 rounded-full">Change Image</span>
+            <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+              <span className="px-3 py-1.5 bg-white/10 text-white text-xs rounded backdrop-blur-sm border border-white/10">Change Image</span>
             </div>
           </div>
         ) : (
