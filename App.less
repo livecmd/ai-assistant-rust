@@ -387,8 +387,8 @@ body {
     background: linear-gradient(180deg, var(--shell-panel-strong), var(--shell-panel));
     border-radius: 30px;
     border: 1px solid var(--shell-border);
-    width: 300px;
-    min-width: 300px;
+    width: 260px;
+    min-width: 260px;
     flex-shrink: 0;
     min-height: 0;
     display: flex;
@@ -396,7 +396,7 @@ body {
     backdrop-filter: blur(16px);
     transition: all 0.3s ease;
     animation: fadeInUp 0.5s ease-out;
-    padding: 14px 12px;
+    padding: 12px 10px;
     box-sizing: border-box;
     align-self: stretch;
     max-height: 100%;
@@ -410,14 +410,14 @@ body {
     }
 
     @media (max-width: @screen-xl) {
-      width: 280px;
-      min-width: 280px;
+      width: 240px;
+      min-width: 240px;
     }
 
     @media (max-width: @screen-lg) {
-      width: 240px;
-      min-width: 240px;
-      padding: 10px;
+      width: 220px;
+      min-width: 220px;
+      padding: 10px 8px;
     }
 
     @media (max-width: @screen-md) {
@@ -434,22 +434,22 @@ body {
     }
 
     @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
-      width: 260px;
-      min-width: 260px;
+      width: 240px;
+      min-width: 240px;
       padding: 10px 8px;
     }
 
     @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
-      width: 232px;
-      min-width: 232px;
+      width: 220px;
+      min-width: 220px;
     }
 
     .menu-item{
-      margin-top: 12px;
+      margin-top: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-radius: 24px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
@@ -513,14 +513,14 @@ body {
       }
 
       img{
-        width: 30px;
-        margin-right: 16px;
+        width: 26px;
+        margin-right: 12px;
         transition: transform 0.3s ease;
         flex-shrink: 0;
 
         @media (max-width: @screen-lg) {
-          width: 24px;
-          margin-right: 12px;
+          width: 22px;
+          margin-right: 10px;
         }
 
         @media (max-width: @screen-sm) {
@@ -549,7 +549,7 @@ body {
 
         .menu-title{
           color: var(--shell-text);
-          font-size: 17px;
+          font-size: 15px;
           line-height: 1.2;
           font-weight: 600;
           font-family: var(--shell-font-display);
@@ -557,7 +557,7 @@ body {
           transition: color 0.3s ease;
 
           @media (max-width: @screen-lg) {
-            font-size: 14px;
+            font-size: 13px;
           }
 
           @media (max-width: @screen-sm) {
@@ -575,15 +575,15 @@ body {
 
         .menu-subtitle{
           color: var(--shell-muted);
-          font-size: 12px;
+          font-size: 10px;
           line-height: 1.35;
-          margin-top: 6px;
+          margin-top: 4px;
           transition: color 0.3s ease;
-          word-break: break-word;
+          white-space: nowrap;
 
           @media (max-width: @screen-lg) {
-            font-size: 10px;
-            margin-top: 4px;
+            font-size: 9px;
+            margin-top: 3px;
           }
 
           @media (max-width: @screen-md) {

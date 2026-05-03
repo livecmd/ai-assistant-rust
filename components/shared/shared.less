@@ -168,40 +168,40 @@
 
 .right-panel-header {
     flex-shrink: 0;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 
     h1 {
         margin: 0;
         color: var(--shell-accent-strong);
         font-family: var(--shell-font-display);
-        font-size: 32px;
+        font-size: 26px;
         font-weight: 800;
         line-height: 1.08;
         letter-spacing: -0.02em;
 
         @media (max-width: @screen-md) {
-            font-size: 28px;
+            font-size: 24px;
         }
 
         @media (max-width: @screen-sm) {
-            font-size: 24px;
+            font-size: 22px;
         }
     }
 
     p {
-        margin: 8px 0 0;
+        margin: 6px 0 0;
         color: var(--shell-muted);
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         line-height: 1.5;
 
         @media (max-width: @screen-md) {
-            font-size: 13px;
+            font-size: 11px;
         }
     }
 
     p + p {
-        margin-top: 4px;
+        margin-top: 3px;
     }
 }
 
@@ -212,7 +212,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    gap: 12px;
+    gap: 8px;
 }
 
 .control-panel-inner {
@@ -229,15 +229,15 @@
 
 .unified-control-panel__header {
     flex-shrink: 0;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
 .unified-control-panel__title-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
 .unified-control-panel__icon {
@@ -251,16 +251,16 @@
 .unified-control-panel__title {
     margin: 0;
     color: #0f172a;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.2;
 }
 
 .unified-control-panel__subtitle {
     margin: 0;
-    padding-left: 32px;
+    padding-left: 28px;
     color: #64748b;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.5;
 }
 
@@ -268,12 +268,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
 
     > * {
         flex-shrink: 0;
@@ -296,7 +296,7 @@
 .panel-footer {
     margin-top: auto;
     flex-shrink: 0;
-    padding-top: 12px;
+    padding-top: 8px;
     background: transparent;
 }
 
@@ -317,8 +317,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 10px;
+    padding: 11px 13px;
     border-bottom: 1px solid rgba(226, 232, 240, 0.95);
     transition: background-color 0.2s ease;
 
@@ -334,10 +334,10 @@
 .control-section__title {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin: 0;
     color: #475569;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: none;
@@ -364,8 +364,8 @@
 .control-section__body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 16px;
+    gap: 8px;
+    padding: 12px;
     max-height: 1200px;
     opacity: 1;
     overflow: hidden;
@@ -606,11 +606,11 @@
 // ============================================
 // 固定布局尺寸变量
 // ============================================
-@right-panel-width: 360px;        // 右侧控制面板宽度
-@right-panel-width-xl: 320px;     // xl 断点
-@right-panel-width-lg: 280px;     // lg 断点
-@left-right-gap: 50px;            // 左右区域间距
-@left-right-gap-lg: 30px;         // lg 断点间距
+@right-panel-width: 260px;        // 右侧控制面板宽度（从 280px 减少）
+@right-panel-width-xl: 240px;     // xl 断点（从 260px 减少）
+@right-panel-width-lg: 220px;     // lg 断点（从 240px 减少）
+@left-right-gap: 36px;            // 左右区域间距（从 40px 减少）
+@left-right-gap-lg: 20px;         // lg 断点间距（从 24px 减少）
 @page-padding: 30px;              // 页面内边距
 @page-padding-lg: 20px;           // lg 断点内边距
 @page-padding-md: 15px;           // md 断点内边距
@@ -1368,109 +1368,109 @@
         .control-panel-wrapper {
             flex: none;
             overflow-y: visible;
-            margin-top: 20px;
+            margin-top: 14px;
             padding-right: 0;
             max-height: none;
-            
-            // 全局缩小控制面板内容 30%
-            font-size: 0.74em;
-            
+
+            // 全局缩小控制面板内容 40%
+            font-size: 0.62em;
+
             .control-panel-inner {
                 display: flex;
                 flex-direction: column;
                 min-height: 0;
             }
-            
+
             // 缩小标题和文本
             h1, h2, h3, h4, h5, h6 {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
-            
+
             // 缩小输入框和按钮
             input, textarea, select, button {
                 font-size: inherit;
-                padding: 0.4em 0.6em;
+                padding: 0.32em 0.5em;
             }
-            
+
             // 缩小标签
             label {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
             }
-            
+
             // 缩小图标
             svg {
-                transform: scale(0.85);
+                transform: scale(0.8);
             }
-            
+
             // 缩小间距
             .space-y-2 > * + * {
-                margin-top: 0.35rem;
+                margin-top: 0.28rem;
             }
             .space-y-3 > * + * {
-                margin-top: 0.5rem;
+                margin-top: 0.4rem;
             }
             .space-y-4 > * + * {
-                margin-top: 0.7rem;
+                margin-top: 0.55rem;
             }
             .space-y-5 > * + * {
-                margin-top: 0.85rem;
+                margin-top: 0.7rem;
             }
             .space-y-6 > * + * {
-                margin-top: 1rem;
+                margin-top: 0.85rem;
             }
             .space-y-8 > * + * {
-                margin-top: 1.4rem;
+                margin-top: 1.1rem;
             }
-            
+
             // 缩小 padding
-            .p-3 { padding: 0.5rem; }
-            .p-4 { padding: 0.7rem; }
-            .p-5 { padding: 0.85rem; }
-            .px-3 { padding-left: 0.5rem; padding-right: 0.5rem; }
-            .px-4 { padding-left: 0.7rem; padding-right: 0.7rem; }
-            .px-5 { padding-left: 0.85rem; padding-right: 0.85rem; }
-            .py-2 { padding-top: 0.35rem; padding-bottom: 0.35rem; }
-            .py-3 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-            .py-4 { padding-top: 0.7rem; padding-bottom: 0.7rem; }
-            
+            .p-3 { padding: 0.4rem; }
+            .p-4 { padding: 0.55rem; }
+            .p-5 { padding: 0.7rem; }
+            .px-3 { padding-left: 0.4rem; padding-right: 0.4rem; }
+            .px-4 { padding-left: 0.55rem; padding-right: 0.55rem; }
+            .px-5 { padding-left: 0.7rem; padding-right: 0.7rem; }
+            .py-2 { padding-top: 0.28rem; padding-bottom: 0.28rem; }
+            .py-3 { padding-top: 0.4rem; padding-bottom: 0.4rem; }
+            .py-4 { padding-top: 0.55rem; padding-bottom: 0.55rem; }
+
             // 缩小 gap
-            .gap-2 { gap: 0.35rem; }
-            .gap-3 { gap: 0.5rem; }
-            .gap-4 { gap: 0.7rem; }
-            .gap-5 { gap: 0.85rem; }
-            .gap-6 { gap: 1rem; }
-            
+            .gap-2 { gap: 0.28rem; }
+            .gap-3 { gap: 0.4rem; }
+            .gap-4 { gap: 0.55rem; }
+            .gap-5 { gap: 0.7rem; }
+            .gap-6 { gap: 0.85rem; }
+
             // 缩小 margin
-            .mb-2 { margin-bottom: 0.35rem; }
-            .mb-3 { margin-bottom: 0.5rem; }
-            .mb-4 { margin-bottom: 0.7rem; }
-            .mb-6 { margin-bottom: 1rem; }
-            .mb-8 { margin-bottom: 1.4rem; }
-            .mt-2 { margin-top: 0.35rem; }
-            .mt-4 { margin-top: 0.7rem; }
-            .mt-6 { margin-top: 1rem; }
-            .mt-8 { margin-top: 1.4rem; }
-            
+            .mb-2 { margin-bottom: 0.28rem; }
+            .mb-3 { margin-bottom: 0.4rem; }
+            .mb-4 { margin-bottom: 0.55rem; }
+            .mb-6 { margin-bottom: 0.85rem; }
+            .mb-8 { margin-bottom: 1.1rem; }
+            .mt-2 { margin-top: 0.28rem; }
+            .mt-4 { margin-top: 0.55rem; }
+            .mt-6 { margin-top: 0.85rem; }
+            .mt-8 { margin-top: 1.1rem; }
+
             // 缩小圆角
-            .rounded-lg { border-radius: 0.35rem; }
-            .rounded-xl { border-radius: 0.5rem; }
-            .rounded-2xl { border-radius: 0.7rem; }
-            
+            .rounded-lg { border-radius: 0.28rem; }
+            .rounded-xl { border-radius: 0.4rem; }
+            .rounded-2xl { border-radius: 0.55rem; }
+
             // 缩小高度
-            .h-20 { height: 3.5rem; }
-            .h-24 { height: 4.2rem; }
-            .h-32 { height: 5.6rem; }
-            
+            .h-20 { height: 3rem; }
+            .h-24 { height: 3.6rem; }
+            .h-32 { height: 4.8rem; }
+
             // 图片上传区域缩小
             .aspect-square {
-                max-height: 120px;
+                max-height: 90px;
             }
 
             @media (max-width: @screen-md) {
-                margin-top: 15px;
+                margin-top: 12px;
                 max-height: none;
                 overflow-y: visible;
-                font-size: 0.86em;
+                font-size: 0.82em;
             }
 
             /* Custom Scrollbar */
