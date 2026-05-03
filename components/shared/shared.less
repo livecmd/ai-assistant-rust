@@ -404,10 +404,10 @@
     }
 
     &.is-selected {
-        border-color: #3b82f6;
-        background: linear-gradient(135deg, #1677ff 0%, #4d9dff 100%);
+        border-color: var(--shell-accent-strong);
+        background: linear-gradient(135deg, var(--shell-accent-strong) 0%, var(--shell-accent) 100%);
         color: #ffffff;
-        box-shadow: 0 12px 28px rgba(22, 119, 255, 0.24);
+        box-shadow: 0 12px 28px rgba(91, 124, 255, 0.24);
     }
 }
 
@@ -450,13 +450,47 @@
 
 .common-aspect-ratio-option {
     border-color: var(--shell-border);
-    background: var(--shell-elevated-soft);
+    background: var(--shell-elevated-bg);
     color: var(--shell-muted);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
 
     &:hover {
-        border-color: var(--shell-accent);
-        color: var(--shell-accent-strong);
-        background: var(--shell-accent-soft);
+        border-color: #1677ff;
+        color: #1677ff;
+        background: rgba(22, 119, 255, 0.08);
+    }
+
+    &.is-selected {
+        border-color: #1677ff;
+        background: linear-gradient(135deg, #1677ff 0%, #4d9dff 100%);
+        color: #ffffff;
+        box-shadow: 0 10px 22px rgba(22, 119, 255, 0.22);
+    }
+}
+
+.common-segmented-bar,
+.common-resolution-bar {
+    background: var(--shell-elevated-bg);
+    border-color: var(--shell-border);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.common-segmented-option,
+.common-resolution-option {
+    border-color: var(--shell-border);
+    background: var(--shell-elevated-soft);
+    color: var(--shell-muted);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        border-color: #1677ff;
+        color: #1677ff;
+        background: rgba(22, 119, 255, 0.08);
+    }
+
+    &:disabled {
+        box-shadow: none;
     }
 
     &.is-selected {
@@ -497,8 +531,8 @@
     }
 
     .blobk-bg {
-        background: #ffffff;
-        border: 1px solid #dbe4f0;
+        background: var(--shell-elevated-bg);
+        border: 1px solid var(--shell-border);
         border-radius: 18px;
         padding: 14px;
     }

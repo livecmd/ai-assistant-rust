@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   ImageState,
   GenerationConfig,
@@ -494,7 +495,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                   structuralDepth: parseInt(e.target.value),
                 })
               }
-              className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+              className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-amber-500 stylemorph-range-input"
             />
             <div className="flex justify-between text-[10px] stylemorph-range-scale">
               <span>Rigid (锁定)</span>
@@ -522,7 +523,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               onChange={(e) =>
                 setConfig({ ...config, weight: parseInt(e.target.value) })
               }
-              className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-blue-500 stylemorph-range-input"
             />
             <p className="stylemorph-range-note stylemorph-range-note--cool">
               {getWeightDescription(config.weight)}
@@ -544,8 +545,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           />
         </div>
 
-        {modalTarget && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/98 backdrop-blur-3xl p-6 animate-in fade-in duration-300">
+        {modalTarget && createPortal(
+          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/98 backdrop-blur-3xl p-6 animate-in fade-in duration-300">
             <div className="relative max-w-7xl w-full h-full flex flex-col items-center bg-slate-900 border border-slate-800 rounded-[2.5rem] shadow-2xl overflow-hidden">
               <div className="w-full flex justify-between items-center px-12 py-6 border-b border-slate-800">
                 <div className="flex items-center gap-6">
@@ -684,7 +685,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 </button>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </UnifiedControlPanel>
       <div className="panel-footer">

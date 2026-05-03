@@ -700,6 +700,36 @@ p{
     --cinema-text-soft: #a3b1c6;
     --cinema-text-muted: #7f91aa;
     --cinema-accent-soft: rgba(122, 155, 255, 0.18);
+
+    .cinema-textarea {
+      background: linear-gradient(180deg, rgba(18, 32, 53, 0.98) 0%, rgba(12, 24, 39, 0.98) 100%);
+      border-color: rgba(110, 133, 170, 0.24);
+      color: var(--cinema-text);
+
+      &::placeholder {
+        color: #7f91aa;
+      }
+
+      &:focus {
+        background: linear-gradient(180deg, rgba(22, 38, 62, 0.98) 0%, rgba(16, 30, 48, 0.98) 100%);
+        border-color: rgba(122, 155, 255, 0.42);
+        box-shadow: 0 0 0 4px rgba(122, 155, 255, 0.12);
+      }
+    }
+
+    .cinema-upload-tile {
+      background: rgba(18, 32, 53, 0.78);
+      border-color: rgba(110, 133, 170, 0.24);
+
+      &:hover {
+        background: rgba(23, 40, 67, 0.88);
+        border-color: rgba(122, 155, 255, 0.34);
+      }
+    }
+
+    .cinema-style-option {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
   }
 
   .veoStudio {
@@ -712,6 +742,41 @@ p{
     --veo-muted: #99aac0;
     --veo-accent-soft: rgba(122, 155, 255, 0.18);
     --veo-shadow: 0 20px 42px rgba(0, 0, 0, 0.28);
+
+    .veo-prompt-textarea {
+      background: linear-gradient(180deg, rgba(18, 32, 53, 0.98) 0%, rgba(12, 24, 39, 0.98) 100%);
+      border-color: rgba(110, 133, 170, 0.24);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+      &::placeholder {
+        color: #7f91aa;
+      }
+
+      &:focus {
+        background: linear-gradient(180deg, rgba(22, 38, 62, 0.98) 0%, rgba(16, 30, 48, 0.98) 100%);
+        border-color: rgba(122, 155, 255, 0.42);
+        box-shadow: 0 0 0 4px rgba(122, 155, 255, 0.12);
+      }
+    }
+
+    .veo-segment-button {
+      background: linear-gradient(180deg, rgba(18, 32, 53, 0.98) 0%, rgba(14, 24, 41, 0.98) 100%);
+      border-color: rgba(110, 133, 170, 0.24);
+      color: var(--shell-text);
+      box-shadow: none;
+
+      &:hover:not(.is-active) {
+        background: rgba(23, 40, 67, 0.96);
+        border-color: rgba(122, 155, 255, 0.34);
+      }
+
+      &.is-active {
+        color: #ffffff;
+        border-color: rgba(122, 155, 255, 0.5);
+        background: linear-gradient(135deg, #5d7fff 0%, #7aa8ff 100%);
+        box-shadow: 0 14px 30px rgba(93, 127, 255, 0.24);
+      }
+    }
   }
 
   .cinematicMultiShot > .right > p,

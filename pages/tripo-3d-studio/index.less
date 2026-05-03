@@ -571,6 +571,12 @@
     border-color: rgba(122, 155, 255, 0.34);
   }
 
+  .mode-chip.active {
+    border-color: rgba(122, 155, 255, 0.5);
+    background: linear-gradient(135deg, rgba(79, 120, 255, 0.18), rgba(56, 146, 255, 0.10));
+    box-shadow: 0 12px 26px rgba(22, 119, 255, 0.12);
+  }
+
   .mode-chip.active .mode-title,
   .mode-chip.active .mode-desc {
     color: var(--shell-text);
@@ -643,5 +649,67 @@
     border-color: rgba(126, 151, 188, 0.18);
     color: rgba(232, 238, 248, 0.52);
     opacity: 1;
+  }
+
+  .tripo-preview-main {
+    background: linear-gradient(180deg, rgba(16, 28, 45, 0.92) 0%, rgba(11, 21, 34, 0.96) 100%);
+    border-color: rgba(126, 151, 188, 0.18);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+  }
+
+  .preview-tabs {
+    background: rgba(16, 28, 45, 0.9);
+    border-color: rgba(126, 151, 188, 0.2);
+  }
+
+  .preview-tab {
+    color: rgba(232, 238, 248, 0.6);
+  }
+
+  .preview-tab.active {
+    color: #ffffff;
+  }
+
+  .viewer-stage {
+    background: radial-gradient(circle at top, rgba(16, 28, 45, 0.8) 0%, rgba(11, 21, 34, 0.9) 68%, rgba(8, 16, 28, 0.95) 100%);
+  }
+
+  .asset-link,
+  .multiview-item {
+    background: rgba(16, 28, 45, 0.78);
+    border-color: rgba(126, 151, 188, 0.18);
+    color: var(--shell-text);
+  }
+
+  .asset-link:hover,
+  .multiview-item:hover {
+    background: rgba(23, 40, 67, 0.88);
+    border-color: rgba(122, 155, 255, 0.28);
+  }
+
+  .multiview-upload-surface {
+    background: rgba(16, 28, 45, 0.78);
+    border-color: rgba(126, 151, 188, 0.22);
+  }
+
+  .multiview-upload-surface:hover {
+    background: rgba(23, 40, 67, 0.88);
+    border-color: rgba(122, 155, 255, 0.34);
+  }
+
+  .multiview-upload-placeholder-title {
+    color: var(--shell-text);
+  }
+
+  .multiview-upload-placeholder-desc {
+    color: rgba(232, 238, 248, 0.6);
+  }
+
+  .mode-title {
+    color: var(--shell-text);
+  }
+
+  .right-panel-footer .ant-btn {
+    box-shadow: 0 14px 28px rgba(22, 119, 255, 0.12);
   }
 }

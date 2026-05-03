@@ -10,8 +10,6 @@ interface ImageCountSelectorProps {
 }
 
 const counts: ImageCount[] = [1, 2, 3, 4];
-const selectedBlueClass =
-    'bg-[linear-gradient(90deg,#1677ff,#4d9dff)] border-[#1677ff] text-white shadow-lg shadow-[#1677ff]/25';
 
 export const ImageCountSelector: React.FC<ImageCountSelectorProps> = ({
     value,
@@ -22,11 +20,11 @@ export const ImageCountSelector: React.FC<ImageCountSelectorProps> = ({
     return (
         <div className="image-count-selector blobk-bg">
             {label && (
-                <label className="block text-xs font-bold text-slate-600 mb-2 tracking-wider">
+                <label className="common-field-label mb-2 block">
                     {label}
                 </label>
             )}
-            <div className="flex gap-2">
+            <div className="common-segmented-bar flex gap-2">
                 {counts.map((count) => (
                     <button
                         key={count}
@@ -34,11 +32,10 @@ export const ImageCountSelector: React.FC<ImageCountSelectorProps> = ({
                         disabled={disabled}
                         onClick={() => onChange(count)}
                         className={`
-                            flex-1 py-1.5 px-2 rounded-lg text-xs font-medium
-                            transition-all duration-200 border
+                            common-segmented-option flex-1 rounded-lg border px-2 py-1.5 text-xs font-medium
                             ${value === count
-                                ? selectedBlueClass
-                                : 'bg-[#f5f7fb] border-slate-200 text-slate-600 hover:border-[#1677ff] hover:text-[#1677ff]'
+                                ? 'is-selected'
+                                : ''
                             }
                             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                         `}

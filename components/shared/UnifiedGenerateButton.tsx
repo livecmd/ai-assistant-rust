@@ -26,13 +26,13 @@ export const UnifiedGenerateButton: React.FC<UnifiedGenerateButtonProps> = ({
 
     const variantStyles = {
         default: isGenerating || disabled
-            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm dark:bg-[rgba(18,32,53,0.9)] dark:border-[rgba(110,133,170,0.24)] dark:text-slate-400"
             : "bg-[#1677ff] hover:bg-[#0d63db] text-white active:scale-[0.98]",
         gradient: isGenerating || disabled
-            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm dark:bg-[rgba(18,32,53,0.9)] dark:border-[rgba(110,133,170,0.24)] dark:text-slate-400"
             : "bg-gradient-to-r from-[#1677ff] to-[#4d9dff] hover:from-[#0d63db] hover:to-[#3a91fa] text-white active:scale-[0.98]",
         glow: isGenerating || disabled
-            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm"
+            ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-500 shadow-sm dark:bg-[rgba(18,32,53,0.9)] dark:border-[rgba(110,133,170,0.24)] dark:text-slate-400"
             : "bg-[#1677ff] hover:bg-[#0d63db] text-white active:scale-[0.98]"
     };
 

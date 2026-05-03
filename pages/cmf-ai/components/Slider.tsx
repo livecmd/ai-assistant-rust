@@ -1,4 +1,7 @@
-import React from 'react';
+import React from "react";
+import {
+  getAdherencePreset,
+} from "../adherence";
 
 interface SliderProps {
   value: number;
@@ -7,21 +10,24 @@ interface SliderProps {
 }
 
 export const Slider: React.FC<SliderProps> = ({ value, onChange, disabled }) => {
+  const selectedPreset = getAdherencePreset(value);
+
   return (
     <div className="cmf-adherence-slider w-full flex flex-col gap-3 p-4 rounded-xl">
       <div className="cmf-adherence-slider__header flex justify-between items-center text-sm font-medium">
         <span>版花还原度设置</span>
-        <span className="text-primary">{value}%</span>
+        <span className="text-primary">{selectedPreset.value}%</span>
       </div>
-      
+
       <input
         type="range"
         min="0"
         max="100"
-        value={value}
+        step="50"
+        value={selectedPreset.value}
         onChange={(e) => onChange(Number(e.target.value))}
         disabled={disabled}
-        className="cmf-adherence-slider__range w-full h-2 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+        className="cmf-adherence-slider__range w-full appearance-none cursor-pointer disabled:opacity-50"
       />
 
       <div className="cmf-adherence-slider__legend flex justify-between text-xs px-1">

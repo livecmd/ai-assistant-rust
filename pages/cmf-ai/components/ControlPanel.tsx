@@ -106,7 +106,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         {isPro && (
           <ControlSection>
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 tracking-wider flex justify-between">
+              <label className="common-field-label tracking-wider flex justify-between">
                 ASPECT RATIO
               </label>
               <div className="flex flex-wrap gap-2">
@@ -120,9 +120,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                         aspectRatio: ratio as any,
                       }))
                     }
-                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all border ${config.aspectRatio === ratio
-                      ? "bg-indigo-600 text-white border-indigo-600"
-                      : "text-slate-400 hover:text-slate-200 border-slate-700 hover:border-slate-500"
+                    className={`common-aspect-ratio-option px-3 py-1.5 text-xs font-medium rounded-md transition-all border ${config.aspectRatio === ratio
+                      ? "is-selected"
+                      : ""
                       }`}
                   >
                     {ratio}
@@ -134,10 +134,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             <div className="h-4"></div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 tracking-wider flex justify-between">
+              <label className="common-field-label tracking-wider flex justify-between">
                 Resolution
               </label>
-              <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-700">
+              <div className="common-resolution-bar flex p-1 rounded-lg border">
                 {resolutionOptions.map((res) => (
                   <button
                     key={res}
@@ -145,9 +145,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                     onClick={() =>
                       setConfig((prev) => ({ ...prev, imageSize: res }))
                     }
-                    className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${config.imageSize === res
-                      ? "bg-indigo-600 text-white"
-                      : "text-slate-400 hover:text-slate-200"
+                    className={`common-resolution-option flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${config.imageSize === res
+                      ? "is-selected"
+                      : ""
                       }`}
                   >
                     {res}

@@ -16,6 +16,10 @@ import { UnifiedHistory } from "../../components/shared/UnifiedHistory";
 import { loadHistory, saveHistory, STORES } from "../../utils/indexedDB";
 import { useTranslation } from "../../hooks/useTranslation";
 import { ImageCount } from "../../components/shared/ImageCountSelector";
+import {
+  DEFAULT_ADHERENCE_LEVEL,
+  getAdherencePreset,
+} from "./adherence";
 import "./index.less";
 import { v4 as uuidv4 } from "uuid";
 
@@ -23,7 +27,9 @@ const App: React.FC = () => {
   const { t } = useTranslation();
   const [targetImage, setTargetImage] = useState<UploadedImage | null>(null);
   const [refImage, setRefImage] = useState<UploadedImage | null>(null);
-  const [adherenceLevel, setAdherenceLevel] = useState<number>(50);
+  const [adherenceLevel, setAdherenceLevel] = useState<number>(
+    DEFAULT_ADHERENCE_LEVEL
+  );
   const [feedback, setFeedback] = useState<string>("");
 
   const [status, setStatus] = useState<ProcessStatus>(ProcessStatus.IDLE);
@@ -135,12 +141,13 @@ const App: React.FC = () => {
       addLog(t("cmf.log.generationSuccess" as any), "success");
 
       // Add all successful results to history
+      const adherencePreset = getAdherencePreset(adherenceLevel);
       const newItems: HistoryItem[] = successfulResults.map(
         (resultUrl, index) => ({
           id: Date.now().toString() + index,
           url: resultUrl,
           timestamp: Date.now() + index,
-          prompt: `Adherence: ${adherenceLevel}, Feedback: ${feedback}`,
+          prompt: `Adherence: ${adherencePreset.value}% (${adherencePreset.label}), Feedback: ${feedback}`,
           targetImage: targetImage.file.name,
           refImage: refImage.file.name,
         })

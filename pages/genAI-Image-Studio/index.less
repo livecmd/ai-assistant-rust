@@ -258,3 +258,61 @@
         // .dialogBox 和 .bot 样式继承自 shared.less
     }
 }
+
+.genAIImageStudio {
+    .genai-field-label {
+        color: var(--shell-muted);
+    }
+
+    .genai-ratio-btn {
+        background: var(--shell-elevated-soft);
+        color: var(--shell-muted);
+        border: 1px solid var(--shell-border);
+
+        &:hover {
+            border-color: rgba(22, 119, 255, 0.4);
+            color: var(--shell-text);
+        }
+
+        &.active {
+            background: linear-gradient(90deg, #1677ff, #4d9dff);
+            border-color: #1677ff;
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(22, 119, 255, 0.25);
+        }
+    }
+
+    .genai-resolution-bar {
+        background: var(--shell-elevated-soft);
+        border-color: var(--shell-border);
+    }
+
+    .genai-resolution-btn {
+        color: var(--shell-muted);
+        border-color: transparent;
+
+        &:hover {
+            color: var(--shell-text);
+            border-color: rgba(22, 119, 255, 0.35);
+        }
+
+        &.active {
+            background: linear-gradient(90deg, #1677ff, #4d9dff);
+            border-color: #1677ff;
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(22, 119, 255, 0.25);
+        }
+    }
+
+    .prompt-textarea {
+        :root[data-theme="dark"] & {
+            background: linear-gradient(180deg, rgba(18, 32, 53, 0.98) 0%, rgba(12, 24, 39, 0.98) 100%);
+            border-color: rgba(110, 133, 170, 0.24);
+            color: var(--shell-text);
+
+            &::placeholder {
+                color: #7f91aa;
+            }
+        }
+    }
+}

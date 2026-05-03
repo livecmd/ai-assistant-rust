@@ -26,7 +26,7 @@ export interface LogEntry {
 export interface GenerationConfig {
   referenceImage: UploadedImage | null;
   targetProductImage: UploadedImage | null;
-  adherenceLevel: number; // 0 - 100
+  adherenceLevel: number; // preset values: 0 | 50 | 100
   feedback?: string;
 }
 

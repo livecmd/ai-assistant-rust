@@ -178,9 +178,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             onClick={handleBoxClick}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className={`relative w-full h-40 rounded-xl border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden ${inputImage
-              ? "border-indigo-500 bg-slate-900"
-              : "border-slate-700 bg-slate-800/30 hover:bg-slate-800/50 hover:border-indigo-500/50"
+            className={`camera-upload-surface relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed transition-all ${inputImage ? "has-image" : ""
               }`}
           >
             {inputImage ? (
@@ -198,7 +196,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 </button>
               </>
             ) : (
-              <div className="flex flex-col items-center gap-2 text-slate-500">
+              <div className="camera-upload-empty-state flex flex-col items-center gap-2">
                 <PlusIcon className="w-6 h-6 opacity-50" />
                 <span className="text-xs font-bold uppercase">
                   {t("camera.uploadAsset")}
@@ -228,7 +226,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           />
 
           {selectedModel === ModelType.NANO_BANANA_PRO && (
-            <div className="mt-4 space-y-4 pt-4 border-t border-slate-700/50">
+            <div className="camera-pro-settings mt-4 space-y-4 pt-4">
               <CommonAspectRatioSelector
                 selectedRatio={config.aspectRatio as any} // Cast to any because type defs might differ slightly
                 onSelect={(r) =>
@@ -239,19 +237,19 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
               />
 
               <div>
-                <label className="text-xs font-bold text-slate-400 tracking-wider mb-2 block">
+                <label className="common-field-label mb-2 block">
                   {t("genai.imageResolution")}
                 </label>
-                <div className="flex gap-2">
+                <div className="common-segmented-bar flex gap-2">
                   {(["1K", "2K", "4K"] as ImageSize[]).map((size) => (
                     <button
                       key={size}
                       onClick={() =>
                         setConfig((prev) => ({ ...prev, imageSize: size }))
                       }
-                      className={`flex-1 py-1 px-2 text-xs rounded border transition-colors ${config.imageSize === size
-                        ? "bg-indigo-600 text-white border-indigo-600"
-                        : "bg-slate-800 text-slate-400 border-slate-600 hover:border-indigo-400"
+                      className={`common-segmented-option flex-1 rounded border px-2 py-1 text-xs ${config.imageSize === size
+                        ? "is-selected"
+                        : ""
                         }`}
                     >
                       {size}

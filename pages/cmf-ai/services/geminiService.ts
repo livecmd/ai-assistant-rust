@@ -1,5 +1,6 @@
 import { assistantPost } from "@/api/assistant";
 import { GenerationImgConfig, UploadedImage } from "../types";
+import { normalizeAdherenceLevel } from "../adherence";
 
 export const generateProductDesign = async (
   modelId: string,
@@ -9,11 +10,13 @@ export const generateProductDesign = async (
   config: GenerationImgConfig,
   feedback?: string
 ): Promise<string> => {
+  const normalizedAdherenceLevel = normalizeAdherenceLevel(adherenceLevel);
+
   const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/cmf", {
     modelId,
     targetProduct,
     referencePattern,
-    adherenceLevel,
+    adherenceLevel: normalizedAdherenceLevel,
     config,
     feedback,
   });

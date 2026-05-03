@@ -251,8 +251,8 @@
 
           &.is-active {
             color: #ffffff;
-            background: linear-gradient(135deg, #6080f2 0%, #6170e2 100%);
-            box-shadow: 0 8px 18px rgba(96, 128, 242, 0.24);
+            background: linear-gradient(135deg, #1677ff 0%, #4d9dff 100%);
+            box-shadow: 0 8px 18px rgba(22, 119, 255, 0.24);
           }
         }
 
@@ -293,6 +293,14 @@
 
         .stylemorph-range-note--cool {
           color: var(--stylemorph-range-note-cool);
+        }
+
+        .stylemorph-range-input {
+          background: #d1d5db;
+
+          :root[data-theme="dark"] & {
+            background: rgba(70, 100, 160, 0.4);
+          }
         }
 
         .stylemorph-textarea {

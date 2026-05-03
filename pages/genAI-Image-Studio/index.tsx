@@ -48,8 +48,6 @@ const App: React.FC = () => {
   const { getConfig, formatPriceSummary } = useModelCatalog({ category: "image", provider: "vertex" });
 
   const isProModel = selectedModel === ModelType.NANO_BANANA_PRO;
-  const selectedBlueClass =
-    "bg-[linear-gradient(90deg,#1677ff,#4d9dff)] border-[#1677ff] text-white shadow-lg shadow-[#1677ff]/25";
   const modelOptions = useMemo(() => {
 	const options = [
 	  {
@@ -345,7 +343,7 @@ const App: React.FC = () => {
           {isProModel && (
             <ControlSection title="Aspect Ratio & Resolution">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 tracking-wider flex justify-between">
+                <label className="genai-field-label text-xs font-bold tracking-wider flex justify-between">
                   长宽比(Aspect Ratio)
                 </label>
                 <div className="sizes flex flex-wrap gap-2">
@@ -361,9 +359,9 @@ const App: React.FC = () => {
                   ).map((ratio) => (
                     <button
                       type="button"
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${config.aspectRatio === ratio
-                        ? selectedBlueClass
-                        : "bg-slate-800 text-slate-400 border border-slate-800 hover:border-[#1677ff]/40 hover:text-slate-200"
+                      className={`genai-ratio-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${config.aspectRatio === ratio
+                        ? "active"
+                        : ""
                         }`}
                       key={ratio}
                       onClick={() =>
@@ -379,10 +377,10 @@ const App: React.FC = () => {
               <div className="h-4"></div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 tracking-wider flex justify-between">
+                <label className="genai-field-label text-xs font-bold tracking-wider flex justify-between">
                   Resolution
                 </label>
-                <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-700">
+                <div className="genai-resolution-bar flex p-1 rounded-lg border">
                   {resolutionOptions.map((res) => (
                     <button
                       key={res}
@@ -390,9 +388,9 @@ const App: React.FC = () => {
                       onClick={() =>
                         setConfig((prev) => ({ ...prev, imageSize: res }))
                       }
-                      className={`flex-1 py-1.5 text-xs font-medium rounded-md border transition-all ${config.imageSize === res
-                        ? selectedBlueClass
-                        : "border-transparent text-slate-400 hover:text-slate-200 hover:border-[#1677ff]/35"
+                      className={`genai-resolution-btn flex-1 py-1.5 text-xs font-medium rounded-md border transition-all ${config.imageSize === res
+                        ? "active"
+                        : ""
                         }`}
                     >
                       {res}
