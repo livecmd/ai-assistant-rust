@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ControlPanel from './components/ControlPanel';
-import { generateMorph } from './services/geminiService';
+import { generateSingleMorph } from './services/geminiService';
 import { ImageState, GenerationConfig, HistoryItem } from './types';
 import { UnifiedPreview } from '../../components/shared/UnifiedPreview';
 import { UnifiedHistory } from '../../components/shared/UnifiedHistory';
@@ -55,8 +55,25 @@ const StyleMorph: React.FC = () => {
     setIsGenerating(true);
     setPreviewImage(null);
 
-    try {
-      const results = await generateMorph(
+    const count = config.batchSize || 1;
+    let settledCount = 0;
+    let errorCount = 0;
+    let hasResult = false;
+
+    const onSettled = () => {
+      settledCount++;
+      if (settledCount === count) {
+        setIsGenerating(false);
+        if (!hasResult) {
+          console.error("All requests failed.");
+        } else if (errorCount > 0) {
+          console.warn(`${errorCount} of ${count} requests failed.`);
+        }
+      }
+    };
+
+    for (let i = 0; i < count; i++) {
+      generateSingleMorph(
         imageA.base64,
         imageB.base64,
         config,
@@ -66,24 +83,26 @@ const StyleMorph: React.FC = () => {
         imageA.lassoPath,
         imageB.mask,
         imageB.lassoPath
-      );
-
-      if (results.length > 0) {
-        // Add all results to history
-        const newHistoryItems: HistoryItem[] = results.map((url, index) => ({
-          id: Math.random().toString(36).substr(2, 9),
-          url,
-          config: { ...config },
-          timestamp: Date.now() + index // Ensure unique timestamps
-        }));
-
-        setHistory(prev => [...newHistoryItems, ...prev]);
-        setPreviewImage(results[0]);
-      }
-    } catch (error) {
-      console.error("Migration failed:", error);
-    } finally {
-      setIsGenerating(false);
+      )
+        .then((url) => {
+          if (!hasResult) {
+            setPreviewImage(url);
+          }
+          hasResult = true;
+          const newItem: HistoryItem = {
+            id: Math.random().toString(36).substr(2, 9),
+            url,
+            config: { ...config },
+            timestamp: Date.now() + i,
+          };
+          setHistory(prev => [newItem, ...prev]);
+          onSettled();
+        })
+        .catch((error) => {
+          errorCount++;
+          console.error("Request failed:", error);
+          onSettled();
+        });
     }
   };
 
@@ -115,7 +134,7 @@ const StyleMorph: React.FC = () => {
         <UnifiedPreview
           type="image"
           src={previewImage}
-          isLoading={isGenerating}
+          isLoading={isGenerating && !previewImage}
           emptyText="造型迁移"
           emptySubtext="转变您的设计基因"
           onDownload={() => {

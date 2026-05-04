@@ -53,6 +53,47 @@ async function singleGenerate(
   return data.images[0];
 }
 
+export async function generateSingleMorph(
+  imageA: string,
+  imageB: string,
+  config: GenerationConfig,
+  widthA: number = 1000,
+  heightA: number = 1000,
+  maskA?: Rect | null,
+  lassoPathA?: Point[] | null,
+  maskB?: Rect | null,
+  lassoPathB?: Point[] | null
+): Promise<string> {
+  try {
+    const data = await assistantPost<{ images: string[] }>("/api/ai/image/stylemorph", {
+      imageA,
+      imageB,
+      config: {
+        ...config,
+        batchSize: 1,
+      },
+      widthA,
+      heightA,
+      maskA,
+      lassoPathA,
+      maskB,
+      lassoPathB,
+    });
+
+    if (!data.images.length) {
+      throw new Error("模型未返回生成的图像。");
+    }
+
+    return data.images[0];
+  } catch (error: any) {
+    console.error("Gemini Generation Error:", error);
+    if (error.message?.includes("Requested entity was not found")) {
+      throw new Error("PRO_KEY_ERROR");
+    }
+    throw error;
+  }
+}
+
 export async function generateMorph(
   imageA: string,
   imageB: string,

@@ -168,13 +168,13 @@
 
 .right-panel-header {
     flex-shrink: 0;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 
     h1 {
         margin: 0;
         color: var(--shell-accent-strong);
         font-family: var(--shell-font-display);
-        font-size: 26px;
+        font-size: 20px;
         font-weight: 800;
         line-height: 1.08;
         letter-spacing: -0.02em;
@@ -189,19 +189,19 @@
     }
 
     p {
-        margin: 6px 0 0;
+        margin: 4px 0 0;
         color: var(--shell-muted);
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 500;
         line-height: 1.5;
 
         @media (max-width: @screen-md) {
-            font-size: 11px;
+            font-size: 10px;
         }
     }
 
     p + p {
-        margin-top: 3px;
+        margin-top: 2px;
     }
 }
 
@@ -212,7 +212,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    gap: 8px;
+    gap: 6px;
 }
 
 .control-panel-inner {
@@ -229,7 +229,7 @@
 
 .unified-control-panel__header {
     flex-shrink: 0;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     text-align: left;
 }
 
@@ -251,16 +251,16 @@
 .unified-control-panel__title {
     margin: 0;
     color: #0f172a;
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 1.2;
 }
 
 .unified-control-panel__subtitle {
     margin: 0;
-    padding-left: 28px;
+    padding-left: 22px;
     color: #64748b;
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.5;
 }
 
@@ -268,12 +268,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
 
     > * {
         flex-shrink: 0;
@@ -317,8 +317,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 11px 13px;
+    gap: 8px;
+    padding: 8px 10px;
     border-bottom: 1px solid rgba(226, 232, 240, 0.95);
     transition: background-color 0.2s ease;
 
@@ -334,10 +334,10 @@
 .control-section__title {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin: 0;
     color: #475569;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: none;
@@ -364,8 +364,8 @@
 .control-section__body {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px;
+    gap: 6px;
+    padding: 9px;
     max-height: 1200px;
     opacity: 1;
     overflow: hidden;
@@ -606,11 +606,11 @@
 // ============================================
 // 固定布局尺寸变量
 // ============================================
-@right-panel-width: 260px;        // 右侧控制面板宽度（从 280px 减少）
-@right-panel-width-xl: 240px;     // xl 断点（从 260px 减少）
-@right-panel-width-lg: 220px;     // lg 断点（从 240px 减少）
-@left-right-gap: 36px;            // 左右区域间距（从 40px 减少）
-@left-right-gap-lg: 20px;         // lg 断点间距（从 24px 减少）
+@right-panel-width: 220px;        // 右侧控制面板宽度（从 260px 减少）
+@right-panel-width-xl: 200px;     // xl 断点（从 240px 减少）
+@right-panel-width-lg: 190px;     // lg 断点（从 220px 减少）
+@left-right-gap: 24px;            // 左右区域间距（从 36px 减少）
+@left-right-gap-lg: 14px;         // lg 断点间距（从 20px 减少）
 @page-padding: 30px;              // 页面内边距
 @page-padding-lg: 20px;           // lg 断点内边距
 @page-padding-md: 15px;           // md 断点内边距

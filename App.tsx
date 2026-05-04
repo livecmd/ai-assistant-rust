@@ -231,7 +231,7 @@ const App: React.FC = () => {
     {
       img: "/2.svg",
       title: "一键场景生成",
-      dec: "One-click scene generation",
+      dec: "scene generation",
       path: "/CinematicMultiShot",
     },
     {

@@ -124,79 +124,56 @@ const GeminiMedicalStyler: React.FC = () => {
     setAppState(AppState.GENERATING);
     setGeneratedImage(null);
 
-    try {
-      // Generate multiple images based on imageCount
-      const generatePromises = Array.from({ length: imageCount }).map(() =>
-        generateProductRender(
-          selectedModel,
-          imageA,
-          productName,
-          stylePrompt,
-          strength,
-          mode,
-          config
-        )
-      );
+    let settledCount = 0;
+    let errorCount = 0;
+    let hasResult = false;
 
-      // Use Promise.allSettled to wait for all requests to complete
-      const results = await Promise.allSettled(generatePromises);
-
-      // Separate successful and failed results
-      const successfulResults: string[] = [];
-      let errorCount = 0;
-
-      // results.forEach((result) => {
-      //   if (result.status === "fulfilled") {
-      //     successfulResults.push(result.value); // Successful result
-      //   } else {
-      //     errorCount++; // Failed request count
-      //     console.error("Request failed:", result.reason);
-      //   }
-      // });
-
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          successfulResults.push(result.value); // 成功的结果
+    const onSettled = () => {
+      settledCount++;
+      if (settledCount === imageCount) {
+        if (!hasResult) {
+          setAppState(AppState.ERROR);
+          setErrorMessage("All requests failed. Please try again.");
         } else {
-          errorCount++; // 失败的请求数量
-          console.error("Request failed:", result.reason);
+          setAppState(AppState.SUCCESS);
+          if (errorCount > 0) {
+            setErrorMessage(`${errorCount} of ${imageCount} requests failed.`);
+          }
         }
       }
+    };
 
-      // If all requests failed, show error message
-      if (errorCount === imageCount) {
-        setAppState(AppState.ERROR);
-        setErrorMessage("All requests failed. Please try again.");
-        return;
-      }
-
-      // Set the first successful result as current output
-      if (successfulResults.length > 0) {
-        setGeneratedImage(successfulResults[0]);
-      }
-      setAppState(AppState.SUCCESS);
-
-      // Add all successful results to history
-      const newItems: HistoryItem[] = successfulResults.map(
-        (resultImage, index) => ({
-          id: generateId() + index,
-          originalImage: imageA,
-          referenceImage: imageB || null,
-          generatedImage: resultImage,
-          prompt: stylePrompt,
-          timestamp: Date.now() + index,
+    for (let i = 0; i < imageCount; i++) {
+      generateProductRender(
+        selectedModel,
+        imageA,
+        productName,
+        stylePrompt,
+        strength,
+        mode,
+        config
+      )
+        .then((resultImage) => {
+          if (!hasResult) {
+            setGeneratedImage(resultImage);
+          }
+          hasResult = true;
+          const newItem: HistoryItem = {
+            id: generateId(),
+            originalImage: imageA,
+            referenceImage: imageB || null,
+            generatedImage: resultImage,
+            prompt: stylePrompt,
+            timestamp: Date.now(),
+          };
+          setHistory((prev) => [newItem, ...prev]);
+          onSettled();
         })
-      );
-      setHistory((prev) => [...newItems, ...prev]);
-
-      // Notify user about partial failures
-      if (errorCount > 0) {
-        setErrorMessage(`${errorCount} of ${imageCount} requests failed.`);
-      }
-    } catch (error: any) {
-      // Handle unexpected errors in the overall process
-      setAppState(AppState.ERROR);
-      setErrorMessage(error.message || "Generation process failed");
+        .catch((error: any) => {
+          errorCount++;
+          console.error("Request failed:", error);
+          onSettled();
+        });
     }
   };
 
@@ -227,7 +204,7 @@ const GeminiMedicalStyler: React.FC = () => {
           type="image"
           src={generatedImage}
           isLoading={
-            appState === AppState.GENERATING || appState === AppState.ANALYZING
+            (appState === AppState.GENERATING || appState === AppState.ANALYZING) && !generatedImage
           }
           loadingText={
             appState === AppState.ANALYZING ? "Analyzing..." : "Generating..."

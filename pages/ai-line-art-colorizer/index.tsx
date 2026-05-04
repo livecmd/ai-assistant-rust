@@ -97,87 +97,79 @@ const App: React.FC = () => {
     setError(null);
     setResultImage(null);
 
-    try {
-      let results: PromiseSettledResult<string>[];
-
-      if (config.model === ModelVersion.FLASH && imageCount > 1) {
-        results = [];
-
-        for (let index = 0; index < imageCount; index += 1) {
-          try {
-            const generatedImage = await generateColorizedImage(lineArt, styleRef, config);
-            results.push({ status: "fulfilled", value: generatedImage });
-          } catch (reason) {
-            results.push({ status: "rejected", reason });
-          }
-
-          if (index < imageCount - 1) {
-            await sleep(600);
-          }
-        }
-      } else {
-        const generatePromises = Array.from({ length: imageCount }).map(() =>
-          generateColorizedImage(lineArt, styleRef, config)
-        );
-
-        results = await Promise.allSettled(generatePromises);
-      }
-
-      // Separate successful and failed results
-      const successfulResults: string[] = [];
+    if (config.model === ModelVersion.FLASH && imageCount > 1) {
       let errorCount = 0;
+      let hasResult = false;
 
-      // results.forEach((result) => {
-      //   if (result.status === "fulfilled") {
-      //     successfulResults.push(result.value); // Successful result
-      //   } else {
-      //     errorCount++; // Failed request count
-      //     console.error("Request failed:", result.reason);
-      //   }
-      // });
+      for (let index = 0; index < imageCount; index += 1) {
+        try {
+          const generatedImage = await generateColorizedImage(lineArt, styleRef, config);
+          if (!hasResult) {
+            setResultImage(generatedImage);
+          }
+          hasResult = true;
+          const newItem: HistoryItem = {
+            id: Date.now().toString() + index,
+            url: generatedImage,
+            timestamp: Date.now(),
+            prompt: config.prompt,
+          };
+          setHistory((prev) => [newItem, ...prev]);
+        } catch (reason) {
+          errorCount++;
+          console.error("Request failed:", reason);
+        }
 
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          successfulResults.push(result.value); // 成功的结果
-        } else {
-          errorCount++; // 失败的请求数量
-          console.error("Request failed:", result.reason);
+        if (index < imageCount - 1) {
+          await sleep(600);
         }
       }
-      
 
-      // If all requests failed, show error message
-      if (errorCount === imageCount) {
-        setError('All requests failed. Please try again.'); // Display error only if all requests fail
-        return;
-      }
-
-      // Set the first successful result as current output
-      if (successfulResults.length > 0) {
-        setResultImage(successfulResults[0]);
-      }
-
-      // Add all successful results to history
-      const newItems: HistoryItem[] = successfulResults.map(
-        (generatedImage, index) => ({
-          id: Date.now().toString() + index,
-          url: generatedImage,
-          timestamp: Date.now() + index,
-          prompt: config.prompt,
-        })
-      );
-      setHistory((prev) => [...newItems, ...prev]);
-
-      // Notify user about partial failures
-      if (errorCount > 0) {
-        setError(`${errorCount} of ${imageCount} requests failed.`); // Partial failure notification
-      }
-    } catch (err: any) {
-      // Handle unexpected errors in the overall process
-      console.error("Overall process failed:", err);
-      setError(err.message || t("lineart.failedToGenerate"));
-    } finally {
       setIsLoading(false);
+      if (!hasResult) {
+        setError('All requests failed. Please try again.');
+      } else if (errorCount > 0) {
+        setError(`${errorCount} of ${imageCount} requests failed.`);
+      }
+    } else {
+      let settledCount = 0;
+      let errorCount = 0;
+      let hasResult = false;
+
+      const onSettled = () => {
+        settledCount++;
+        if (settledCount === imageCount) {
+          setIsLoading(false);
+          if (!hasResult) {
+            setError('All requests failed. Please try again.');
+          } else if (errorCount > 0) {
+            setError(`${errorCount} of ${imageCount} requests failed.`);
+          }
+        }
+      };
+
+      for (let i = 0; i < imageCount; i++) {
+        generateColorizedImage(lineArt, styleRef, config)
+          .then((generatedImage) => {
+            if (!hasResult) {
+              setResultImage(generatedImage);
+            }
+            hasResult = true;
+            const newItem: HistoryItem = {
+              id: Date.now().toString() + i,
+              url: generatedImage,
+              timestamp: Date.now(),
+              prompt: config.prompt,
+            };
+            setHistory((prev) => [newItem, ...prev]);
+            onSettled();
+          })
+          .catch((reason) => {
+            errorCount++;
+            console.error("Request failed:", reason);
+            onSettled();
+          });
+      }
     }
   };
 
@@ -218,7 +210,7 @@ const App: React.FC = () => {
         <UnifiedPreview
           type="image"
           src={resultImage}
-          isLoading={isLoading}
+          isLoading={isLoading && !resultImage}
           emptyText={t("lineart.title")}
           emptySubtext={t("lineart.subtitle")}
           onDownload={handleDownload}

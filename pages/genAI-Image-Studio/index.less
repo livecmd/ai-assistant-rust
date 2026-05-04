@@ -35,7 +35,7 @@
     }
 
     >.right{
-        width: 360px;
+        width: 300px;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -44,11 +44,11 @@
         overflow: hidden;
 
         @media (max-width: @screen-xl) {
-            width: 320px;
+            width: 270px;
         }
 
         @media (max-width: @screen-lg) {
-            width: 280px;
+            width: 240px;
         }
 
         @media (max-width: @screen-md) {
@@ -59,11 +59,11 @@
         }
 
         @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
-            width: 320px;
+            width: 270px;
         }
 
         @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
-            width: 300px;
+            width: 250px;
         }
 
         // 控制面板滚动容器
@@ -206,9 +206,9 @@
         }
     }
     >.left {
-        width: calc(100% - 360px - 50px);  // 固定宽度
+        width: calc(100% - 300px - 36px);  // 固定宽度
         flex-shrink: 0;
-        margin-right: 50px;
+        margin-right: 36px;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -217,12 +217,12 @@
         gap: 18px;
 
         @media (max-width: @screen-xl) {
-            width: calc(100% - 320px - 50px);
+            width: calc(100% - 270px - 36px);
         }
 
         @media (max-width: @screen-lg) {
-            width: calc(100% - 280px - 30px);
-            margin-right: 30px;
+            width: calc(100% - 240px - 24px);
+            margin-right: 24px;
         }
 
         @media (max-width: @screen-md) {
@@ -234,14 +234,14 @@
         }
 
         @media (max-height: 860px) and (min-width: (@screen-md + 1)) {
-            width: calc(100% - 320px - 36px);
-            margin-right: 36px;
+            width: calc(100% - 270px - 30px);
+            margin-right: 30px;
             gap: 14px;
         }
 
         @media (max-height: 740px) and (min-width: (@screen-md + 1)) {
-            width: calc(100% - 300px - 24px);
-            margin-right: 24px;
+            width: calc(100% - 250px - 20px);
+            margin-right: 20px;
             gap: 10px;
         }
 

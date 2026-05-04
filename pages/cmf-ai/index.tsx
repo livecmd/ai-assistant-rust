@@ -88,81 +88,57 @@ const App: React.FC = () => {
     setResultImage(null);
     addLog(t("cmf.log.startGeneration" as any));
 
-    try {
-      // Generate multiple images based on imageCount
-      const generatePromises = Array.from({ length: imageCount }).map(() =>
-        generateProductDesign(
-          selectedModel,
-          targetImage,
-          refImage,
-          adherenceLevel,
-          config,
-          feedback
-        )
-      );
+    const adherencePreset = getAdherencePreset(adherenceLevel);
+    let settledCount = 0;
+    let errorCount = 0;
+    let hasResult = false;
 
-      // Use Promise.allSettled to wait for all requests to complete
-      const results = await Promise.allSettled(generatePromises);
-
-      // Separate successful and failed results
-      const successfulResults: string[] = [];
-      let errorCount = 0;
-
-      // results.forEach((result) => {
-      //   if (result.status === "fulfilled") {
-      //     successfulResults.push(result.value); // Successful result
-      //   } else {
-      //     errorCount++; // Failed request count
-      //     console.error("Request failed:", result.reason);
-      //   }
-      // });
-
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          successfulResults.push(result.value); // 成功的结果
+    const onSettled = () => {
+      settledCount++;
+      if (settledCount === imageCount) {
+        if (!hasResult) {
+          setStatus(ProcessStatus.ERROR);
+          addLog(`${t("cmf.log.error" as any)}: All requests failed.`, "error");
         } else {
-          errorCount++; // 失败的请求数量
-          console.error("Request failed:", result.reason);
+          setStatus(ProcessStatus.SUCCESS);
+          addLog(t("cmf.log.generationSuccess" as any), "success");
+          if (errorCount > 0) {
+            addLog(`${errorCount} of ${imageCount} requests failed.`, "warning");
+          }
         }
       }
+    };
 
-      // If all requests failed, show error message
-      if (errorCount === imageCount) {
-        setStatus(ProcessStatus.ERROR);
-        addLog(`${t("cmf.log.error" as any)}: All requests failed.`, "error");
-        return;
-      }
-
-      // Set the first successful result as current output
-      if (successfulResults.length > 0) {
-        setResultImage(successfulResults[0]);
-      }
-      setStatus(ProcessStatus.SUCCESS);
-      addLog(t("cmf.log.generationSuccess" as any), "success");
-
-      // Add all successful results to history
-      const adherencePreset = getAdherencePreset(adherenceLevel);
-      const newItems: HistoryItem[] = successfulResults.map(
-        (resultUrl, index) => ({
-          id: Date.now().toString() + index,
-          url: resultUrl,
-          timestamp: Date.now() + index,
-          prompt: `Adherence: ${adherencePreset.value}% (${adherencePreset.label}), Feedback: ${feedback}`,
-          targetImage: targetImage.file.name,
-          refImage: refImage.file.name,
+    for (let i = 0; i < imageCount; i++) {
+      generateProductDesign(
+        selectedModel,
+        targetImage,
+        refImage,
+        adherenceLevel,
+        config,
+        feedback
+      )
+        .then((resultUrl) => {
+          if (!hasResult) {
+            setResultImage(resultUrl);
+          }
+          hasResult = true;
+          const newItem: HistoryItem = {
+            id: Date.now().toString() + i,
+            url: resultUrl,
+            timestamp: Date.now(),
+            prompt: `Adherence: ${adherencePreset.value}% (${adherencePreset.label}), Feedback: ${feedback}`,
+            targetImage: targetImage.file.name,
+            refImage: refImage.file.name,
+          };
+          setHistory((prev) => [newItem, ...prev]);
+          onSettled();
         })
-      );
-      setHistory((prev) => [...newItems, ...prev]);
-
-      // Notify user about partial failures
-      if (errorCount > 0) {
-        addLog(`${errorCount} of ${imageCount} requests failed.`, "warning");
-      }
-    } catch (error: any) {
-      // Handle unexpected errors in the overall process
-      console.error("Overall process failed:", error);
-      setStatus(ProcessStatus.ERROR);
-      addLog(`${t("cmf.log.error" as any)}: ${error.message}`, "error");
+        .catch((error: any) => {
+          errorCount++;
+          console.error("Request failed:", error);
+          onSettled();
+        });
     }
   };
 
@@ -189,7 +165,7 @@ const App: React.FC = () => {
         <UnifiedPreview
           type="image"
           src={resultImage}
-          isLoading={isProcessing}
+          isLoading={isProcessing && !resultImage}
           emptyText={t("cmf.waitingForResult")}
           emptySubtext={t("cmf.configureAndGenerate")}
           onDownload={() => {

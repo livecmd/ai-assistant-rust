@@ -56,7 +56,6 @@ const modeOptions: Array<{ value: TripoMode; title: string; description: string 
 ];
 
 const generationModelVersionOptions = [
-  { label: "默认", value: "" },
   // { label: "标准版 v2.5", value: "v2.5-20250123" },
   // { label: "标准版 v2.0", value: "v2.0-20240919" },
   // { label: "标准版 v3.0", value: "v3.0-20250812" },
@@ -668,7 +667,7 @@ const TripoStudio: React.FC = () => {
   const [originalModelTaskId, setOriginalModelTaskId] = useState("");
   const [texturePrompt, setTexturePrompt] = useState("");
   const [partNames, setPartNames] = useState("");
-  const [modelVersion, setModelVersion] = useState("");
+  const [modelVersion, setModelVersion] = useState("v3.1-20260211");
   const [meshModelVersion, setMeshModelVersion] = useState("");
   const [lowpolyModelVersion, setLowpolyModelVersion] = useState("");
   const [orientation, setOrientation] = useState("");

@@ -88,75 +88,49 @@ const App: React.FC = () => {
     setIsGenerating(true);
     setError(null);
 
-    try {
-      // 生成多个图像的 Promise 数组
-      const generatePromises = Array.from({ length: imageCount }).map(() =>
-        generateImage(prompt, selectedModel, uploadedImages, config)
-      );
+    let settledCount = 0;
+    let errorCount = 0;
+    let hasResult = false;
 
-      // 使用 Promise.allSettled 等待所有请求完成
-      const results = await Promise.allSettled(generatePromises);
-
-      // 统计成功和失败的数量
-      const successfulResults: string[] = [];
-      let errorCount = 0;
-
-      // results.forEach((result) => {
-      //   if (result.status === "fulfilled") {
-      //     successfulResults.push(result.value); // 成功的结果
-      //   } else {
-      //     errorCount++; // 失败的数量
-      //     console.error("Request failed:", result.reason);
-      //   }
-      // });
-
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          successfulResults.push(result.value); // 成功的结果
-        } else {
-          errorCount++; // 失败的请求数量
-          console.error("Request failed:", result.reason);
+    const onSettled = () => {
+      settledCount++;
+      if (settledCount === imageCount) {
+        setIsGenerating(false);
+        if (!hasResult) {
+          setError("Generation process failed");
+        } else if (errorCount > 0) {
+          setError(`${errorCount} of ${imageCount} requests failed.`);
         }
       }
+    };
 
-      // 设置第一个成功结果为当前输出
-      if (successfulResults.length > 0) {
-        setCurrentOutput(successfulResults[0]);
-      } else {
-        setIsGenerating(false);
-        setError("Generation process failed"); // 所有请求都失败
-        return;
-      }
-
-      // 将所有成功的结果添加到历史记录中
-      const newHistoryItems: HistoryItem[] = successfulResults.map(
-        (resultUrl, index) => ({
-          id: Math.random().toString(36).substr(2, 9),
-          url: resultUrl,
-          prompt: prompt || "Image-to-Image Generation",
-          model: selectedModel,
-          timestamp: Date.now() + index,
-          config:
-            selectedModel === ModelType.NANO_BANANA_PRO ? config : undefined,
+    for (let i = 0; i < imageCount; i++) {
+      generateImage(prompt, selectedModel, uploadedImages, config)
+        .then((resultUrl) => {
+          if (!hasResult) {
+            setCurrentOutput(resultUrl);
+          }
+          hasResult = true;
+          const newItem: HistoryItem = {
+            id: Math.random().toString(36).substr(2, 9),
+            url: resultUrl,
+            prompt: prompt || "Image-to-Image Generation",
+            model: selectedModel,
+            timestamp: Date.now(),
+            config:
+              selectedModel === ModelType.NANO_BANANA_PRO ? config : undefined,
+          };
+          setHistory((prev) => [newItem, ...prev]);
+          onSettled();
         })
-      );
-
-      setHistory((prev) => [...newHistoryItems, ...prev]);
-      setIsGenerating(false);
-
-      // 如果有部分失败，提示用户
-      if (errorCount > 0) {
-        setError(`${errorCount} of ${imageCount} requests failed.`);
-      }
-    } catch (err: any) {
-      console.error("Unexpected error in handleGenerate:", err);
-      setIsGenerating(false);
-      setError(err.message || t("genai.failedToGenerate"));
-
-      // 特殊处理 Pro Key 相关错误
-      if (err.message?.includes("Requested entity was not found")) {
-        setIsProKeySelected(false);
-      }
+        .catch((err: any) => {
+          errorCount++;
+          console.error("Request failed:", err);
+          if (err.message?.includes("Requested entity was not found")) {
+            setIsProKeySelected(false);
+          }
+          onSettled();
+        });
     }
   };
 
@@ -235,7 +209,7 @@ const App: React.FC = () => {
         <UnifiedPreview
           type="image"
           src={currentOutput}
-          isLoading={isGenerating}
+          isLoading={isGenerating && !currentOutput}
           emptyText="城市交通的未来"
           emptySubtext="概念电动滑板车设计作品集"
           onDownload={() =>
