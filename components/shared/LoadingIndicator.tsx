@@ -58,6 +58,12 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     lg: 'w-16 h-16 border-4'
   };
 
+  const svgSizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16'
+  };
+
   const textSizes = {
     sm: 'text-sm',
     md: 'text-lg',
@@ -67,7 +73,10 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   if (variant === 'minimal') {
     return (
       <div className="flex items-center justify-center">
-        <div className={`${sizeClasses[size]} border-t-transparent border-indigo-500 rounded-full animate-spin`}></div>
+        <svg className={`${svgSizeClasses[size]} animate-spin`} viewBox="0 0 50 50" fill="none">
+          <circle cx="25" cy="25" r="20" stroke="rgba(99,102,241,0.25)" strokeWidth="4" />
+          <circle cx="25" cy="25" r="20" stroke="rgb(99,102,241)" strokeWidth="4" strokeDasharray="80 125" strokeLinecap="round" />
+        </svg>
       </div>
     );
   }
@@ -86,9 +95,13 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   return (
     <div className="flex flex-col items-center justify-center p-8 animate-fadeIn">
       {/* Animated Spinner with Glow */}
-      <div className="relative">
-        <div className={`${sizeClasses[size]} border-t-transparent border-indigo-500/30 rounded-full absolute inset-0 animate-spin`} style={{ animationDuration: '3s' }}></div>
-        <div className={`${sizeClasses[size]} border-t-transparent border-indigo-500 rounded-full animate-spin relative`}></div>
+      <div className={`relative ${svgSizeClasses[size]}`}>
+        <svg className={`${svgSizeClasses[size]} absolute inset-0 animate-spin`} viewBox="0 0 50 50" fill="none" style={{ animationDuration: '3s' }}>
+          <circle cx="25" cy="25" r="20" stroke="rgba(99,102,241,0.25)" strokeWidth="4" strokeDasharray="55 125" strokeLinecap="round" />
+        </svg>
+        <svg className={`${svgSizeClasses[size]} relative animate-spin`} viewBox="0 0 50 50" fill="none">
+          <circle cx="25" cy="25" r="20" stroke="rgb(99,102,241)" strokeWidth="4" strokeDasharray="80 125" strokeLinecap="round" />
+        </svg>
         <div className="absolute inset-0 bg-indigo-500/20 rounded-full blur-xl animate-pulse"></div>
       </div>
 
