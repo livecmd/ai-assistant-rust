@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -Property LocalPort,State)",
+      "Bash(powershell *)",
+      "Bash(Get-ChildItem *)",
+      "Bash(rg -n \"Promise\\\\.allSettled|Promise\\\\.all\" --include \"*.tsx\" --include \"*.ts\" genAI-Image-Studio gemini-medecal-styler cmf-ai ai-Camera-director ai-line-art-colorizer stylemorph)",
+      "Bash(Select-Object -Last 20)"
+    ]
+  }
+}

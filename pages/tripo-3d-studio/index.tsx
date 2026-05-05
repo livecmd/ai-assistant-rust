@@ -197,6 +197,25 @@ interface DownloadRemoteAssetResult {
 
 const isTauriRuntime = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 
+const API_BASE =
+  (typeof process !== "undefined" && process.env?.AI_ASSISTANT_GO_BASE_URL) ||
+  "https://api.yuzhengdesign.com";
+
+/** Route remote Tripo URLs through our own proxy to avoid CORS and enforce auth. */
+function proxyUrl(url: string): string {
+  if (!url) return url;
+  if (
+    url.startsWith("blob:") ||
+    url.startsWith("data:") ||
+    url.startsWith("/") ||
+    url.startsWith("asset:") ||
+    url.includes("asset.localhost")
+  ) {
+    return url;
+  }
+  return `${API_BASE}/api/ai/3d/model-proxy?url=${encodeURIComponent(url)}`;
+}
+
 const multiviewImageSlots: Array<{ key: MultiviewImageSlot; label: string }> = [
   { key: "front", label: "前视图" },
   { key: "left", label: "左视图" },
@@ -497,12 +516,16 @@ function getTripoConfigSummary(status: TripoConfigCheckData | null): string {
 }
 
 async function downloadUrl(url: string, filename: string) {
+  const proxied = proxyUrl(url);
+  const token = localStorage.getItem("token");
+
   if (isTauriRuntime) {
     try {
       await invoke<DownloadRemoteAssetResult>("download_remote_asset", {
         payload: {
-          url,
+          url: proxied,
           filename,
+          token: token || undefined,
         },
       });
       return;
@@ -512,7 +535,9 @@ async function downloadUrl(url: string, filename: string) {
   }
 
   try {
-    const response = await fetch(url);
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const response = await fetch(proxied, { headers });
     if (!response.ok) {
       throw new Error(`Download failed with status ${response.status}`);
     }
@@ -528,7 +553,7 @@ async function downloadUrl(url: string, filename: string) {
     URL.revokeObjectURL(blobUrl);
   } catch (error) {
     const link = document.createElement("a");
-    link.href = url;
+    link.href = proxied;
     link.download = filename;
     document.body.appendChild(link);
     link.click();

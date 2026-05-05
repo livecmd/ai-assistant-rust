@@ -147,6 +147,12 @@ const TripoModelViewer: React.FC<TripoModelViewerProps> = ({
     const loader = new GLTFLoader();
     const url = proxyUrl(src);
 
+    // Attach Bearer token for authenticated proxy requests
+    const token = localStorage.getItem("token");
+    if (token) {
+      loader.setRequestHeader({ Authorization: `Bearer ${token}` });
+    }
+
     loader.load(
       url,
       (gltf) => {
