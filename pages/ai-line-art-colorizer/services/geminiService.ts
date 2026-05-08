@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { GenerationConfig, ModelVersion } from "../types";
 
 function sleep(ms: number) {
@@ -28,13 +28,13 @@ export const generateColorizedImage = async (
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
-      const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/line-art-colorizer", {
+      const data = await assistantPost<AssistantImageResult>("/api/ai/image/line-art-colorizer", {
         lineArt,
         styleRef,
         config,
       });
 
-      return data.imageDataUrl;
+      return pickAssistantImageUrl(data);
     } catch (error) {
       lastError = error;
 

@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { ModelType, GenerationConfig, UploadedImage } from "../types";
 
 export const generateImage = async (
@@ -7,12 +7,12 @@ export const generateImage = async (
   images: UploadedImage[],
   config: GenerationConfig
 ): Promise<string> => {
-  const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/genai-studio", {
+  const data = await assistantPost<AssistantImageResult>("/api/ai/image/genai-studio", {
     prompt,
     model,
     images,
     config,
   });
 
-  return data.imageDataUrl;
+  return pickAssistantImageUrl(data);
 };

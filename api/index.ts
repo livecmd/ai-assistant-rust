@@ -65,6 +65,17 @@ export interface TopupInfo {
   points_name?: string;
 }
 
+export interface Announcement {
+  id: string | number;
+  title: string;
+  content: string;
+  enabled: boolean;
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+  [key: string]: any;
+}
+
 export interface PaymentConfigItem {
   id: string;
   provider: string;
@@ -402,6 +413,10 @@ class ApiClient {
     return this.get<TopupInfo>("/api/user/topup/info")
   }
 
+  async getLatestAnnouncement() {
+    return this.get<Announcement>("/api/announcements/latest");
+  }
+
   async listPaymentConfigs(params: { p?: number; size?: number; keyword?: string; provider?: string; method_key?: string; enabled?: boolean | string }) {
 	return this.get("/api/admin/payment-configs", params);
   }
@@ -579,6 +594,7 @@ export const getStatus = async () => apiClient.getStatus();
 export const pay = async (data: any) => apiClient.pay(data);
 export const getPaymentStatus = async (data: any) => apiClient.getPaymentStatus(data);
 export const getTopupInfo = async () => apiClient.getTopupInfo();
+export const getLatestAnnouncementApi = async () => apiClient.getLatestAnnouncement();
 export const listPaymentConfigsApi = async (params: any) => apiClient.listPaymentConfigs(params);
 export const createPaymentConfigApi = async (data: any) => apiClient.createPaymentConfig(data);
 export const updatePaymentConfigApi = async (id: string, data: any) => apiClient.updatePaymentConfig(id, data);

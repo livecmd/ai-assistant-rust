@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { GenerationConfig } from "../types";
 
 export const analyzeReferenceStyle = async (
@@ -21,7 +21,7 @@ export const generateProductRender = async (
   mode: "material" | "shape",
   config: GenerationConfig
 ): Promise<string> => {
-  const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/medical-styler/generate", {
+  const data = await assistantPost<AssistantImageResult>("/api/ai/image/medical-styler/generate", {
     modelId,
     structureImageBase64,
     productName,
@@ -30,5 +30,5 @@ export const generateProductRender = async (
     mode,
     config,
   });
-  return data.imageDataUrl;
+  return pickAssistantImageUrl(data);
 };

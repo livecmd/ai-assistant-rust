@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { ArtStyle, ShotConfig, ImageQuality } from "../types";
 
 function parseDataUrl(dataUrl: string) {
@@ -17,7 +17,7 @@ export async function generateShot(
   quality: ImageQuality,
   styleImage?: string
 ): Promise<string> {
-  const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/cinematic-multi-shot", {
+  const data = await assistantPost<AssistantImageResult>("/api/ai/image/cinematic-multi-shot", {
     sourceImages,
     style,
     prompt,
@@ -26,5 +26,5 @@ export async function generateShot(
     styleImage,
   });
 
-  return data.imageDataUrl;
+  return pickAssistantImageUrl(data);
 }

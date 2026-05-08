@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { GenerationImgConfig, UploadedImage } from "../types";
 import { normalizeAdherenceLevel } from "../adherence";
 
@@ -12,7 +12,7 @@ export const generateProductDesign = async (
 ): Promise<string> => {
   const normalizedAdherenceLevel = normalizeAdherenceLevel(adherenceLevel);
 
-  const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/cmf", {
+  const data = await assistantPost<AssistantImageResult>("/api/ai/image/cmf", {
     modelId,
     targetProduct,
     referencePattern,
@@ -21,5 +21,5 @@ export const generateProductDesign = async (
     feedback,
   });
 
-  return data.imageDataUrl;
+  return pickAssistantImageUrl(data);
 };

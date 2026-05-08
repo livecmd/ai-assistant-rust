@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, pickAssistantImageUrl, AssistantImageResult } from "@/api/assistant";
 import { CameraParams, GenerationConfig } from "../types";
 
 export const generateScene = async (
@@ -8,7 +8,7 @@ export const generateScene = async (
   config: GenerationConfig,
   inputImage?: string | null
 ): Promise<string> => {
-  const data = await assistantPost<{ imageDataUrl: string }>("/api/ai/image/camera-director", {
+  const data = await assistantPost<AssistantImageResult>("/api/ai/image/camera-director", {
     modelId,
     params,
     promptOverride,
@@ -16,5 +16,5 @@ export const generateScene = async (
     inputImage,
   });
 
-  return data.imageDataUrl;
+  return pickAssistantImageUrl(data);
 };

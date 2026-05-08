@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   useNavigate,
   useSearchParams,
@@ -22,14 +22,15 @@ import "./App.less";
 import LoginModal from "./components/UserLogin/Login.tsx";
 
 import { MoonOutlined, SunOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, ConfigProvider, Layout, Modal, Input, message, theme as antdTheme } from "antd";
+import { Button, Checkbox, ConfigProvider, Layout, Modal, Input, message, theme as antdTheme } from "antd";
 const { TextArea } = Input;
 const { Content, Sider, Header } = Layout;
 import UserInfoModal from "./components/UserLogin/UserInfoModal";
-import { getUserInfoApi } from "@/api";
+import { getLatestAnnouncementApi, getUserInfoApi, type Announcement } from "@/api";
 
 type AppTheme = "light" | "dark";
 const THEME_STORAGE_KEY = "app-theme";
+const ANNOUNCEMENT_DISMISSED_STORAGE_KEY = "dismissed-announcement-id";
 
 function getInitialTheme(): AppTheme {
   try {
@@ -57,6 +58,33 @@ function getItem(label, key, icon?, children?) {
   };
 }
 
+function formatAnnouncementDate(value?: string) {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function readStoredUser() {
+  try {
+    return JSON.parse(localStorage.getItem("userInfo") || "null");
+  } catch {
+    return null;
+  }
+}
+
 // 获取路由地址
 let pathname = window.location.pathname;
 if (pathname === "/") {
@@ -76,13 +104,11 @@ const App: React.FC = () => {
   const [pathnameState, setPathnameState] = useState(location.pathname);
   const [loginShow, setLoginShow] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const currentUser = (() => {
-    try {
-      return JSON.parse(localStorage.getItem("userInfo") || "null");
-    } catch {
-      return null;
-    }
-  })();
+  const [currentUser, setCurrentUser] = useState<any>(() => readStoredUser());
+  const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+  const [announcementOpen, setAnnouncementOpen] = useState(false);
+  const [announcementNeverShow, setAnnouncementNeverShow] = useState(false);
+  const announcementCheckedUserKeyRef = useRef("");
 
   // 密码验证状态
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -93,6 +119,18 @@ const App: React.FC = () => {
   const MY_SECRET: string = "JBSWY3DPEHPK3PXP";
   const isDarkTheme = themeMode === "dark";
 
+  const setLoginVisible = (show: boolean) => {
+    setLoginShow(show);
+
+    if (show) {
+      setCurrentUser(null);
+      announcementCheckedUserKeyRef.current = "";
+      return;
+    }
+
+    setCurrentUser(readStoredUser());
+  };
+
   useEffect(() => {
     setPathnameState(location.pathname);
 
@@ -102,7 +140,9 @@ const App: React.FC = () => {
 
     const userInfo = localStorage.getItem("userInfo");
     if (!userInfo) {
-      setLoginShow(true);
+      setLoginVisible(true);
+    } else {
+      setCurrentUser(readStoredUser());
     }
   }, [location]);
 
@@ -110,6 +150,50 @@ const App: React.FC = () => {
     document.documentElement.dataset.theme = themeMode;
     localStorage.setItem(THEME_STORAGE_KEY, themeMode);
   }, [themeMode]);
+
+  useEffect(() => {
+    const currentUserKey = currentUser?.id || currentUser?.username || currentUser?.email || "";
+    if (!currentUserKey || loginShow || announcementCheckedUserKeyRef.current === String(currentUserKey)) {
+      if (!currentUserKey) {
+        announcementCheckedUserKeyRef.current = "";
+      }
+      return;
+    }
+
+    let cancelled = false;
+    announcementCheckedUserKeyRef.current = String(currentUserKey);
+
+    const fetchLatestAnnouncement = async () => {
+      const res = await getLatestAnnouncementApi();
+      if (cancelled || !res.success || !res.data?.id) {
+        return;
+      }
+
+      const latestAnnouncement = res.data;
+      if (!latestAnnouncement.enabled) {
+        return;
+      }
+
+      const latestAnnouncementId = String(latestAnnouncement.id);
+      const dismissedAnnouncementId = localStorage.getItem(ANNOUNCEMENT_DISMISSED_STORAGE_KEY);
+
+      if (dismissedAnnouncementId === latestAnnouncementId) {
+        return;
+      }
+
+      setAnnouncement(latestAnnouncement);
+      setAnnouncementNeverShow(false);
+      setAnnouncementOpen(true);
+    };
+
+    fetchLatestAnnouncement().catch((error) => {
+      console.error("Failed to fetch latest announcement:", error);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentUser?.email, currentUser?.id, currentUser?.username, loginShow]);
 
   useEffect(() => {
     // 定时检测登录状态
@@ -126,7 +210,7 @@ const App: React.FC = () => {
               localStorage.removeItem("userInfo");
               localStorage.removeItem("gemini-key");
               document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              setLoginShow(true);
+              setLoginVisible(true);
               message.error("登录状态已过期，请重新登录");
             } else {
               console.log("登录状态异常", res);
@@ -137,7 +221,7 @@ const App: React.FC = () => {
             localStorage.removeItem("userInfo");
             localStorage.removeItem("gemini-key");
             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            setLoginShow(true);
+            setLoginVisible(true);
             message.error("当前用户无使用权限，请联系管理员开通！");
           }
         } catch (error: any) {
@@ -145,7 +229,7 @@ const App: React.FC = () => {
             localStorage.removeItem("token");
             localStorage.removeItem("userInfo");
             localStorage.removeItem("gemini-key");
-            setLoginShow(true);
+            setLoginVisible(true);
           }
           console.error("Failed to check login status:", error);
         }
@@ -162,7 +246,7 @@ const App: React.FC = () => {
     if (userInfo) {
       setShowInfo(true);
     } else {
-      setLoginShow(true);
+      setLoginVisible(true);
     }
   };
 
@@ -274,6 +358,13 @@ const App: React.FC = () => {
     setThemeMode((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
 
+  const closeAnnouncement = () => {
+    if (announcementNeverShow && announcement?.id) {
+      localStorage.setItem(ANNOUNCEMENT_DISMISSED_STORAGE_KEY, String(announcement.id));
+    }
+    setAnnouncementOpen(false);
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -368,8 +459,37 @@ const App: React.FC = () => {
             )}
           </div>
         </div>
-        {loginShow && <LoginModal setLoginShow={setLoginShow} />}
+        {loginShow && <LoginModal setLoginShow={setLoginVisible} />}
         {showInfo && <UserInfoModal onCancel={() => setShowInfo(false)} />}
+
+        <Modal
+          title={announcement?.title || "公告"}
+          open={announcementOpen}
+          onCancel={closeAnnouncement}
+          centered
+          footer={[
+            <Button key="close" type="primary" onClick={closeAnnouncement}>
+              关闭
+            </Button>,
+          ]}
+        >
+          <div className="announcement-modal-content">
+            {announcement?.published_at && (
+              <div className="announcement-published-at">
+                发布时间：{formatAnnouncementDate(announcement.published_at)}
+              </div>
+            )}
+            <div className="announcement-message">
+              {announcement?.content || "暂无公告内容"}
+            </div>
+            <Checkbox
+              checked={announcementNeverShow}
+              onChange={(event) => setAnnouncementNeverShow(event.target.checked)}
+            >
+              不再显示
+            </Checkbox>
+          </div>
+        </Modal>
 
       {/* <Sider
         className="sider-left"

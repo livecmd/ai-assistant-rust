@@ -6,6 +6,12 @@ interface AssistantEnvelope<T> {
   error?: string;
 }
 
+export interface AssistantImageResult {
+  imageDataUrl?: string;
+  assetUrl?: string;
+  taskId?: string;
+}
+
 const assistantBaseUrl = process.env.AI_ASSISTANT_GO_BASE_URL || "https://api.yuzhengdesign.com";
 
 const runtimeFetch: typeof fetch =
@@ -54,4 +60,37 @@ export async function assistantPost<T>(path: string, payload: unknown): Promise<
   }
 
   return body.data;
+}
+
+export function normalizeAssistantMediaUrl(value?: string | null): string {
+  const url = value?.trim();
+  if (!url) return "";
+
+  if (url.startsWith("//")) {
+    return `https:${url}`;
+  }
+
+  if (/^(https?:|data:|blob:|file:|asset:|tauri:)/i.test(url)) {
+    return url;
+  }
+
+  if (url.startsWith("/")) {
+    return `${assistantBaseUrl}${url}`;
+  }
+
+  if (/^[A-Za-z0-9+/]+={0,2}$/.test(url) && url.length > 100) {
+    return `data:image/png;base64,${url}`;
+  }
+
+  return url;
+}
+
+export function pickAssistantImageUrl(data: AssistantImageResult): string {
+  const imageUrl = normalizeAssistantMediaUrl(data.imageDataUrl || data.assetUrl);
+
+  if (!imageUrl) {
+    throw new Error("Assistant backend did not return an image URL.");
+  }
+
+  return imageUrl;
 }

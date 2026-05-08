@@ -1,4 +1,4 @@
-import { assistantPost } from "@/api/assistant";
+import { assistantPost, normalizeAssistantMediaUrl } from "@/api/assistant";
 import { GenerationConfig, Rect, Point } from "../types";
 
 /**
@@ -50,7 +50,7 @@ async function singleGenerate(
     throw new Error("模型未返回生成的图像。");
   }
 
-  return data.images[0];
+  return normalizeAssistantMediaUrl(data.images[0]);
 }
 
 export async function generateSingleMorph(
@@ -84,7 +84,7 @@ export async function generateSingleMorph(
       throw new Error("模型未返回生成的图像。");
     }
 
-    return data.images[0];
+    return normalizeAssistantMediaUrl(data.images[0]);
   } catch (error: any) {
     console.error("Gemini Generation Error:", error);
     if (error.message?.includes("Requested entity was not found")) {
@@ -168,7 +168,7 @@ export async function generateMorph(
       lassoPathB,
     });
 
-    return data.images;
+    return data.images.map(normalizeAssistantMediaUrl);
   } catch (error: any) {
     console.error("Gemini Generation Error:", error);
     // Forward the specific error message to the UI
