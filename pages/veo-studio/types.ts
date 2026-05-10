@@ -38,11 +38,11 @@ const MODEL_ALIASES: Record<string, VeoModel> = {
 
 export const normalizeVideoModel = (model?: string | null): VeoModel => {
   if (!model) {
-    return VeoModel.SEEDANCE_2;
+    return VeoModel.VEO_3_1_FAST;
   }
 
   const normalizedModel = model.trim().toLowerCase();
-  return MODEL_ALIASES[normalizedModel] ?? VeoModel.SEEDANCE_2;
+  return MODEL_ALIASES[normalizedModel] ?? VeoModel.VEO_3_1_FAST;
 };
 
 export enum AspectRatio {

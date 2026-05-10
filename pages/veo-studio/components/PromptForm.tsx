@@ -258,8 +258,8 @@ const PromptForm: React.FC<PromptFormProps> = ({
   const { getConfig, formatPriceSummary } = useModelCatalog({ category: "video", provider: "smartapi" });
   const videoModels = useMemo(() => {
     const options = [
-      { id: VeoModel.SEEDANCE_2, name: getConfig(VeoModel.SEEDANCE_2)?.display_name || "Seedance 2.0", description: "高质量视频生成", price: formatPriceSummary([VeoModel.SEEDANCE_2]) },
-      { id: VeoModel.SEEDANCE_2_FAST, name: getConfig(VeoModel.SEEDANCE_2_FAST)?.display_name || "Seedance 2.0 Fast", description: "更快的视频生成", price: formatPriceSummary([VeoModel.SEEDANCE_2_FAST]) },
+      // { id: VeoModel.SEEDANCE_2, name: getConfig(VeoModel.SEEDANCE_2)?.display_name || "Seedance 2.0", description: "高质量视频生成", price: formatPriceSummary([VeoModel.SEEDANCE_2]) },
+      // { id: VeoModel.SEEDANCE_2_FAST, name: getConfig(VeoModel.SEEDANCE_2_FAST)?.display_name || "Seedance 2.0 Fast", description: "更快的视频生成", price: formatPriceSummary([VeoModel.SEEDANCE_2_FAST]) },
       { id: VeoModel.VEO_3_1_FAST, name: getConfig(VeoModel.VEO_3_1_FAST)?.display_name || "VEO 3.1 Fast", description: "Google VEO 3.1 快速模式", price: formatPriceSummary([VeoModel.VEO_3_1_FAST]) },
       { id: VeoModel.VEO_3_1_QUALITY, name: getConfig(VeoModel.VEO_3_1_QUALITY)?.display_name || "VEO 3.1 Quality", description: "Google VEO 3.1 高品质模式", price: formatPriceSummary([VeoModel.VEO_3_1_QUALITY]) },
     ];

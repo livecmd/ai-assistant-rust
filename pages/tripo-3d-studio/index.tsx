@@ -43,8 +43,8 @@ const modeOptions: Array<{ value: TripoMode; title: string; description: string 
   { value: "image-to-model", title: "图片生模", description: "从单张参考图生成模型" },
   // { value: "generate-multiview", title: "生成多视图", description: "先从单图补出四视图" },
   { value: "multiview-to-model", title: "多视图转模", description: "把多视图结果继续转成模型" },
-  { value: "refine-model", title: "模型精修", description: "基于草模任务提高几何质量" },
-  { value: "texture-model", title: "模型贴图", description: "补纹理、PBR 与局部贴图" },
+  // { value: "refine-model", title: "模型精修", description: "基于草模任务提高几何质量" },
+  // { value: "texture-model", title: "模型贴图", description: "补纹理、PBR 与局部贴图" },
   { value: "mesh-segmentation", title: "网格分件", description: "把模型拆成可编辑部件" },
   { value: "mesh-completion", title: "网格补全", description: "指定部件做网格补齐" },
   { value: "highpoly-to-lowpoly", title: "高模转低模", description: "控制面数并导出轻量版本" },
@@ -1273,7 +1273,7 @@ const TripoStudio: React.FC = () => {
                   <div className="status-text">任务 ID：{currentDetail.taskId}</div>
                   <div className="status-text">任务类型：{currentDetail.type || "-"}</div>
                   <div className="status-text">当前状态：{currentDetail.status}</div>
-                  <div className="status-text">消耗额度：{currentDetail.consumedCredit ?? 0}</div>
+                  {/* <div className="status-text">消耗额度：{currentDetail.consumedCredit ?? 0}</div> */}
                   <Progress
                     percent={currentDetail.progress || 0}
                     size="small"
@@ -1375,12 +1375,12 @@ const TripoStudio: React.FC = () => {
                 >
                   <span className="mode-title">{item.title}</span>
                   <span className="mode-desc">{item.description}</span>
-          {(item.value === "image-to-model" && formatPriceSummary(["tripo-image-to-model"])) ? (
+          {/* {(item.value === "image-to-model" && formatPriceSummary(["tripo-image-to-model"])) ? (
           <span className="mode-desc">价格：{formatPriceSummary(["tripo-image-to-model"])}</span>
           ) : null}
           {(item.value === "generate-multiview" && formatPriceSummary(["tripo-generate-multiview"])) ? (
           <span className="mode-desc">价格：{formatPriceSummary(["tripo-generate-multiview"])}</span>
-          ) : null}
+          ) : null} */}
                 </button>
               ))}
             </div>
@@ -1404,7 +1404,25 @@ const TripoStudio: React.FC = () => {
               {(mode === "image-to-model" || mode === "generate-multiview") && (
                 <div className="upload-card">
                   <span className="field-label">参考图片</span>
-                  <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => void readImage(event, setSourceImage)} />
+                  <label className="single-upload-surface">
+                    <input
+                      className="upload-input-hidden"
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      onChange={(event) => void readImage(event, setSourceImage)}
+                    />
+                    {sourceImage ? (
+                      <>
+                        <img className="single-upload-preview" src={sourceImage.base64} alt="参考图片预览" />
+                        <div className="multiview-upload-overlay">点击更换</div>
+                      </>
+                    ) : (
+                      <div className="multiview-upload-placeholder">
+                        <span className="multiview-upload-placeholder-title">上传参考图片</span>
+                        <span className="multiview-upload-placeholder-desc">支持 png / jpg / webp</span>
+                      </div>
+                    )}
+                  </label>
                   <div className="upload-meta">{sourceImage ? `${sourceImage.name} · ${sourceImage.mimeType}` : "支持 png / jpg / webp"}</div>
                 </div>
               )}
@@ -1536,10 +1554,10 @@ const TripoStudio: React.FC = () => {
               {generationModes.has(mode) && (
                 <>
                   <div className="compact-row">
-                    <div>
+                    {/* <div>
                       <span className="field-label">模型版本</span>
                       <Select value={modelVersion} options={generationModelVersionOptions} onChange={setModelVersion} />
-                    </div>
+                    </div> */}
                     {mode !== "text-to-model" && (
                       <div>
                         <span className="field-label">模型朝向</span>
@@ -1553,7 +1571,7 @@ const TripoStudio: React.FC = () => {
                       <span className="field-label">纹理质量</span>
                       <Select value={textureQuality} options={textureQualityOptions} onChange={setTextureQuality} />
                     </div>
-                    <div>
+                    {/* <div>
                       <span className="field-label">几何精度</span>
                       <Select
                         value={geometryQuality}
@@ -1561,7 +1579,7 @@ const TripoStudio: React.FC = () => {
                         onChange={setGeometryQuality}
                         disabled={mode !== "multiview-to-model" || !["P1-20260311", "v3.1-20260211", "v3.0-20250812"].includes(modelVersion)}
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   {mode === "multiview-to-model" && (
@@ -1808,7 +1826,7 @@ const TripoStudio: React.FC = () => {
             </div>
           </ControlSection>
 
-          <ControlSection title="任务控制">
+          {/* <ControlSection title="任务控制">
             <div className="field-stack">
               <Button disabled={!currentTaskId} onClick={() => setIsPolling(true)}>
                 继续轮询当前任务
@@ -1818,7 +1836,7 @@ const TripoStudio: React.FC = () => {
                 <div className="status-text">{statusText}</div>
               </div>
             </div>
-          </ControlSection>
+          </ControlSection> */}
 
           {/* <ControlSection title="Tripo 诊断">
             <div className="field-stack">
@@ -1836,14 +1854,14 @@ const TripoStudio: React.FC = () => {
             </div>
           </ControlSection> */}
 
-          <ControlSection title="使用建议">
+          {/* <ControlSection title="使用建议">
             <div className="helper-card">
               <div>1. 单图工作流建议先跑“生成多视图”，确认四视图可用后再转模型。</div>
               <div>2. 生成链路通常是 草模 → 精修 → 贴图 → 绑定/动作 → 转格式。</div>
               <div>3. 左侧已经内置 GLB 交互查看器，拿到模型后可以直接旋转检查结构。</div>
               <div>4. 动作预设建议从 preset:walk、preset:run、preset:idle 开始验证。</div>
             </div>
-          </ControlSection>
+          </ControlSection> */}
         </UnifiedControlPanel>
         <div className="right-panel-footer">
           <UnifiedGenerateButton

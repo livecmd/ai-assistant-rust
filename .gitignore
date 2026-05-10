@@ -24,3 +24,4 @@ src-tauri
 *.sw?
 
 ai-ass-dist/
+code-file/
