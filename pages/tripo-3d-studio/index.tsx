@@ -574,8 +574,26 @@ function extractFilenameFromUrl(url: string): string | null {
   }
 }
 
+function splitFilename(filename: string): { stem: string; extension: string } {
+  const match = filename.match(/^(.*?)(\.[^.]+)?$/);
+  return {
+    stem: match?.[1] || filename,
+    extension: match?.[2] || "",
+  };
+}
+
 function normalizeDownloadedFilename(filename: string): string {
-  return filename.replace(/^tripo_pbr_/i, "");
+  const { stem, extension } = splitFilename(filename);
+  const normalizedStem = stem
+    .replace(
+      /^tripo(?:_[a-z0-9]+)*_([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:_|$)/i,
+      "$1_"
+    )
+    .replace(/^tripo(?:_[a-z0-9]+)+_/i, "")
+    .replace(/^tripo_/i, "")
+    .replace(/_$/, "");
+
+  return `${normalizedStem || "asset"}${extension}`;
 }
 
 function buildDownloadFilename(url: string, fallback: string): string {
@@ -1232,7 +1250,7 @@ const TripoStudio: React.FC = () => {
               ? () => {
                   const target = previewMode === "model" && modelAsset ? modelAsset : previewImage;
                   if (target) {
-                    void downloadUrl(target, buildDownloadFilename(target, `tripo-${previewMode}-${Date.now()}`));
+                    void downloadUrl(target, buildDownloadFilename(target, `${previewMode}-${Date.now()}`));
                   }
                 }
               : undefined

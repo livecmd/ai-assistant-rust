@@ -51,28 +51,33 @@ const MultiImageUpload: React.FC<{
 }> = ({ images, onImagesChange, label }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
     const remainingSlots = MAX_IMAGES - images.length;
     const filesToProcess = Array.from(files).slice(0, remainingSlots);
 
-    filesToProcess.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onImagesChange([
-          ...images,
-          {
-            id: Math.random().toString(36).substr(2, 9),
-            base64: base64String,
-            mimeType: file.type,
-          },
-        ]);
-      };
-      reader.readAsDataURL(file);
-    });
+    const newImages = await Promise.all(
+      filesToProcess.map(
+        (file) =>
+          new Promise<UploadedImage>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const base64String = reader.result as string;
+              resolve({
+                id: Math.random().toString(36).slice(2, 11),
+                base64: base64String,
+                mimeType: file.type,
+              });
+            };
+            reader.onerror = () => reject(new Error("Failed to read file."));
+            reader.readAsDataURL(file);
+          })
+      )
+    );
+
+    onImagesChange([...images, ...newImages]);
 
     // Reset input value
     if (inputRef.current) inputRef.current.value = "";
@@ -97,8 +102,16 @@ const MultiImageUpload: React.FC<{
           accept="image/*"
           onChange={handleFileUpload}
           disabled={images.length >= MAX_IMAGES}
-          className="veo-file-input"
+          className="hidden"
         />
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={images.length >= MAX_IMAGES}
+          className="veo-upload-trigger"
+        >
+          {images.length > 0 ? "继续添加图片" : "选择文件"}
+        </button>
         <p className="veo-helper-text mt-2">
           最多上传 {MAX_IMAGES} 张图片 (Max {MAX_IMAGES} images)
         </p>
